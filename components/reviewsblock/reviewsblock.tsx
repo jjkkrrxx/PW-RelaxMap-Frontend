@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import { A11y } from 'swiper/modules';
 import type { Swiper as SwiperInstance } from 'swiper';
 import 'swiper/css';
 import StarRating from '@/components/starrating/starrating';
@@ -39,6 +40,10 @@ export default function ReviewsBlock({ reviews, showLocation = false }: Props) {
   return (
     <div className={styles.wrapper}>
       <Swiper
+        // A11y: при переході Tab на картку поза екраном карусель гортає до неї
+        modules={[A11y]}
+        a11y={{ slideLabelMessage: '{{index}} з {{slidesLength}}' }}
+        watchSlidesProgress
         spaceBetween={24}
         slidesPerView={1}
         breakpoints={{
