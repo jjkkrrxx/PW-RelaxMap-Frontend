@@ -1,62 +1,106 @@
-.swiper {
-  width: 100%;
-  padding-bottom: 64px; /* місце під стрілки навігації внизу */
+/* Значення — з макета Figma (Головна / Локація, 375 / 768 / 1440). */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
   font-family: var(--font-montserrat);
 }
 
+.swiper {
+  width: 100%;
+}
+
+.slide {
+  height: auto;
+}
+
 .card {
-  background: var(--color-white);
-  border-radius: 16px;
-  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   height: 100%;
-  box-sizing: border-box;
+  padding: 16px;
+  border-radius: 16px;
+  background: #ffe5d9;
+  color: #4c2613;
+  box-sizing: border-box; /* обгортка Swiper задає content-box */
 }
 
 .text {
-  color: var(--color-text-main);
+  margin: 0;
   font-size: 16px;
+  font-weight: 400;
   line-height: 24px;
 }
 
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .author {
-  color: var(--color-text-main);
+  margin: 0;
+  font-size: 16px;
   font-weight: 600;
-  margin-top: auto;
+  line-height: 24px;
 }
 
 .location {
-  color: var(--color-brand);
+  align-self: flex-start;
+  color: inherit;
+  font-size: 10px;
   font-weight: 600;
-  font-size: 14px;
+  line-height: 15px;
+  text-decoration: underline;
 }
 
-/* Круглі стрілки внизу справа (за макетом). */
-.swiper :global(.swiper-button-prev),
-.swiper :global(.swiper-button-next) {
-  top: auto;
-  bottom: 0;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--color-bg-light);
-  border: 1px solid var(--color-brand);
-  color: var(--color-brand);
+/* Квадратні стрілки внизу справа. */
+.controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 10px;
 }
 
-.swiper :global(.swiper-button-prev) {
-  left: auto;
-  right: 60px;
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  background: #ffe5d9;
+  color: #4c2613;
+  cursor: pointer;
 }
 
-.swiper :global(.swiper-button-next) {
-  right: 0;
+.arrow svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
 }
 
-.swiper :global(.swiper-button-prev)::after,
-.swiper :global(.swiper-button-next)::after {
-  font-size: 16px;
-  font-weight: 700;
+.arrow:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+@media (min-width: 1440px) {
+  .text {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .author {
+    font-size: 18px;
+    line-height: 27px;
+  }
+
+  .location {
+    font-size: 12px;
+    line-height: 18px;
+  }
 }

@@ -18,8 +18,10 @@ export default function LastReviewsBlock() {
 
   return (
     <section className={styles.section}>
-      <h2 className={styles.title}>Останні відгуки</h2>
-      <ReviewsBlock reviews={reviews} showLocation />
+      <div className={styles.container}>
+        <h2 className={styles.title}>Останні відгуки</h2>
+        <ReviewsBlock reviews={reviews} showLocation />
+      </div>
     </section>
   );
 }

@@ -1,44 +1,25 @@
+/* Розміри й колір — за макетом Figma: іконки 24×24 без проміжків, чорні. */
 .stars {
   display: inline-flex;
-  gap: 4px;
-  color: var(--color-text-main);
+  color: #000000;
+}
+
+.star,
+.empty {
+  display: block;
+  width: 24px;
+  height: 24px;
 }
 
 .star {
-  position: relative;
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  line-height: 0;
+  fill: currentColor;
 }
 
-.outline,
-.solid {
-  width: 20px;
-  height: 20px;
-}
-
-.outline {
+.empty {
   fill: none;
   stroke: currentColor;
-  stroke-width: 1.6;
+  stroke-width: 1.5;
   stroke-linejoin: round;
-}
-
-.solid {
-  fill: currentColor;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linejoin: round;
-}
-
-/* Заливка поверх контуру: 100% — повна зірка, 50% — половинка */
-.fill {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 100%;
-  overflow: hidden;
 }
 
 .button {

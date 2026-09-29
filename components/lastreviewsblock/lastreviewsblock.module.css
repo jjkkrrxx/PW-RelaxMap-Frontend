@@ -1,24 +1,39 @@
+/* Значення — з макета Figma (секція «Останні відгуки», 375 / 768 / 1440). */
 .section {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 64px 16px;
+  padding: 64px 20px;
+  background: #fff2ec;
   font-family: var(--font-montserrat);
 }
 
-.title {
-  color: var(--color-text-main);
-  font-size: 32px;
-  font-weight: 700;
-  margin: 0 0 32px;
+.container {
+  max-width: 1312px;
+  margin: 0 auto;
 }
 
-@media (max-width: 767px) {
+.title {
+  margin: 0 0 40px;
+  color: #4c2613;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+@media (min-width: 768px) {
   .section {
-    padding: 40px 16px;
+    padding: 64px 32px;
   }
 
   .title {
-    font-size: 24px;
-    margin-bottom: 24px;
+    font-size: 44px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .section {
+    padding: 72px 64px;
+  }
+
+  .title {
+    font-size: 52px;
   }
 }
