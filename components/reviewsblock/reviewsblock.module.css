@@ -1,0 +1,62 @@
+.swiper {
+  width: 100%;
+  padding-bottom: 64px; /* місце під стрілки навігації внизу */
+  font-family: var(--font-montserrat);
+}
+
+.card {
+  background: var(--color-white);
+  border-radius: 16px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.text {
+  color: var(--color-text-main);
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.author {
+  color: var(--color-text-main);
+  font-weight: 600;
+  margin-top: auto;
+}
+
+.location {
+  color: var(--color-brand);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+/* Круглі стрілки внизу справа (за макетом). */
+.swiper :global(.swiper-button-prev),
+.swiper :global(.swiper-button-next) {
+  top: auto;
+  bottom: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-bg-light);
+  border: 1px solid var(--color-brand);
+  color: var(--color-brand);
+}
+
+.swiper :global(.swiper-button-prev) {
+  left: auto;
+  right: 60px;
+}
+
+.swiper :global(.swiper-button-next) {
+  right: 0;
+}
+
+.swiper :global(.swiper-button-prev)::after,
+.swiper :global(.swiper-button-next)::after {
+  font-size: 16px;
+  font-weight: 700;
+}
