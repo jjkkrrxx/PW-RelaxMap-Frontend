@@ -1,25 +1,56 @@
 .stars {
   display: inline-flex;
   gap: 4px;
-  font-size: 20px;
-  line-height: 1;
-  color: var(--color-brand);
+  color: var(--color-text-main);
 }
 
 .star {
+  position: relative;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  line-height: 0;
+}
+
+.outline,
+.solid {
+  width: 20px;
+  height: 20px;
+}
+
+.outline {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+.solid {
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+}
+
+/* Заливка поверх контуру: 100% — повна зірка, 50% — половинка */
+.fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.button {
   background: none;
   border: none;
   padding: 0;
+  line-height: 0;
   color: inherit;
-  font-size: inherit;
-  line-height: 1;
-}
-
-button.star {
   cursor: pointer;
   transition: transform 0.1s ease;
 }
 
-button.star:hover {
+.button:hover {
   transform: scale(1.15);
 }
