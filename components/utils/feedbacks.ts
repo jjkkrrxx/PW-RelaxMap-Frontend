@@ -18,19 +18,23 @@ export interface Review {
 export interface CreateFeedbackDto {
   locationId: string;
   userName: string; // бек вимагає userName у тілі (createFeedbackSchema)
-  rate: number; // ціле 1–5
+  rate: number; // 1–5
   description: string; // 1–200
 }
 
+// Бекенд обгортає відповіді в { data } (PR #52 бекенду).
+interface DataResponse<T> {
+  data: T;
+}
+
 // Останні відгуки для головної сторінки (свайпер). Бек: GET /api/feedbacks/last-reviews.
-// Бекенд повертає сирий масив відгуків (без обгортки { data }).
 export const getLastReviews = async (): Promise<Review[]> => {
-  const { data } = await apiClient.get('/feedbacks/last-reviews');
-  return Array.isArray(data) ? data : [];
+  const { data } = await apiClient.get<DataResponse<Review[]>>('/feedbacks/last-reviews');
+  return Array.isArray(data?.data) ? data.data : [];
 };
 
 // Створити відгук (лише авторизовані). Бек: POST /api/feedbacks.
-export const createFeedback = async (dto: CreateFeedbackDto) => {
-  const { data } = await apiClient.post('/feedbacks', dto);
-  return data;
+export const createFeedback = async (dto: CreateFeedbackDto): Promise<Review> => {
+  const { data } = await apiClient.post<DataResponse<Review>>('/feedbacks', dto);
+  return data.data;
 };
