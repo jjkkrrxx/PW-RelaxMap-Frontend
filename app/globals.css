@@ -13,22 +13,63 @@
   --color-text-muted: #4c4c4c; /* secondary text */
   --color-green: #1b391b; /* green text */
   --color-green-active: #254c24; /* secondary button active state */
-  --color-error: #b00101; /* form validation errors */
+
+  /* ── Status ── */
+  --color-error: #b00101;
+
+  /* ── B&W ── */
   --color-black: #000000;
   --color-white: #ffffff;
+}
+
+/* ── Base ── */
+*,
+*::before,
+*::after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 body {
   background-color: var(--color-bg-light);
   color: var(--color-text-main);
   font-family: var(--font-montserrat);
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
+/* ── Phone, tablet, desktop ── */
+@media screen and (min-width: 375px) {
+  .container {
+    max-width: 375px;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    max-width: 768px;
+    padding: 0 var(--container-padding-tablet);
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .container {
+    max-width: 1440px;
+    padding: 0 var(--container-padding-desktop);
+  }
+}
+
+.section {
+  padding: 40px 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .section {
+    padding: 60px 32px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .section {
+    padding: 80px 64px;
+  }
 }
