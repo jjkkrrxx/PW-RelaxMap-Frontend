@@ -1,0 +1,37 @@
+/* Розміри й колір — за макетом Figma: іконки 24×24 без проміжків, чорні. */
+.stars {
+  display: inline-flex;
+  color: #000000;
+}
+
+.star,
+.empty {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+.star {
+  fill: currentColor;
+}
+
+.empty {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.button {
+  background: none;
+  border: none;
+  padding: 0;
+  line-height: 0;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+}
+
+.button:hover {
+  transform: scale(1.15);
+}
