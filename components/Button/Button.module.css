@@ -1,0 +1,51 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 24px;
+  height: 48px;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 16px;
+  font-weight: 500;             /* ИСПРАВЛЕНО: строго Medium (500) по Фигме */
+  line-height: 1.5;             /* ИСПРАВЛЕНО: строго 150% по Фигме */
+  letter-spacing: 0em;          /* ИСПРАВЛЕНО: строго 0% по Фигме */
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  box-sizing: border-box;
+  opacity: 1 !important;
+}
+
+.primary {
+  background-color: #CC6534 !important;
+  color: #ffffff !important;   /* Чистый белый #FFFFFF */
+}
+
+.primary:hover:not(:disabled) {
+  background-color: #b3552b !important;
+}
+
+.secondary {
+  background-color: #FFE5D9 !important;
+  color: #CC6534 !important;
+}
+
+.secondary:hover:not(:disabled) {
+  background-color: #f5d3c2 !important;
+}
+
+.success {
+  background-color: #254C24 !important;
+  color: #ffffff !important;
+}
+
+.success:hover:not(:disabled) {
+  background-color: #1c3c1d !important;
+}
+
+.button:disabled {
+  opacity: 0.5 !important;
+  cursor: not-allowed;
+}

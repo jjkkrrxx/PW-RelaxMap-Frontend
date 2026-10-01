@@ -1,0 +1,141 @@
+.pageWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #d1d1d1;
+  margin: 0;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.authCard {
+  background-color: #FFF2EC;
+  width: 100%;
+  max-width: 100%;
+  min-height: auto;
+  border-radius: 8px;
+  padding: 24px 16px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  font-family: 'Montserrat', system-ui, -apple-system, sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 40px;
+}
+
+.logoIcon {
+  color: #000000;
+}
+
+.logoText {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000000;
+  margin: 0;
+}
+
+.tabsContainer {
+  margin-bottom: 35px;
+  position: relative;
+  width: 100%;
+  height: 50px;
+}
+
+.tabs {
+  display: flex;
+  width: 100%;
+}
+
+.tab {
+  flex: 1;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  color: #000000 !important;
+  text-decoration: none !important;
+  cursor: pointer;
+  font-weight: 500;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+  background: none;
+  border: none;
+  outline: none;
+  padding: 0;
+}
+
+.tabsLine {
+  position: absolute;
+  bottom: 0;
+  height: 2px;
+  background-color: #00000026;
+  width: 50%;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.lineRegister {
+  transform: translateX(0);
+}
+
+.lineLogin {
+  transform: translateX(100%);
+}
+
+.formTitle {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: #000000;
+  text-align: center;
+  margin: 0 0 25px 0;
+}
+
+.main {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer {
+  text-align: center;
+  margin-top: auto;
+  padding-top: 30px;
+}
+
+.footer p {
+  font-size: 11px;
+  color: #000000;
+  opacity: 0.7;
+  margin: 0;
+}
+
+@media (min-width: 481px) {
+  .pageWrapper {
+    padding: 40px 20px;
+  }
+  .authCard {
+    width: 540px;
+    min-height: 750px;
+    border-radius: 12px;
+    padding: 40px 30px;
+  }
+  .formTitle {
+    font-size: 32px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .authCard {
+    width: 860px;
+  }
+}
