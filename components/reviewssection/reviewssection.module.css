@@ -1,0 +1,80 @@
+/* Значення — з макета Figma (секція «Відгуки» сторінки локації, 375 / 768 / 1440). */
+.section {
+  padding: 64px 20px;
+  background: var(--color-bg-light);
+  font-family: var(--font-montserrat);
+}
+
+.container {
+  max-width: 1312px;
+  margin: 0 auto;
+}
+
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.head:not(:last-child) {
+  margin-bottom: 40px;
+}
+
+.title {
+  margin: 0;
+  color: var(--color-text-main);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.button {
+  flex-shrink: 0;
+  height: 48px;
+  /* у макеті відступи 6 / 12 разом із рамкою 1px */
+  padding: 5px 11px;
+  border: 1px solid var(--color-brand);
+  border-radius: 6px;
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.button:hover,
+.button:focus-visible {
+  background: var(--color-surface);
+  color: var(--color-green);
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 64px 32px;
+  }
+
+  .title {
+    font-size: 44px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .section {
+    padding: 72px 64px;
+  }
+
+  .title {
+    font-size: 52px;
+  }
+
+  .button {
+    font-size: 20px;
+    line-height: 30px;
+  }
+}
