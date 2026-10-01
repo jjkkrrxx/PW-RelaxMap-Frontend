@@ -39,7 +39,7 @@ export default function RegisterPage() {
         </main>
 
         <footer className={styles.footer}>
-          <p>© 2025 Relax Map</p>
+          <p>© 2026 Relax Map</p>
         </footer>
 
       </div>

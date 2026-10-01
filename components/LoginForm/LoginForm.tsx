@@ -43,7 +43,7 @@ export const LoginForm = () => {
 
         router.push('/profile');
       } catch (error: unknown) {
-        // Ошибки сервера обрабатываются локально без лишних toast уведомлений
+        
       } finally {
         setSubmitting(false);
       }
@@ -52,7 +52,6 @@ export const LoginForm = () => {
 
   return (
     <form onSubmit={formik.handleSubmit} className={styles.form} noValidate>
-      
       <div className={styles.fieldGroup}>
         <label htmlFor="email" className={styles.label}>Пошта*</label>
         <input

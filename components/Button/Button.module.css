@@ -7,9 +7,9 @@
   border-radius: 8px;
   font-family: 'Montserrat', sans-serif;
   font-size: 16px;
-  font-weight: 500;             /* ИСПРАВЛЕНО: строго Medium (500) по Фигме */
-  line-height: 1.5;             /* ИСПРАВЛЕНО: строго 150% по Фигме */
-  letter-spacing: 0em;          /* ИСПРАВЛЕНО: строго 0% по Фигме */
+  font-weight: 500;             
+  line-height: 1.5;             
+  letter-spacing: 0em;          
   cursor: pointer;
   border: none;
   transition: all 0.2s ease;
@@ -20,7 +20,7 @@
 
 .primary {
   background-color: #CC6534 !important;
-  color: #ffffff !important;   /* Чистый белый #FFFFFF */
+  color: #ffffff !important;  
 }
 
 .primary:hover:not(:disabled) {

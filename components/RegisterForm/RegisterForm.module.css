@@ -97,7 +97,6 @@
   cursor: not-allowed;
 }
 
-/* TABLET */
 @media (min-width: 768px) {
   .inputGroup {
     margin-bottom: 20px;

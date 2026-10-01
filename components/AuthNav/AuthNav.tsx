@@ -10,16 +10,16 @@ export const AuthNav = () => {
   return (
     <nav className={styles.nav}>
       <Link 
-        href="/login" 
-        className={`${styles.link} ${pathname === '/login' ? styles.active : ''}`}
-      >
-      Реєстрація
-      </Link>
-      <Link 
         href="/register" 
         className={`${styles.link} ${pathname === '/register' ? styles.active : ''}`}
       >
-       Вхід
+        Реєстрація
+      </Link>
+      <Link 
+        href="/login" 
+        className={`${styles.link} ${pathname === '/login' ? styles.active : ''}`}
+      >
+        Вхід
       </Link>
     </nav>
   );

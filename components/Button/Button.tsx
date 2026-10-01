@@ -28,7 +28,6 @@ export const Button = ({
   const content = text || children;
   const variantClass = styles[variant] || styles.primary;
 
-  // ИСПРАВЛЕНО: Правильный синтаксис шаблонных строк styles.button {variantClass}
   if (type === 'link' && route) {
     return React.createElement(
       Link,
