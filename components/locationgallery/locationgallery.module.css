@@ -1,0 +1,27 @@
+.gallery {
+  position: relative;
+  width: 100%;
+  max-width: 335px;
+  aspect-ratio: 335 / 223;
+  overflow: hidden;
+  border-radius: 24px;
+  background-color: var(--color-surface);
+}
+
+.image {
+  object-fit: cover;
+}
+
+@media (min-width: 768px) {
+  .gallery {
+    max-width: 704px;
+    aspect-ratio: 704 / 468;
+  }
+}
+
+@media (min-width: 1440px) {
+  .gallery {
+    max-width: 755px;
+    aspect-ratio: 755 / 502;
+  }
+}
