@@ -14,7 +14,7 @@
   grid-template-areas:
     'gallery'
     'info';
-  gap: 32px;
+  gap: 24px;
 }
 
 .info {
@@ -28,7 +28,7 @@
 }
 
 .description {
-  margin-top: 40px;
+  margin-top: 32px;
 }
 
 @media (min-width: 768px) {

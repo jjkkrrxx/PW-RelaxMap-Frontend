@@ -1,14 +1,8 @@
-'use client';
-
-import { use } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import Loading from '@/app/loading';
 import LocationInfoBlock from '@/components/locationinfoblock/locationinfoblock';
 import LocationGallery from '@/components/locationgallery/locationgallery';
 import LocationDescription from '@/components/locationdescription/locationdescription';
-import { apiClient } from '@/components/utils/api-client';
 import type { LocationDetails } from '@/types/location-details';
 import styles from './page.module.css';
 
@@ -17,43 +11,67 @@ interface Props {
 }
 
 interface LocationResponse {
-  data: LocationDetails | null;
+  data: LocationDetails;
 }
 
-async function getLocation(id: string): Promise<LocationDetails | null> {
-  try {
-    const response = await apiClient.get<LocationResponse>(
-      `/locations/${encodeURIComponent(id)}`
-    );
+async function getLocation(id: string): Promise<LocationDetails> {
+  const backendUrl = process.env.BACKEND_URL;
 
-    return response.data.data ?? null;
-  } catch (error: unknown) {
-    if (axios.isAxiosError(error) && error.response?.status === 404) {
-      return null;
-    }
-
-    throw error;
-  }
-}
-
-export default function LocationPage({ params }: Props) {
-  const { id } = use(params);
-  const { data: location, isPending, isFetching, isError, error } = useQuery({
-    queryKey: ['location', id],
-    queryFn: () => getLocation(id),
-  });
-
-  if (isPending || (isFetching && !location)) {
-    return <Loading />;
+  if (!backendUrl) {
+    throw new Error('BACKEND_URL не налаштовано');
   }
 
-  if (isError && !isFetching) {
-    throw error;
-  }
+  const response = await fetch(
+    `${backendUrl}/api/locations/${encodeURIComponent(id)}`,
+    { cache: 'no-store' }
+  );
 
-  if (!location?._id) {
+  if (response.status === 404) {
     notFound();
   }
+
+  if (!response.ok) {
+    throw new Error(`Не вдалося завантажити локацію: HTTP ${response.status}`);
+  }
+
+  const { data: location }: LocationResponse = await response.json();
+
+  if (!location?._id) {
+    throw new Error('Backend не повернув дані локації');
+  }
+
+  return location;
+}
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const location = await getLocation(id);
+  const title = `${location.name} | Relax Map`;
+  const plainDescription = location.description
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  const description =
+    plainDescription.length > 160
+      ? `${plainDescription.slice(0, 157).trimEnd()}...`
+      : plainDescription;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      images: location.image
+        ? [{ url: location.image, alt: location.name }]
+        : undefined,
+    },
+  };
+}
+
+export default async function LocationPage({ params }: Props) {
+  const { id } = await params;
+  const location = await getLocation(id);
 
   return (
     <main className={styles.page}>
