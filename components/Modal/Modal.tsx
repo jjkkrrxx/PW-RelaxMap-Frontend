@@ -1,8 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
+import { Icon } from "@/components/Icon/Icon";
 import css from "./Modal.module.css";
+
+// на сервері false, у браузері true — без setState в ефекті
+const subscribe = () => () => {};
+const useIsClient = () =>
+  useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  );
 
 interface ModalProps {
   onClose: () => void;
@@ -10,6 +20,8 @@ interface ModalProps {
 }
 
 export default function Modal({ onClose, children }: ModalProps) {
+  const isClient = useIsClient();
+
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") onClose();
@@ -31,6 +43,9 @@ export default function Modal({ onClose, children }: ModalProps) {
     if (event.target === event.currentTarget) onClose();
   };
 
+  // на сервері document немає — портал рендеримо лише в браузері
+  if (!isClient) return null;
+
   return createPortal(
     <div className={css.backdrop} onClick={handleBackdropClick}>
       <div className={css.modal} role="dialog" aria-modal="true">
@@ -40,7 +55,7 @@ export default function Modal({ onClose, children }: ModalProps) {
           onClick={onClose}
           aria-label="Закрити"
         >
-          ×
+          <Icon name="icon-close" size={24} />
         </button>
         {children}
       </div>

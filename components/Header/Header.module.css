@@ -1,9 +1,12 @@
+/* Значення з макета Figma (1440px):
+   висота 72, фон #FFF2EC, відступи 64, акцент var(--color-brand) */
+
 .header {
   position: sticky;
   top: 0;
   z-index: 100;
-  background-color: #fff;
-  border-bottom: 1px solid #eee;
+  background-color: #fff2ec;
+  color: #1b391b;
 }
 
 .container {
@@ -11,100 +14,146 @@
   align-items: center;
   gap: 24px;
   max-width: 1440px;
+  min-height: 64px;
   margin: 0 auto;
-  padding: 16px 20px;
+  padding: 0 20px;
 }
 
+/* ---------- Лого ---------- */
+
 .logo {
-  font-size: 20px;
-  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
   color: inherit;
+  font-size: 18px;
+  font-weight: 500;
   text-decoration: none;
+}
+
+.logoIcon {
+  flex-shrink: 0;
 }
 
 /* ---------- Навігація (desktop) ---------- */
 
 .nav {
   display: none;
-  gap: 24px;
+  gap: 32px;
   margin-left: auto;
 }
 
 .link {
-  color: inherit;
+  color: #1b391b;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
   text-decoration: none;
-  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
 .link:hover,
 .active {
-  color: #c75f2f;
+  color: var(--color-brand);
 }
 
 .actions {
   display: none;
   align-items: center;
-  gap: 16px;
+  gap: 24px;
 }
 
 .actionsPlaceholder {
   min-width: 200px;
-  min-height: 40px;
+  min-height: 38px;
 }
 
-/* ---------- Кнопки ---------- */
+/* ---------- Кнопки: tablet 16/24, desktop 20/30, висота 38, радіус 6 ---------- */
 
 .accentButton,
 .outlineButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
-  padding: 8px 20px;
-  border-radius: 8px;
+  min-height: 38px;
+  padding: 7px 20px;
+  border: 1px solid var(--color-brand);
+  border-radius: 6px;
+  font-size: 16px;
   font-weight: 500;
+  line-height: 24px;
   text-decoration: none;
   white-space: nowrap;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .accentButton {
-  background-color: #c75f2f;
+  background-color: var(--color-brand);
   color: #fff;
 }
 
 .outlineButton {
-  border: 1px solid #c75f2f;
-  color: #c75f2f;
+  background-color: transparent;
+  color: var(--color-brand);
 }
+
+.accentButton:hover {
+  background-color: transparent;
+  color: var(--color-brand);
+}
+
+.outlineButton:hover {
+  background-color: var(--color-brand);
+  color: #fff;
+}
+
+/* ---------- Юзер: аватар, ім'я, роздільник, іконка виходу ---------- */
 
 .userBar {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .avatar {
-  width: 32px;
-  height: 32px;
   border-radius: 50%;
   object-fit: cover;
 }
 
 .userName {
-  font-weight: 500;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 27px;
+}
+
+.divider {
+  width: 1px;
+  height: 24px;
+  background-color: currentColor;
+  opacity: 0.3;
 }
 
 .logoutButton {
-  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
   border: none;
   background: none;
   color: inherit;
-  font: inherit;
-  text-decoration: underline;
   cursor: pointer;
+  transition: color 0.2s ease;
 }
 
-/* ---------- Бургер (tablet / mobile) ---------- */
+.logoutButton:hover {
+  color: var(--color-brand);
+}
+
+/* ---------- Бургер ↔ хрестик (tablet / mobile) ---------- */
 
 .burger {
   /* над повноекранним меню (z-index 900), щоб перетворитися на хрестик */
@@ -136,8 +185,7 @@
     opacity 0.2s ease;
 }
 
-/* хрестик: верхня й нижня лінії сходяться в центр і повертаються,
-   середня зникає. 8px = висота лінії (2px) + проміжок (6px) */
+/* 8px = висота лінії (2px) + проміжок (6px) */
 .burgerOpen .burgerLine:nth-child(1) {
   transform: translateY(8px) rotate(45deg);
 }
@@ -159,9 +207,9 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
-  padding: 16px 20px 32px;
+  padding: 12px 20px 32px;
   overflow-y: auto;
-  background-color: #fff;
+  background-color: #fff2ec;
 
   /* закрите: за правим краєм і прозоре */
   transform: translateX(100%);
@@ -194,7 +242,6 @@
   display: flex;
   flex-direction: column;
   gap: 20px;
-  font-size: 18px;
 }
 
 /* посилання з'являються по черзі після виїзду меню */
@@ -240,16 +287,36 @@
   }
 }
 
+/* ---------- Tablet ---------- */
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 32px;
+  }
+
+  .mobileMenu {
+    padding: 12px 32px 40px;
+  }
+}
+
 /* ---------- Desktop: повна навігація, без бургера ---------- */
 
 @media (min-width: 1440px) {
   .container {
-    padding: 20px 32px;
+    min-height: 72px;
+    padding: 0 64px;
   }
 
   .nav,
   .actions {
     display: flex;
+  }
+
+  .accentButton,
+  .outlineButton {
+    padding: 3px 20px;
+    font-size: 20px;
+    line-height: 30px;
   }
 
   .burger,

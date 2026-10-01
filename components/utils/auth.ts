@@ -6,9 +6,11 @@ interface DataResponse<T> {
   data: T;
 }
 
-// Поточний юзер: GET /api/users/current (route handler №5)
-export const fetchCurrentUser = async (): Promise<User> => {
-  const { data } = await apiClient.get<DataResponse<User>>("/users/current");
+// Поточний юзер: GET /api/users/current (route handler №5).
+// null — гість без cookies сесії (route handler відповідає { data: null })
+export const fetchCurrentUser = async (): Promise<User | null> => {
+  const { data } =
+    await apiClient.get<DataResponse<User | null>>("/users/current");
   return data.data;
 };
 

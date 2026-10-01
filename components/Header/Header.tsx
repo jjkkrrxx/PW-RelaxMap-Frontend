@@ -1,12 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
 import { useLogout } from "@/lib/hooks/useLogout";
+import { Icon } from "@/components/Icon/Icon";
 import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
 import css from "./Header.module.css";
+
+const DEFAULT_AVATAR =
+  "https://ac.goit.global/fullstack/react/default-avatar.jpg";
 
 const GUEST_LINKS = [
   { href: "/", label: "Головна" },
@@ -50,6 +55,13 @@ export default function Header() {
 
   const links = isAuthenticated ? AUTH_LINKS : GUEST_LINKS;
 
+  const renderLogo = () => (
+    <Link href="/" className={css.logo} onClick={closeMenu}>
+      <Icon name="icon-map_search" size={24} className={css.logoIcon} />
+      <span>Relax Map</span>
+    </Link>
+  );
+
   const renderLinks = () =>
     links.map(({ href, label }) => (
       <Link
@@ -82,21 +94,22 @@ export default function Header() {
             Поділитись локацією
           </Link>
           <div className={css.userBar}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={user.avatar}
+            <Image
+              src={user.avatar || DEFAULT_AVATAR}
               alt=""
-              className={css.avatar}
               width={32}
               height={32}
+              className={css.avatar}
             />
             <span className={css.userName}>{user.name}</span>
+            <span className={css.divider} aria-hidden="true" />
             <button
               type="button"
               className={css.logoutButton}
               onClick={openLogout}
+              aria-label="Вийти"
             >
-              Вийти
+              <Icon name="icon-logout" size={24} />
             </button>
           </div>
         </>
@@ -118,9 +131,7 @@ export default function Header() {
   return (
     <header className={css.header}>
       <div className={css.container}>
-        <Link href="/" className={css.logo} onClick={closeMenu}>
-          Relax Map
-        </Link>
+        {renderLogo()}
 
         <nav className={css.nav} aria-label="Основна навігація">
           {renderLinks()}
@@ -151,11 +162,7 @@ export default function Header() {
         inert={!isMenuOpen}
       >
         {/* праворуч тут місце для кнопки-хрестика з шапки */}
-        <div className={css.mobileTop}>
-          <Link href="/" className={css.logo} onClick={closeMenu}>
-            Relax Map
-          </Link>
-        </div>
+        <div className={css.mobileTop}>{renderLogo()}</div>
 
         <nav className={css.mobileNav} aria-label="Мобільна навігація">
           {renderLinks()}
