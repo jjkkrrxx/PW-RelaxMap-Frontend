@@ -1,46 +1,68 @@
-/* Значення з макета Figma (375 / 768 / 1440):
-   висота 72, фон #FFF2EC, відступи 20 / 32 / 64, акцент var(--color-brand) */
+/* Navbar з Figma (375 / 768 / 1440): висота 72, фон #FFF2EC,
+   відступи 20 / 32 / 64, акцент var(--color-brand) */
 
 .header {
   position: sticky;
   top: 0;
   z-index: 100;
   background-color: #fff2ec;
-  color: #1b391b;
+  color: #4c2613;
 }
 
 .container {
   display: flex;
   align-items: center;
-  gap: 24px;
   max-width: 1440px;
   min-height: 72px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-/* ---------- Лого ---------- */
+/* ---------- Лого: іконка 24 + текст 18 / 500 ---------- */
 
 .logo {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
   color: #4c2613;
   font-size: 18px;
   font-weight: 500;
+  letter-spacing: -0.01em;
   text-decoration: none;
 }
 
-.logoIcon {
-  flex-shrink: 0;
+/* ---------- Права частина ---------- */
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
 }
 
-/* ---------- Навігація (desktop) ---------- */
+.nav,
+.actions {
+  display: none;
+  align-items: center;
+}
 
 .nav {
-  display: none;
   gap: 32px;
-  margin-left: auto;
+}
+
+.actions {
+  gap: 16px;
+}
+
+.actionsPlaceholder {
+  min-width: 200px;
+  min-height: 38px;
+}
+
+.tabletActions {
+  display: none;
+  align-items: center;
+  gap: 16px;
 }
 
 .link {
@@ -55,25 +77,6 @@
 .link:hover,
 .active {
   color: var(--color-brand);
-}
-
-.actions {
-  display: none;
-  align-items: center;
-  gap: 24px;
-}
-
-.actionsPlaceholder {
-  min-width: 200px;
-  min-height: 38px;
-}
-
-/* «Вхід» і «Реєстрація» поруч із бургером — лише на планшеті */
-.tabletActions {
-  display: none;
-  align-items: center;
-  gap: 8px;
-  margin-left: auto;
 }
 
 /* ---------- Кнопки: 16/24 · висота 32 (desktop 20/30 · 38), радіус 6, відступи 10 ---------- */
@@ -118,12 +121,12 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-/* ---------- Юзер: аватар, ім'я, роздільник, іконка виходу ---------- */
+/* ---------- Профіль: аватар 32, ім'я, роздільник, logout 24 ---------- */
 
-.userBar {
+.profile {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .avatar {
@@ -132,24 +135,21 @@
 }
 
 .userName {
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 400;
-  line-height: 27px;
+  line-height: 18px;
 }
 
 .divider {
   width: 1px;
-  height: 24px;
-  background-color: currentColor;
-  opacity: 0.3;
+  height: 29px;
+  background-color: rgba(0, 0, 0, 0.15);
 }
 
 .logoutButton {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
   padding: 0;
   border: none;
   background: none;
@@ -162,12 +162,9 @@
   color: var(--color-brand);
 }
 
-/* ---------- Бургер ↔ хрестик: 32×32, стиль Secondary ---------- */
+/* ---------- Бургер ↔ хрестик: 32×32, Secondary ---------- */
 
 .burger {
-  /* над повноекранним меню (z-index 900), щоб перетворитися на хрестик */
-  position: relative;
-  z-index: 1000;
   display: flex;
   flex-shrink: 0;
   flex-direction: column;
@@ -176,7 +173,6 @@
   gap: 4px;
   width: 32px;
   height: 32px;
-  margin-left: auto;
   padding: 0;
   border: 1px solid rgba(0, 0, 0, 0.15);
   border-radius: 6px;
@@ -187,7 +183,7 @@
 
 .burgerLine {
   display: block;
-  width: 16px;
+  width: 18px;
   height: 2px;
   border-radius: 2px;
   background-color: currentColor;
@@ -209,17 +205,20 @@
   transform: translateY(-6px) rotate(-45deg);
 }
 
-/* ---------- Повноекранне меню з анімацією ---------- */
+/* ---------- Меню під шапкою (tablet / mobile) ---------- */
 
-.mobileMenu {
+.menu {
   position: fixed;
-  inset: 0;
-  z-index: 900;
+  top: 72px;
+  right: 0;
+  bottom: 0;
+  left: 0;
   display: flex;
   flex-direction: column;
-  /* відступ 32 між посиланнями і кнопками */
+  /* посилання зверху, кнопки й профіль — унизу */
+  justify-content: space-between;
   gap: 32px;
-  padding: 0 20px 32px;
+  padding: 24px 20px 92px;
   overflow-y: auto;
   background-color: #fff2ec;
 
@@ -233,7 +232,7 @@
     visibility 0s linear 0.3s;
 }
 
-.mobileMenu.open {
+.menu.open {
   transform: translateX(0);
   opacity: 1;
   visibility: visible;
@@ -243,21 +242,15 @@
     visibility 0s linear 0s;
 }
 
-.mobileTop {
-  display: flex;
-  align-items: center;
-  /* та сама висота, що в шапки, — лого на тому ж місці */
-  min-height: 72px;
-}
-
-.mobileNav {
+.menuNav {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  gap: 32px;
 }
 
 /* посилання з'являються по черзі після виїзду меню */
-.mobileNav > * {
+.menuNav > * {
   opacity: 0;
   transform: translateX(16px);
   transition:
@@ -265,35 +258,39 @@
     transform 0.3s ease;
 }
 
-.mobileMenu.open .mobileNav > * {
+.menu.open .menuNav > * {
   opacity: 1;
   transform: translateX(0);
 }
 
-.mobileMenu.open .mobileNav > *:nth-child(1) {
+.menu.open .menuNav > *:nth-child(1) {
   transition-delay: 0.1s;
 }
 
-.mobileMenu.open .mobileNav > *:nth-child(2) {
+.menu.open .menuNav > *:nth-child(2) {
   transition-delay: 0.15s;
 }
 
-.mobileMenu.open .mobileNav > *:nth-child(3) {
+.menu.open .menuNav > *:nth-child(3) {
   transition-delay: 0.2s;
 }
 
-/* кнопки одразу під посиланнями, а не притиснуті донизу */
-.mobileActions {
+/* кнопки на всю ширину, профіль по центру */
+.menuActions {
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 16px;
+  gap: 24px;
+}
+
+.menuActions .profile {
+  align-self: center;
 }
 
 /* для тих, хто вимкнув анімації в системі */
 @media (prefers-reduced-motion: reduce) {
-  .mobileMenu,
-  .mobileNav > *,
+  .menu,
+  .menuNav > *,
   .burgerLine {
     transition: none;
   }
@@ -310,13 +307,13 @@
     display: flex;
   }
 
-  /* кнопки поруч — бургер уже не відсуваємо вправо */
-  .tabletActions + .burger {
-    margin-left: 0;
+  .menu {
+    padding: 24px 32px 92px;
   }
 
-  .mobileMenu {
-    padding: 0 32px 40px;
+  /* на планшеті ці кнопки вже в шапці */
+  .mobileOnly {
+    display: none;
   }
 }
 
@@ -325,6 +322,10 @@
 @media (min-width: 1440px) {
   .container {
     padding: 0 64px;
+  }
+
+  .right {
+    gap: 32px;
   }
 
   .nav,
@@ -344,9 +345,14 @@
     line-height: 30px;
   }
 
+  .userName {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
   .tabletActions,
   .burger,
-  .mobileMenu {
+  .menu {
     display: none;
   }
 }

@@ -18,7 +18,9 @@ const GUEST_LINKS = [
   { href: "/locations", label: "Місця відпочинку" },
 ];
 
+// у Figma залогінений бачить і «Головна»
 const AUTH_LINKS = [
+  { href: "/", label: "Головна" },
   { href: "/locations", label: "Місця відпочинку" },
   { href: "/profile", label: "Мій Профіль" },
 ];
@@ -34,6 +36,8 @@ export default function Header() {
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
+  const isSignedIn = isHydrated && isAuthenticated && user !== null;
+  const isGuest = isHydrated && !isAuthenticated;
 
   // відкрите бургер-меню: сторінка не скролиться, Esc закриває
   useEffect(() => {
@@ -55,12 +59,10 @@ export default function Header() {
 
   const links = isAuthenticated ? AUTH_LINKS : GUEST_LINKS;
 
-  const renderLogo = () => (
-    <Link href="/" className={css.logo} onClick={closeMenu}>
-      <Icon name="icon-map_search" size={24} className={css.logoIcon} />
-      <span>Relax Map</span>
-    </Link>
-  );
+  const openLogout = () => {
+    closeMenu();
+    setIsLogoutOpen(true);
+  };
 
   const renderLinks = () =>
     links.map(({ href, label }) => (
@@ -74,108 +76,125 @@ export default function Header() {
       </Link>
     ));
 
-  const renderGuestButtons = () => (
+  const renderGuestButtons = (extraClass = "") => (
     <>
-      <Link href="/login" className={css.secondaryButton} onClick={closeMenu}>
+      <Link
+        href="/login"
+        className={`${css.secondaryButton} ${extraClass}`}
+        onClick={closeMenu}
+      >
         Вхід
       </Link>
-      <Link href="/register" className={css.accentButton} onClick={closeMenu}>
+      <Link
+        href="/register"
+        className={`${css.accentButton} ${extraClass}`}
+        onClick={closeMenu}
+      >
         Реєстрація
       </Link>
     </>
   );
 
-  const openLogout = () => {
-    closeMenu();
-    setIsLogoutOpen(true);
-  };
+  const renderShareButton = (extraClass = "") => (
+    <Link
+      href="/locations/add"
+      className={`${css.accentButton} ${extraClass}`}
+      onClick={closeMenu}
+    >
+      Поділитись локацією
+    </Link>
+  );
 
-  const renderActions = () => {
-    // поки сесію не перевірено — нічого не показуємо, щоб не блимало
-    if (!isHydrated) return <div className={css.actionsPlaceholder} />;
-
-    if (isAuthenticated && user) {
-      return (
-        <>
-          <Link
-            href="/locations/add"
-            className={css.accentButton}
-            onClick={closeMenu}
-          >
-            Поділитись локацією
-          </Link>
-          <div className={css.userBar}>
-            <Image
-              src={user.avatar || DEFAULT_AVATAR}
-              alt=""
-              width={32}
-              height={32}
-              className={css.avatar}
-            />
-            <span className={css.userName}>{user.name}</span>
-            <span className={css.divider} aria-hidden="true" />
-            <button
-              type="button"
-              className={css.logoutButton}
-              onClick={openLogout}
-              aria-label="Вийти"
-            >
-              <Icon name="icon-logout" size={24} />
-            </button>
-          </div>
-        </>
-      );
-    }
-
-    return renderGuestButtons();
-  };
+  // аватар, ім'я, роздільник, іконка виходу
+  const renderProfile = () =>
+    user && (
+      <div className={css.profile}>
+        <Image
+          src={user.avatar || DEFAULT_AVATAR}
+          alt=""
+          width={32}
+          height={32}
+          className={css.avatar}
+        />
+        <span className={css.userName}>{user.name}</span>
+        <span className={css.divider} aria-hidden="true" />
+        <button
+          type="button"
+          className={css.logoutButton}
+          onClick={openLogout}
+          aria-label="Вийти"
+        >
+          <Icon name="icon-logout" size={24} />
+        </button>
+      </div>
+    );
 
   return (
     <header className={css.header}>
       <div className={css.container}>
-        {renderLogo()}
+        <Link href="/" className={css.logo} onClick={closeMenu}>
+          <Icon name="icon-map_search" size={24} />
+          <span>Relax Map</span>
+        </Link>
 
-        <nav className={css.nav} aria-label="Основна навігація">
-          {renderLinks()}
-        </nav>
+        <div className={css.right}>
+          {/* desktop: посилання + кнопки */}
+          <nav className={css.nav} aria-label="Основна навігація">
+            {renderLinks()}
+          </nav>
 
-        <div className={css.actions}>{renderActions()}</div>
+          <div className={css.actions}>
+            {!isHydrated && <div className={css.actionsPlaceholder} />}
+            {isGuest && renderGuestButtons()}
+            {isSignedIn && (
+              <>
+                {renderShareButton()}
+                {renderProfile()}
+              </>
+            )}
+          </div>
 
-        {/* 768px: «Вхід» і «Реєстрація» поруч із бургером (лише для гостя) */}
-        {isHydrated && !isAuthenticated && (
-          <div className={css.tabletActions}>{renderGuestButtons()}</div>
-        )}
+          {/* tablet: кнопки поруч із бургером */}
+          <div className={css.tabletActions}>
+            {isGuest && renderGuestButtons()}
+            {isSignedIn && renderShareButton()}
+          </div>
 
-        {/* одна кнопка: бургер ↔ хрестик, лежить поверх відкритого меню */}
-        <button
-          type="button"
-          className={`${css.burger} ${isMenuOpen ? css.burgerOpen : ""}`}
-          onClick={() => setIsMenuOpen((open) => !open)}
-          aria-label={isMenuOpen ? "Закрити меню" : "Відкрити меню"}
-          aria-expanded={isMenuOpen}
-        >
-          <span className={css.burgerLine} />
-          <span className={css.burgerLine} />
-          <span className={css.burgerLine} />
-        </button>
+          {/* одна кнопка: бургер ↔ хрестик */}
+          <button
+            type="button"
+            className={`${css.burger} ${isMenuOpen ? css.burgerOpen : ""}`}
+            onClick={() => setIsMenuOpen((open) => !open)}
+            aria-label={isMenuOpen ? "Закрити меню" : "Відкрити меню"}
+            aria-expanded={isMenuOpen}
+          >
+            <span className={css.burgerLine} />
+            <span className={css.burgerLine} />
+            <span className={css.burgerLine} />
+          </button>
+        </div>
       </div>
 
-      {/* меню завжди в DOM — показ і приховування анімує CSS-клас open */}
+      {/* меню під шапкою; завжди в DOM — показ і приховування анімує клас open */}
       <div
-        className={`${css.mobileMenu} ${isMenuOpen ? css.open : ""}`}
-        role="dialog"
-        aria-modal="true"
+        className={`${css.menu} ${isMenuOpen ? css.open : ""}`}
         aria-hidden={!isMenuOpen}
         inert={!isMenuOpen}
       >
-        {/* праворуч тут місце для кнопки-хрестика з шапки */}
-        <div className={css.mobileTop}>{renderLogo()}</div>
-
-        <nav className={css.mobileNav} aria-label="Мобільна навігація">
+        <nav className={css.menuNav} aria-label="Мобільна навігація">
           {renderLinks()}
         </nav>
 
-        <div className={css.mobileActions}>{renderActions()}</div>
+        <div className={css.menuActions}>
+          {/* на планшеті ці кнопки вже є в шапці — у меню лише на мобільному */}
+          {isGuest && renderGuestButtons(css.mobileOnly)}
+          {isSignedIn && (
+            <>
+              {renderShareButton(css.mobileOnly)}
+              {renderProfile()}
+            </>
+          )}
+        </div>
       </div>
 
       {isLogoutOpen && (
