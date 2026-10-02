@@ -1,132 +1,130 @@
 'use client';
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '../Button/Button'; 
+import React from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import toast from 'react-hot-toast';
+import { useAuthStore } from '../providers/authStore';
+import { Button } from '../Button/Button';
 import styles from './RegisterForm.module.css';
+
+const registerSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(2, 'Ім\'я має містити від 2 до 32 символів')
+    .max(32, 'Ім\'я має містити від 2 до 32 символів')
+    .required('Ім\'я є обов\'язковим'),
+  email: Yup.string()
+    .max(64, 'Email має бути до 64 символів')
+    .email('Введіть коректну email-адресу')
+    .required('Пошта є обов\'язковою'),
+  password: Yup.string()
+    .min(8, 'Пароль має містити від 8 до 128 символів')
+    .max(128, 'Пароль має містити від 8 до 128 символів')
+    .required('Пароль є обов\'язковим'),
+});
 
 export const RegisterForm = () => {
   const router = useRouter();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const searchParams = useSearchParams();
 
-  const [errors, setErrors] = useState({
-    name: '',
-    email: '',
-    password: '',
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+    },
+    validationSchema: registerSchema,
+    onSubmit: async (values, { setSubmitting, setFieldError }) => {
+      try {
+        const response = await fetch('/api/auth/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(values),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          if (response.status === 409) {
+            setFieldError('email', 'Цей email вже використовується');
+            return;
+          }
+          throw new Error(data.message || 'Помилка реєстрації');
+        }
+
+        useAuthStore.getState().setUser(data.data);
+        toast.success('Реєстрація успішна!');
+        
+        const from = searchParams.get('from') || '/profile';
+        router.push(from);
+      } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : 'Щось пішло не так';
+        toast.error(message);
+      } finally {
+        setSubmitting(false);
+      }
+    },
   });
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    const currentErrors = { name: '', email: '', password: '' };
-    let hasError = false;
-
-    if (!name.trim()) {
-      currentErrors.name = "Будь ласка, введіть ваше ім'я";
-      hasError = true;
-    }
-    if (!email.trim()) {
-      currentErrors.email = 'Будь ласка, введіть почту';
-      hasError = true;
-    }
-    if (!password.trim()) {
-      currentErrors.password = 'Будь ласка, введіть пароль';
-      hasError = true;
-    } else if (password.length < 6) {
-      currentErrors.password = 'Пароль має містити щонайменше 6 символів';
-      hasError = true;
-    }
-
-    if (hasError) {
-      setErrors(currentErrors);
-      return;
-    }
-
-    setIsLoading(true);
-    setErrors({ name: '', email: '', password: '' });
-
-    try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name, email, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Помилка реєстрації');
-      }
-
-      router.push('/profile');
-    } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : 'Помилка реєстрації. Спробуйте ще раз';
-      setErrors(prev => ({ ...prev, password: errorMessage }));
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
-    <form onSubmit={handleSubmit} className={styles.form} noValidate>
-      <div className={styles.inputGroup}>
+    <form onSubmit={formik.handleSubmit} className={styles.form} noValidate>
+      <div className={styles.fieldGroup}>
         <label htmlFor="name" className={styles.label}>Ім'я*</label>
         <input
           id="name"
+          name="name"
           type="text"
-          className={`${styles.input} ${errors.name ? styles.inputError : ''}`}
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-            if (errors.name) setErrors(prev => ({ ...prev, name: '' }));
-          }}
           placeholder="Ваше ім'я"
-          disabled={isLoading}
+          className={`${styles.input} ${formik.touched.name && formik.errors.name ? styles.inputError : ''}`}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.name}
+          disabled={formik.isSubmitting}
         />
-        {errors.name && <span className={styles.errorText}>{errors.name}</span>}
+        {formik.touched.name && formik.errors.name && (
+          <div className={styles.error}>{formik.errors.name}</div>
+        )}
       </div>
 
-      <div className={styles.inputGroup}>
+      <div className={styles.fieldGroup}>
         <label htmlFor="email" className={styles.label}>Пошта*</label>
         <input
           id="email"
+          name="email"
           type="email"
-          className={`${styles.input} ${errors.email ? styles.inputError : ''}`}
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value);
-            if (errors.email) setErrors(prev => ({ ...prev, email: '' }));
-          }}
           placeholder="hello@relaxmap.ua"
-          disabled={isLoading}
+          className={`${styles.input} ${formik.touched.email && formik.errors.email ? styles.inputError : ''}`}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.email}
+          disabled={formik.isSubmitting}
         />
-        {errors.email && <span className={styles.errorText}>{errors.email}</span>}
+        {formik.touched.email && formik.errors.email && (
+          <div className={styles.error}>{formik.errors.email}</div>
+        )}
       </div>
 
-      <div className={styles.inputGroup}>
+      <div className={styles.fieldGroup}>
         <label htmlFor="password" className={styles.label}>Пароль*</label>
         <input
           id="password"
+          name="password"
           type="password"
-          className={`${styles.input} ${errors.password ? styles.inputError : ''}`}
-          value={password}
-          onChange={(e) => {
-            setPassword(e.target.value);
-            if (errors.password) setErrors(prev => ({ ...prev, password: '' }));
-          }}
           placeholder="********"
-          disabled={isLoading}
+          className={`${styles.input} ${formik.touched.password && formik.errors.password ? styles.inputError : ''}`}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          value={formik.values.password}
+          disabled={formik.isSubmitting}
         />
-        {errors.password && <span className={styles.errorText}>{errors.password}</span>}
+        {formik.touched.password && formik.errors.password && (
+          <div className={styles.error}>{formik.errors.password}</div>
+        )}
       </div>
 
-      <Button type="submit" variant="primary" disabled={isLoading}>
-        {isLoading ? 'Реєстрація...' : 'Зареєструватись'}
+      <Button type="submit" variant="primary" disabled={formik.isSubmitting}>
+        {formik.isSubmitting ? 'Реєстрація...' : 'Зареєструватись'}
       </Button>
     </form>
   );

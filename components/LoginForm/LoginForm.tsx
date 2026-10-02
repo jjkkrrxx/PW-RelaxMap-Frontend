@@ -1,23 +1,28 @@
 'use client';
 
 import React from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import toast from 'react-hot-toast';
+import { useAuthStore } from '../providers/authStore';
 import { Button } from '../Button/Button';
 import styles from './LoginForm.module.css';
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
+    .max(64, 'Email має бути до 64 символів')
     .email('Введіть коректну email-адресу')
-    .required("Пошта є обов'язковою"),
+    .required('Пошта є обов\'язковою'),
   password: Yup.string()
-    .min(6, 'Пароль має містити щонайменше 6 символів')
-    .required("Пароль є обов'язковим"),
+    .min(8, 'Пароль має містити від 8 до 128 символів')
+    .max(128, 'Пароль має містити від 8 до 128 символів')
+    .required('Пароль є обов\'язковим'),
 });
 
 export const LoginForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   const formik = useFormik({
     initialValues: {
@@ -29,21 +34,24 @@ export const LoginForm = () => {
       try {
         const response = await fetch('/api/auth/login', {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(values),
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-          throw new Error(data.message || 'Помилка авторизації');
+          throw new Error(data.message || 'Неправильний логін або пароль');
         }
 
-        router.push('/profile');
-      } catch (error: unknown) {
+        useAuthStore.getState().setUser(data.data);
+        toast.success('Вхід успішний!');
         
+        const from = searchParams.get('from') || '/profile';
+        router.push(from);
+      } catch (error: unknown) {
+        const message = error instanceof Error ? error.message : 'Не вдалося увійти. Перевірте дані';
+        toast.error(message);
       } finally {
         setSubmitting(false);
       }

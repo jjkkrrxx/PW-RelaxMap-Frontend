@@ -14,12 +14,11 @@ export async function POST(request: Request) {
       );
     }
 
-    const response = await axios.post(`${backendUrl}/api/auth/login`, body, {
+    const response = await axios.post(`${backendUrl}/api/auth/register`, body, {
       headers: {
         Cookie: cookieHeader,
         'Content-Type': 'application/json',
       },
-      withCredentials: true,
     });
 
     const setCookieHeader = response.headers['set-cookie'];
