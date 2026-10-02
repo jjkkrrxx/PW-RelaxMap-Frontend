@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import LocationInfoBlock from '@/components/locationinfoblock/locationinfoblock';
 import LocationGallery from '@/components/locationgallery/locationgallery';
 import LocationDescription from '@/components/locationdescription/locationdescription';
+import ReviewsSection from '@/components/reviewssection/reviewssection';
 import type { LocationDetails } from '@/types/location-details';
 import styles from './page.module.css';
 
@@ -88,6 +89,10 @@ export default async function LocationPage({ params }: Props) {
           <LocationDescription description={location.description} />
         </div>
       </div>
+      <ReviewsSection
+        reviews={location.feedbacksId}
+        addReviewHref={`/locations/${id}/review`}
+      />
     </main>
   );
 }
