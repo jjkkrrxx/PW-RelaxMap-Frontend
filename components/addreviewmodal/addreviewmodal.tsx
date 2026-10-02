@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import Modal from '@/components/Modal/Modal';
@@ -10,19 +10,33 @@ import styles from './addreviewmodal.module.css';
 
 interface Props {
   locationId: string;
+  // true — модалку відкрито переходом зі сторінки локації (перехоплений маршрут)
+  intercepted?: boolean;
 }
 
 // Модальне вікно «Залишити відгук» на паралельному маршруті (учасник №12).
 // Закриття (бекдроп, хрестик, Escape, «Відмінити», успіх) повертає на сторінку локації.
-export default function AddReviewModal({ locationId }: Props) {
+export default function AddReviewModal({ locationId, intercepted = false }: Props) {
   const router = useRouter();
   const user = useAuthStore((s) => s.user);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const isHydrated = useAuthStore((s) => s.isHydrated);
 
+  // закриваємо лише раз: повторний router.back() повів би на попередню сторінку
+  const isClosing = useRef(false);
+
   const close = useCallback(() => {
-    router.replace(`/locations/${locationId}`, { scroll: false });
-  }, [router, locationId]);
+    if (isClosing.current) return;
+    isClosing.current = true;
+
+    if (intercepted) {
+      // відкрито зі сторінки — повертаємось назад, без зайвого запису в історії
+      router.back();
+    } else {
+      // прямий захід за адресою — попередньої сторінки сайту в історії немає
+      router.replace(`/locations/${locationId}`, { scroll: false });
+    }
+  }, [router, locationId, intercepted]);
 
   const isGuest = isHydrated && !isAuthenticated;
 
