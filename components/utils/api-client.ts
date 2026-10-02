@@ -1,6 +1,6 @@
 import axios, { AxiosError } from "axios";
 
-export type ApiError = AxiosError<{ error: string }>;
+export type ApiError = AxiosError<{ message: string }>;
 
 export const apiClient = axios.create({
   baseURL: "/api",

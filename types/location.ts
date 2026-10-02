@@ -1,5 +1,3 @@
-//types\location.ts
-
 export interface Location {
   _id: string;
   image: string;
