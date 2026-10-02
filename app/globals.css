@@ -5,7 +5,7 @@
 
   /* Colors from the Figma design (file 139uPoMOT1RJ51sirdNQPX) */
   --color-brand: #cc6534; /* accent: primary buttons, links, active states */
-  --color-brand-hover: #ffe5d9; /* primary button background on hover (text and border stay --color-brand) */
+  --color-brand-hover: #ffe5d9; /* primary button background on hover (border --color-brand, text --color-green) */
   --color-accent-light: #ffa57a; /* hover/focus borders, active slider arrows */
   --color-bg-light: #fff2ec; /* page and section background */
   --color-surface: #ffe5d9; /* cards, inputs */
