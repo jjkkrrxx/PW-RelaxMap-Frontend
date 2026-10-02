@@ -1,19 +1,34 @@
-.title {
-  margin: 0 0 32px;
-  font-size: 24px;
-  font-weight: 600;
-  line-height: 1.3;
+/* За екраном «Підтвердження виходу» у Figma (375 / 768 / 1440) */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
   text-align: center;
+}
+
+.title {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 16px;
+  line-height: 24px;
 }
 
 /* 375px: кнопки одна під одною на всю ширину */
 .actions {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
-/* кнопки за макетом: 203×48, радіус 6, текст 16/24 (20/30 на 1440) */
+/* кнопки: 203×48, радіус 6, текст 16/24 (20/30 на 1440) */
 .cancelButton,
 .confirmButton {
   display: flex;
@@ -21,8 +36,7 @@
   justify-content: center;
   width: 100%;
   min-height: 48px;
-  padding: 12px 24px;
-  border: 1px solid var(--color-brand);
+  padding: 11px 24px;
   border-radius: 6px;
   font-size: 16px;
   font-weight: 500;
@@ -30,20 +44,23 @@
   cursor: pointer;
   transition:
     background-color 0.2s ease,
+    border-color 0.2s ease,
     color 0.2s ease;
 }
 
+/* Secondary — як «Вхід» у шапці */
 .cancelButton {
-  background-color: transparent;
-  color: var(--color-brand);
-}
-
-.confirmButton {
-  background-color: var(--color-brand);
-  color: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #4c2613;
 }
 
 .cancelButton:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.confirmButton {
+  border: 1px solid var(--color-brand);
   background-color: var(--color-brand);
   color: #fff;
 }
@@ -55,7 +72,7 @@
 
 .cancelButton:disabled,
 .confirmButton:disabled {
-  opacity: 0.6;
+  opacity: 0.3;
   cursor: not-allowed;
 }
 
@@ -74,12 +91,15 @@
   }
 }
 
-/* tablet і далі: кнопки в ряд по 203px */
+/* tablet: кнопки в ряд по 203px */
 @media (min-width: 768px) {
+  .title {
+    font-size: 32px;
+  }
+
   .actions {
     flex-direction: row;
     justify-content: center;
-    gap: 24px;
   }
 
   .cancelButton,
@@ -89,9 +109,18 @@
 }
 
 @media (min-width: 1440px) {
+  .title {
+    font-size: 48px;
+  }
+
+  .subtitle {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
   .cancelButton,
   .confirmButton {
-    padding: 9px 24px;
+    padding: 8px 24px;
     font-size: 20px;
     line-height: 30px;
   }

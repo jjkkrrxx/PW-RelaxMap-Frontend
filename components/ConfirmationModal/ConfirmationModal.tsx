@@ -7,6 +7,7 @@ import css from "./ConfirmationModal.module.css";
 
 interface ConfirmationModalProps {
   title: string;
+  subtitle?: string;
   confirmButtonText: string;
   cancelButtonText: string;
   onConfirm: () => Promise<void> | void;
@@ -15,6 +16,7 @@ interface ConfirmationModalProps {
 
 export default function ConfirmationModal({
   title,
+  subtitle,
   confirmButtonText,
   cancelButtonText,
   onConfirm,
@@ -45,7 +47,10 @@ export default function ConfirmationModal({
 
   return (
     <Modal onClose={handleClose}>
-      <h2 className={css.title}>{title}</h2>
+      <div className={css.header}>
+        <h2 className={css.title}>{title}</h2>
+        {subtitle && <p className={css.subtitle}>{subtitle}</p>}
+      </div>
 
       <div className={css.actions}>
         <button

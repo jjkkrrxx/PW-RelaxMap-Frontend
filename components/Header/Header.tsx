@@ -74,6 +74,17 @@ export default function Header() {
       </Link>
     ));
 
+  const renderGuestButtons = () => (
+    <>
+      <Link href="/login" className={css.secondaryButton} onClick={closeMenu}>
+        Вхід
+      </Link>
+      <Link href="/register" className={css.accentButton} onClick={closeMenu}>
+        Реєстрація
+      </Link>
+    </>
+  );
+
   const openLogout = () => {
     closeMenu();
     setIsLogoutOpen(true);
@@ -116,16 +127,7 @@ export default function Header() {
       );
     }
 
-    return (
-      <>
-        <Link href="/login" className={css.outlineButton} onClick={closeMenu}>
-          Вхід
-        </Link>
-        <Link href="/register" className={css.accentButton} onClick={closeMenu}>
-          Реєстрація
-        </Link>
-      </>
-    );
+    return renderGuestButtons();
   };
 
   return (
@@ -138,6 +140,11 @@ export default function Header() {
         </nav>
 
         <div className={css.actions}>{renderActions()}</div>
+
+        {/* 768px: «Вхід» і «Реєстрація» поруч із бургером (лише для гостя) */}
+        {isHydrated && !isAuthenticated && (
+          <div className={css.tabletActions}>{renderGuestButtons()}</div>
+        )}
 
         {/* одна кнопка: бургер ↔ хрестик, лежить поверх відкритого меню */}
         <button
@@ -174,6 +181,7 @@ export default function Header() {
       {isLogoutOpen && (
         <ConfirmationModal
           title="Ви точно хочете вийти?"
+          subtitle="Ми будемо сумувати за вами!"
           confirmButtonText="Вийти"
           cancelButtonText="Відмінити"
           onConfirm={async () => {
