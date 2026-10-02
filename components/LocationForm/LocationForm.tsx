@@ -7,11 +7,12 @@ import { useQuery } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { ALLOWED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/constants/image';
 import { fetchCategories } from '../utils/locationForm';
-import ImageUploadField from './ImageUploadFilter/ImageUploadField';
+import ImageUploadField from './ImageUploadField/ImageUploadField';
 import InputField from './InputField/InputField';
 import Select from './Select/Select';
 import Textarea from './Textarea/Textarea';
 import Button from './Button/Button';
+import { useRouter } from 'next/navigation';
 
 export interface LocationFormValues {
   image: File | null | string;
@@ -65,6 +66,7 @@ function LocationForm({ values, edit }: LocationFormProps) {
   };
 
   const formId = useId();
+  const router = useRouter();
 
   const { data } = useQuery({
     queryKey: ['categories'],
@@ -90,7 +92,7 @@ function LocationForm({ values, edit }: LocationFormProps) {
           <ImageUploadField
             name="image"
             id={`image-${formId}`}
-            label="Обкладинка статті"
+            label="Обкладинка"
           />
 
           <InputField
@@ -122,7 +124,12 @@ function LocationForm({ values, edit }: LocationFormProps) {
             label="Детальний опис"
           />
           <div className={css.buttons}>
-            <Button className={css.button} type="reset" secondary>
+            <Button
+              className={css.button}
+              type="button"
+              secondary
+              onClick={() => router.back()}
+            >
               Відмінити
             </Button>
             <Button

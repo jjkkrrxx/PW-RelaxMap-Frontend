@@ -45,9 +45,7 @@ function ImageUploadField({ id, name, label }: ImageUploadFieldProps) {
   const imageSrc =
     typeof field.value === 'string'
       ? field.value
-      : preview && field.value
-        ? preview
-        : '/placeholder.jpg';
+      : (preview ?? '/placeholder.jpg');
   const hasError = Boolean(meta.touched && meta.error);
 
   return (

@@ -174,10 +174,12 @@ function Select({ options, placeholder, name, label, id }: SelectProps) {
           aria-expanded={isOpen}
           aria-haspopup="listbox"
           aria-controls={`${id}-list`}
+          aria-describedby={hasError ? `${id}-error` : undefined}
         >
           {selectedValue ?? placeholder}
           <Icon
-            name="keyboard_arrow_down"
+            name="icon-keyboard_arrow_down"
+            size={24}
             className={clsx(css.selectIcon, isOpen && css.selectIconOpen)}
           />
         </button>
@@ -185,6 +187,7 @@ function Select({ options, placeholder, name, label, id }: SelectProps) {
           <ul
             className={clsx(css.selectList, openUp && css.openUp)}
             id={`${id}-list`}
+            role="listbox"
           >
             {options.map((option, index) => {
               return (
@@ -192,7 +195,7 @@ function Select({ options, placeholder, name, label, id }: SelectProps) {
                   <button
                     className={clsx(
                       css.selectButton,
-                      selectedValue === option.name && css.selectedButton,
+                      field.value === option.slug && css.selectedButton,
                       index === highlightedIndex && css.highlightedButton
                     )}
                     onClick={() => handleClick(option)}
@@ -210,7 +213,12 @@ function Select({ options, placeholder, name, label, id }: SelectProps) {
           </ul>
         )}
       </div>
-      <ErrorMessage className={css.error} component="span" name={name} />
+      <ErrorMessage
+        className={css.error}
+        component="span"
+        name={name}
+        id={`${id}-error`}
+      />
     </div>
   );
 }
