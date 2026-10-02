@@ -1,0 +1,358 @@
+/* Navbar з Figma (375 / 768 / 1440): висота 72, фон #FFF2EC,
+   відступи 20 / 32 / 64, акцент var(--color-brand) */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #fff2ec;
+  color: #4c2613;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  max-width: 1440px;
+  min-height: 72px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ---------- Лого: іконка 24 + текст 18 / 500 ---------- */
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #4c2613;
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+/* ---------- Права частина ---------- */
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-left: auto;
+}
+
+.nav,
+.actions {
+  display: none;
+  align-items: center;
+}
+
+.nav {
+  gap: 32px;
+}
+
+.actions {
+  gap: 16px;
+}
+
+.actionsPlaceholder {
+  min-width: 200px;
+  min-height: 38px;
+}
+
+.tabletActions {
+  display: none;
+  align-items: center;
+  gap: 16px;
+}
+
+.link {
+  color: #1b391b;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.link:hover,
+.active {
+  color: var(--color-brand);
+}
+
+/* ---------- Кнопки: 16/24 · висота 32 (desktop 20/30 · 38), радіус 6, відступи 10 ---------- */
+
+.accentButton,
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.accentButton {
+  border: 1px solid var(--color-brand);
+  background-color: var(--color-brand);
+  color: #fff;
+}
+
+.accentButton:hover {
+  background-color: transparent;
+  color: var(--color-brand);
+}
+
+/* Secondary */
+.secondaryButton {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #4c2613;
+}
+
+.secondaryButton:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+/* ---------- Профіль: аватар 32, ім'я, роздільник, logout 24 ---------- */
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.avatar {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.userName {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+.divider {
+  width: 1px;
+  height: 29px;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.logoutButton:hover {
+  color: var(--color-brand);
+}
+
+/* ---------- Бургер ↔ хрестик: 32×32, Secondary ---------- */
+
+.burger {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #4c2613;
+  cursor: pointer;
+}
+
+.burgerLine {
+  display: block;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background-color: currentColor;
+  transition:
+    transform 0.3s ease,
+    opacity 0.2s ease;
+}
+
+/* 6px = висота лінії (2px) + проміжок (4px) */
+.burgerOpen .burgerLine:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.burgerOpen .burgerLine:nth-child(2) {
+  opacity: 0;
+}
+
+.burgerOpen .burgerLine:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* ---------- Меню під шапкою (tablet / mobile) ---------- */
+
+.menu {
+  position: fixed;
+  top: 72px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  /* посилання зверху, кнопки й профіль — унизу */
+  justify-content: space-between;
+  gap: 32px;
+  padding: 24px 20px 92px;
+  overflow-y: auto;
+  background-color: #fff2ec;
+
+  /* закрите: за правим краєм і прозоре */
+  transform: translateX(100%);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease,
+    visibility 0s linear 0.3s;
+}
+
+.menu.open {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease,
+    visibility 0s linear 0s;
+}
+
+.menuNav {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 32px;
+}
+
+/* посилання з'являються по черзі після виїзду меню */
+.menuNav > * {
+  opacity: 0;
+  transform: translateX(16px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.menu.open .menuNav > * {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.menu.open .menuNav > *:nth-child(1) {
+  transition-delay: 0.1s;
+}
+
+.menu.open .menuNav > *:nth-child(2) {
+  transition-delay: 0.15s;
+}
+
+.menu.open .menuNav > *:nth-child(3) {
+  transition-delay: 0.2s;
+}
+
+/* кнопки на всю ширину, профіль по центру */
+.menuActions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 24px;
+}
+
+.menuActions .profile {
+  align-self: center;
+}
+
+/* для тих, хто вимкнув анімації в системі */
+@media (prefers-reduced-motion: reduce) {
+  .menu,
+  .menuNav > *,
+  .burgerLine {
+    transition: none;
+  }
+}
+
+/* ---------- Tablet ---------- */
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 32px;
+  }
+
+  .tabletActions {
+    display: flex;
+  }
+
+  .menu {
+    padding: 24px 32px 92px;
+  }
+
+  /* на планшеті ці кнопки вже в шапці */
+  .mobileOnly {
+    display: none;
+  }
+}
+
+/* ---------- Desktop: повна навігація, без бургера ---------- */
+
+@media (min-width: 1440px) {
+  .container {
+    padding: 0 64px;
+  }
+
+  .right {
+    gap: 32px;
+  }
+
+  .nav,
+  .actions {
+    display: flex;
+  }
+
+  .link {
+    font-size: 18px;
+    line-height: 27px;
+  }
+
+  .accentButton,
+  .secondaryButton {
+    min-height: 38px;
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .userName {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .tabletActions,
+  .burger,
+  .menu {
+    display: none;
+  }
+}

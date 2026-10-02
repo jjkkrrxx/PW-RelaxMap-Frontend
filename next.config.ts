@@ -8,9 +8,16 @@ const nextConfig: NextConfig = {
         hostname: "res.cloudinary.com",
         pathname: "/**",
       },
+      // аватари юзерів із seed-даних
       {
         protocol: "https",
         hostname: "ftp.goit.study",
+        pathname: "/**",
+      },
+      // дефолтний аватар нових юзерів
+      {
+        protocol: "https",
+        hostname: "ac.goit.global",
         pathname: "/**",
       },
     ],
