@@ -3,7 +3,6 @@
 import { ErrorMessage, useField } from 'formik';
 import css from './ImageUploadField.module.css';
 import Image from 'next/image';
-import placeholder from '../../types/placeholder.png';
 import { useEffect, useRef, useState } from 'react';
 import Button from '../Button/Button';
 import clsx from 'clsx';
@@ -48,11 +47,11 @@ function ImageUploadField({ id, name, label }: ImageUploadFieldProps) {
       ? field.value
       : preview && field.value
         ? preview
-        : placeholder;
+        : '/placeholder.jpg';
   const hasError = Boolean(meta.touched && meta.error);
 
   return (
-    <>
+    <div>
       {label && (
         <label htmlFor={id} className={css.label}>
           {label}
@@ -85,12 +84,12 @@ function ImageUploadField({ id, name, label }: ImageUploadFieldProps) {
         onClick={() => fileInputRef.current?.click()}
         secondary
         short
-        className={clsx(hasError && css.errorBorder)}
+        error={hasError}
       >
         Завантажити фото
       </Button>
       <ErrorMessage name={name} component="span" className={css.error} />
-    </>
+    </div>
   );
 }
 

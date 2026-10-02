@@ -23,7 +23,7 @@ function InputField({
   const hasError = Boolean(meta.touched && meta.error);
 
   return (
-    <>
+    <div>
       {label && (
         <label htmlFor={id} className={css.label}>
           {label}
@@ -39,7 +39,7 @@ function InputField({
         aria-invalid={hasError}
       />
       <ErrorMessage name={name} component="span" className={css.error} />
-    </>
+    </div>
   );
 }
 

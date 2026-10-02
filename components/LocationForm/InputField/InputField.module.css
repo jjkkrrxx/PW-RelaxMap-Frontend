@@ -17,7 +17,7 @@
 
   background-color: var(--color-scheme-2-foreground);
 
-  font-family: var(--font-family);
+  font-family: var(--font-montserrat);
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
@@ -48,7 +48,7 @@
 .error {
   display: block;
   margin-top: 8px;
-  font-family: var(--font-family);
+  font-family: var(--font-montserrat);
   font-weight: 400;
   font-size: 12px;
   line-height: 1.5;
@@ -59,5 +59,8 @@
   .input {
     font-size: 18px;
     min-height: 43px;
+  }
+  .label {
+    font-size: 18px;
   }
 }

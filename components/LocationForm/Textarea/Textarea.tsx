@@ -15,7 +15,7 @@ function Textarea({ id, placeholder, name, label }: TextareaProps) {
   const hasError = Boolean(meta.touched && meta.error);
 
   return (
-    <>
+    <div>
       {label && (
         <label htmlFor={id} className={css.label}>
           {label}
@@ -30,7 +30,7 @@ function Textarea({ id, placeholder, name, label }: TextareaProps) {
         aria-invalid={hasError}
       />
       <ErrorMessage component="span" className={css.error} name={name} />
-    </>
+    </div>
   );
 }
 

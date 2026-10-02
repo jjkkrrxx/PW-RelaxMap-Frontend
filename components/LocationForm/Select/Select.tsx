@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import css from './Select.module.css';
 import { ErrorMessage, useField } from 'formik';
 import clsx from 'clsx';
-import { IoIosArrowDown } from 'react-icons/io';
+import { Icon } from '@/components/Icon/Icon';
 
 const DROPDOWN_HEIGHT = 290;
 
@@ -149,7 +149,7 @@ function Select({ options, placeholder, name, label, id }: SelectProps) {
 
   const hasError = Boolean(meta.touched && meta.error);
   return (
-    <>
+    <div>
       {label && (
         <label htmlFor={id} className={css.label}>
           {label}
@@ -176,7 +176,8 @@ function Select({ options, placeholder, name, label, id }: SelectProps) {
           aria-controls={`${id}-list`}
         >
           {selectedValue ?? placeholder}
-          <IoIosArrowDown
+          <Icon
+            name="keyboard_arrow_down"
             className={clsx(css.selectIcon, isOpen && css.selectIconOpen)}
           />
         </button>
@@ -210,7 +211,7 @@ function Select({ options, placeholder, name, label, id }: SelectProps) {
         )}
       </div>
       <ErrorMessage className={css.error} component="span" name={name} />
-    </>
+    </div>
   );
 }
 

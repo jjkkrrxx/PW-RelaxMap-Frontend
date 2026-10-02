@@ -6,6 +6,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   secondary?: boolean;
   short?: boolean;
+  error?: boolean;
 }
 
 function Button({
@@ -13,6 +14,7 @@ function Button({
   children,
   secondary,
   short,
+  error,
   className,
   ...props
 }: ButtonProps) {
@@ -23,6 +25,7 @@ function Button({
         css.button,
         secondary && css.secondary,
         short && css.short,
+        error && css.error,
         className
       )}
       type={type}

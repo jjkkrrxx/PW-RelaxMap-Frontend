@@ -48,7 +48,7 @@
 
   background-color: transparent;
 
-  font-family: var(--font-family);
+  font-family: var(--font-montserrat);
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
@@ -108,7 +108,7 @@
   background-color: transparent;
 
   text-align: left;
-  font-family: var(--font-family);
+  font-family: var(--font-montserrat);
   font-weight: 400;
   font-size: 16px;
   line-height: 1.5;
@@ -132,8 +132,7 @@
 .error {
   display: inline-block;
   margin-top: 8px;
-  margin-left: 8px;
-  font-family: var(--font-family);
+  font-family: var(--font-montserrat);
   font-weight: 400;
   font-size: 12px;
   line-height: 1.5;
@@ -148,6 +147,10 @@
   }
 
   .selectButton {
+    font-size: 18px;
+  }
+
+  .label {
     font-size: 18px;
   }
 }

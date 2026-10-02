@@ -9,7 +9,7 @@
   padding: 6px 12px;
   min-height: 48px;
 
-  font-family: var(--font-family);
+  font-family: var(--font-montserrat);
   font-weight: 500;
   font-size: 16px;
   line-height: 1.5;
@@ -49,6 +49,7 @@
   border-color: var(--color-scheme-2-border);
   background-color: var(--opacity-neutral-darkest-5);
   color: var(--color-scheme-2-text);
+  padding: 4px 10px;
 }
 
 .secondary:not(:disabled):hover,
@@ -60,6 +61,10 @@
 
 .secondary:not(:disabled):active {
   background-color: var(--color-coral-darker);
+}
+
+.error {
+  border-color: var(--color-red);
 }
 
 @media screen and (min-width: 1440px) {
