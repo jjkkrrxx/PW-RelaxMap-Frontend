@@ -1,31 +1,17 @@
-/* Розміри й колір — за макетом Figma: іконки 24×24 без проміжків, чорні. */
+/* Розміри й колір — за макетом Figma: іконки без проміжків, чорні (24 px у картках, 32 px у формі). */
 .stars {
   display: inline-flex;
   color: #000000;
 }
 
-.star,
-.empty {
+.item {
   display: block;
-  width: 24px;
-  height: 24px;
-}
-
-.large .star,
-.large .empty {
-  width: 32px;
-  height: 32px;
+  line-height: 0;
 }
 
 .star {
+  display: block;
   fill: currentColor;
-}
-
-.empty {
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.5;
-  stroke-linejoin: round;
 }
 
 .button {
