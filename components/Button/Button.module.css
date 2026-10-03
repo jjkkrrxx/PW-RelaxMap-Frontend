@@ -1,51 +1,60 @@
+/* Кнопка за макетом: висота 44, радіус 6, 16/24 (20/30 на 1440) */
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 24px;
-  height: 48px;
-  border-radius: 8px;
-  font-family: 'Montserrat', sans-serif;
+  width: 100%;
+  min-height: 44px;
+  padding: 6px 12px;
+  border: 1px solid transparent;
+  border-radius: 6px;
   font-size: 16px;
-  font-weight: 500;             
-  line-height: 1.5;             
-  letter-spacing: 0em;          
-  cursor: pointer;
-  border: none;
-  transition: all 0.2s ease;
+  font-weight: 500;
+  line-height: 24px;
   text-decoration: none;
-  box-sizing: border-box;
-  opacity: 1 !important;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .primary {
-  background-color: #CC6534 !important;
-  color: #ffffff !important;  
+  border-color: var(--color-brand);
+  background-color: var(--color-brand);
+  color: #fff;
 }
 
 .primary:hover:not(:disabled) {
-  background-color: #b3552b !important;
+  background-color: transparent;
+  color: var(--color-brand);
 }
 
 .secondary {
-  background-color: #FFE5D9 !important;
-  color: #CC6534 !important;
+  border-color: rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #4c2613;
 }
 
 .secondary:hover:not(:disabled) {
-  background-color: #f5d3c2 !important;
+  background-color: rgba(0, 0, 0, 0.1);
 }
 
 .success {
-  background-color: #254C24 !important;
-  color: #ffffff !important;
-}
-
-.success:hover:not(:disabled) {
-  background-color: #1c3c1d !important;
+  border-color: #254c24;
+  background-color: #254c24;
+  color: #fff;
 }
 
 .button:disabled {
-  opacity: 0.5 !important;
+  opacity: 0.3;
   cursor: not-allowed;
+}
+
+@media (min-width: 1440px) {
+  .button {
+    padding: 4px 12px;
+    font-size: 20px;
+    line-height: 30px;
+  }
 }
