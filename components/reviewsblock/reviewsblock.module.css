@@ -1,0 +1,112 @@
+/* Значення — з макета Figma (Головна / Локація, 375 / 768 / 1440). */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  font-family: var(--font-montserrat);
+}
+
+.swiper {
+  width: 100%;
+}
+
+.slide {
+  height: auto;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  height: 100%;
+  padding: 16px;
+  border-radius: 16px;
+  background: #ffe5d9;
+  color: #4c2613;
+  box-sizing: border-box; /* обгортка Swiper задає content-box */
+}
+
+.text,
+.author,
+.location {
+  overflow-wrap: anywhere; /* довгі слова й посилання з відгуку не виходять за картку */
+}
+
+.text {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.author {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.location {
+  align-self: flex-start;
+  color: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 15px;
+  text-decoration: underline;
+}
+
+/* Квадратні стрілки внизу справа. */
+.controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 10px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+  background: #ffe5d9;
+  color: #4c2613;
+  cursor: pointer;
+}
+
+.arrow svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.arrow:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+@media (min-width: 1440px) {
+  .text {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .author {
+    font-size: 18px;
+    line-height: 27px;
+  }
+
+  .location {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
