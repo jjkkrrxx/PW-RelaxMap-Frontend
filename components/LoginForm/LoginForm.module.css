@@ -1,0 +1,69 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 24px;
+}
+
+.label {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000;
+  margin-bottom: 8px;
+  text-align: left;
+}
+
+/* висоту задає padding: 8 + 24 + 8 + рамка = ~42 px (43 на 1440) */
+.input {
+  width: 100%;
+  background-color: #ffe5d9;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #000;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus {
+  border-color: var(--color-brand);
+}
+
+.input::placeholder {
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.inputError {
+  border-color: #b00101;
+}
+
+.error {
+  display: flex;
+  align-items: center;
+  height: 18px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #b00101;
+  margin-top: 4px;
+  text-align: left;
+}
+
+@media (min-width: 1440px) {
+  .label {
+    font-size: 18px;
+  }
+
+  .input {
+    font-size: 18px;
+  }
+}
