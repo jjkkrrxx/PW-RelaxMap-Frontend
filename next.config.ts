@@ -28,6 +28,9 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+
+  serverExternalPackages: ["axios"],
 };
 
 export default nextConfig;
+
