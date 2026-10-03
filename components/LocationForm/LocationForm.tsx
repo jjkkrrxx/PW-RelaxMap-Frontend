@@ -12,7 +12,7 @@ import InputField from './InputField/InputField';
 import Select from './Select/Select';
 import Textarea from './Textarea/Textarea';
 import Button from './Button/Button';
-import { useRouter } from 'next/navigation';
+import LocationPicker from './LocationPicker/LocationPicker';
 
 export interface LocationFormValues {
   image: File | null | string;
@@ -20,11 +20,17 @@ export interface LocationFormValues {
   locationType: string;
   region: string;
   description: string;
+  coordinates: {
+    lat: number | null;
+    lon: number | null;
+  };
 }
 
 interface LocationFormProps {
   values?: LocationFormValues;
   edit?: boolean;
+  onSubmit: (values: LocationFormValues) => void;
+  isPending: boolean;
 }
 
 const locationFormSchema = Yup.object({
@@ -53,20 +59,39 @@ const locationFormSchema = Yup.object({
     .required('Введіть опис')
     .min(20, 'Мінімум 20 символів')
     .max(6000, 'Максимум 6000 символів'),
+  coordinates: Yup.object({
+    lat: Yup.number().nullable().optional(),
+    lon: Yup.number().nullable().optional(),
+  })
+    .nullable()
+    .optional()
+    .test('coords-pair', 'Оберіть розташування', value => {
+      if (!value) return true;
+      const { lat, lon } = value;
+      return (lat == null && lon == null) || (lat != null && lon != null);
+    }),
 });
 
-function LocationForm({ values, edit }: LocationFormProps) {
+function LocationForm({
+  values,
+  edit,
+  onSubmit,
+  isPending,
+}: LocationFormProps) {
   const initialValues: LocationFormValues = {
     image: null,
     name: '',
     locationType: '',
     region: '',
     description: '',
+    coordinates: {
+      lat: null,
+      lon: null,
+    },
     ...values,
   };
 
   const formId = useId();
-  const router = useRouter();
 
   const { data } = useQuery({
     queryKey: ['categories'],
@@ -74,7 +99,7 @@ function LocationForm({ values, edit }: LocationFormProps) {
   });
 
   const handleSubmit = (values: LocationFormValues) => {
-    console.log(values);
+    onSubmit(values);
   };
 
   const locationTypes = data?.data.locationTypes ?? [];
@@ -123,21 +148,29 @@ function LocationForm({ values, edit }: LocationFormProps) {
             placeholder="Детальний опис локації"
             label="Детальний опис"
           />
+          <LocationPicker
+            id={`location-${formId}`}
+            className={css.locationPicker}
+          />
           <div className={css.buttons}>
-            <Button
-              className={css.button}
-              type="button"
-              secondary
-              onClick={() => router.back()}
-            >
+            <Button className={css.button} type="reset" secondary>
               Відмінити
             </Button>
             <Button
               className={css.button}
               type="submit"
-              disabled={!(isValid && dirty)}
+              disabled={!(isValid && dirty) || isPending}
             >
-              {edit ? 'Зберегти' : 'Опублікувати'}
+              {isPending ? (
+                <>
+                  <span>{edit ? 'Збереження' : 'Публікація'}</span>
+                  <span className={css.loader} />
+                </>
+              ) : edit ? (
+                'Зберегти'
+              ) : (
+                'Опублікувати'
+              )}
             </Button>
           </div>
         </Form>
