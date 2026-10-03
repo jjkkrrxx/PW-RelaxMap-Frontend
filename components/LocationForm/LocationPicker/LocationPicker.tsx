@@ -8,9 +8,14 @@ import { LocationFormValues } from '../LocationForm';
 interface LocationPickerProps {
   id: string;
   className?: string;
+  resetSignal?: number;
 }
 
-export default function LocationPicker({ id, className }: LocationPickerProps) {
+export default function LocationPicker({
+  id,
+  className,
+  resetSignal,
+}: LocationPickerProps) {
   const { values, setFieldValue } = useFormikContext<LocationFormValues>();
 
   return (
@@ -19,6 +24,7 @@ export default function LocationPicker({ id, className }: LocationPickerProps) {
         Оберіть розташування
       </label>
       <Map
+        resetSignal={resetSignal}
         coordinates={values.coordinates}
         searchable
         onCoordinatesChange={coords => {

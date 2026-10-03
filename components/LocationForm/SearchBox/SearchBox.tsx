@@ -8,9 +8,14 @@ import Button from '../Button/Button';
 interface SearchBoxProps {
   onSelect: (coords: { lat: number; lon: number }) => void;
   id?: string;
+  resetSignal?: number;
 }
 
-export default function SearchBox({ onSelect, id }: SearchBoxProps) {
+export default function SearchBox({
+  onSelect,
+  id,
+  resetSignal,
+}: SearchBoxProps) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const map = useMap();
@@ -48,6 +53,12 @@ export default function SearchBox({ onSelect, id }: SearchBoxProps) {
 
     return () => listener.remove();
   }, [places, map, handleLocation]);
+
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.value = '';
+    }
+  }, [resetSignal]);
 
   const handleSearch = () => {
     if (!places || !map || !inputRef.current?.value) return;

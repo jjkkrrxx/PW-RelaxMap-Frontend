@@ -2,7 +2,7 @@
 
 import { Form, Formik } from 'formik';
 import css from './LocationForm.module.css';
-import { useEffect, useId } from 'react';
+import { useEffect, useId, useState } from 'react';
 import * as Yup from 'yup';
 import { ALLOWED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/constants/image';
 import ImageUploadField from './ImageUploadField/ImageUploadField';
@@ -42,12 +42,16 @@ const locationFormSchema = Yup.object({
 
       return ALLOWED_IMAGE_TYPES.includes(value.type);
     })
-    .test('fileSize', 'Максимальний розмір файлу 1MB', value => {
-      if (typeof value === 'string') return true;
-      if (!(value instanceof File)) return false;
+    .test(
+      'fileSize',
+      'Зображення завелике. Будь ласка, оберіть інше.',
+      value => {
+        if (typeof value === 'string') return true;
+        if (!(value instanceof File)) return false;
 
-      return value.size <= MAX_FILE_SIZE;
-    }),
+        return value.size <= MAX_FILE_SIZE;
+      }
+    ),
   name: Yup.string()
     .required('Введіть назву')
     .min(3, 'Мінімум 3 символи')
@@ -89,7 +93,7 @@ function LocationForm({
     },
     ...values,
   };
-
+  const [resetSignal, setResetSignal] = useState(0);
   const formId = useId();
   const categories = useCategoriesStore(state => state.categories);
   const hasHydrated = useCategoriesStore(state => state.hasHydrated);
@@ -121,7 +125,7 @@ function LocationForm({
       validationSchema={locationFormSchema}
       enableReinitialize
     >
-      {({ isValid, dirty }) => (
+      {({ isValid, dirty, resetForm }) => (
         <Form className={css.form}>
           <ImageUploadField
             name="image"
@@ -160,9 +164,18 @@ function LocationForm({
           <LocationPicker
             id={`location-${formId}`}
             className={css.locationPicker}
+            resetSignal={resetSignal}
           />
           <div className={css.buttons}>
-            <Button className={css.button} type="reset" secondary>
+            <Button
+              className={css.button}
+              type="button"
+              onClick={() => {
+                resetForm();
+                setResetSignal(prev => prev + 1);
+              }}
+              secondary
+            >
               Відмінити
             </Button>
             <Button
