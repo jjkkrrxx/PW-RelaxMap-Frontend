@@ -1,0 +1,77 @@
+/* Сторінка профілю. Значення з Figma (375 / 768 / 1440). */
+
+.page {
+  padding: 32px 20px 64px;
+}
+
+.locations {
+  margin-top: 32px;
+}
+
+.heading {
+  margin: 0 0 16px;
+  color: var(--color-scheme-1-text);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  padding: 16px;
+  background-color: var(--color-surface);
+  border-radius: 12px;
+  color: var(--color-text-main);
+  font-size: 16px;
+}
+
+@media (min-width: 768px) {
+  .page {
+    padding: 32px 32px 64px;
+  }
+
+  .locations {
+    margin-top: 48px;
+  }
+
+  .heading {
+    font-size: 44px;
+    margin-bottom: 24px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .page {
+    padding: 48px 64px 72px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+
+  .locations {
+    margin-top: 64px;
+  }
+
+  .heading {
+    font-size: 52px;
+    margin-bottom: 32px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}

@@ -47,6 +47,7 @@
   text-align: left;
 
   background-color: transparent;
+  outline: none;
 
   font-family: var(--font-montserrat);
   font-weight: 400;

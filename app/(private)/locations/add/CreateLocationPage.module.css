@@ -1,0 +1,29 @@
+.page {
+  padding: 32px 0 64px;
+}
+
+.title {
+  margin-bottom: 32px;
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--color-scheme-2-text);
+}
+
+@media screen and (min-width: 768px) {
+  .title {
+    font-size: 48px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  .title {
+    margin-bottom: 48px;
+    font-size: 56px;
+  }
+
+  .page {
+    padding: 48px 0 72px;
+  }
+}

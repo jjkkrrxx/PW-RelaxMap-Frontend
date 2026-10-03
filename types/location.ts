@@ -12,4 +12,6 @@ export interface Location {
   };
   ownerId: string;
   feedbacksId: string[];
+  createdAt?: string;
+  updatedAt?: string;
 }

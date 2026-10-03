@@ -3,6 +3,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getLastReviews } from '@/components/utils/feedbacks';
 import ReviewsBlock from '@/components/reviewsblock/reviewsblock';
+import Loader from '@/components/loader/loader';
 import styles from './lastreviewsblock.module.css';
 
 // Секція «Останні відгуки» на головній сторінці (учасник №12).
@@ -20,7 +21,11 @@ export default function LastReviewsBlock() {
     <section className={styles.section}>
       <div className={styles.container}>
         <h2 className={styles.title}>Останні відгуки</h2>
-        <ReviewsBlock reviews={reviews} showLocation />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <ReviewsBlock reviews={reviews} showLocation />
+        )}
       </div>
     </section>
   );
