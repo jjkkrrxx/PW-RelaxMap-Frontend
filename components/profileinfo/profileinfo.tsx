@@ -1,54 +1,33 @@
-"use client";
+import Image from 'next/image';
+import styles from './profileinfo.module.css';
 
-import Image from "next/image";
-import { useState } from "react";
-import type { UserProfile } from "@/types/user";
-import styles from "./profileinfo.module.css";
+const DEFAULT_AVATAR =
+  'https://ac.goit.global/fullstack/react/default-avatar.jpg';
 
 type ProfileInfoProps = {
-  user: UserProfile;
-  variant?: "owner" | "public";
+  name: string;
+  avatar: string;
+  articlesAmount: number;
 };
 
 export default function ProfileInfo({
-  user,
-  variant = "owner",
+  name,
+  avatar,
+  articlesAmount,
 }: ProfileInfoProps) {
-  const { name, avatar, articlesAmount } = user;
-  const [failedAvatar, setFailedAvatar] = useState<string | null>(null);
-  const avatarSrc = avatar && avatar !== failedAvatar ? avatar : null;
-  const initial = name.trim().charAt(0).toUpperCase() || "?";
-
   return (
-    <div
-      className={`${styles.profileInfo} ${
-        variant === "public"
-          ? styles.publicProfileInfo
-          : styles.ownerProfileInfo
-      }`}
-    >
-      {avatarSrc ? (
-        <Image
-          className={styles.avatar}
-          src={avatarSrc}
-          alt={`Аватар користувача ${name}`}
-          width={145}
-          height={145}
-          onError={() => setFailedAvatar(avatarSrc)}
-        />
-      ) : (
-        <div
-          className={`${styles.avatar} ${styles.avatarPlaceholder}`}
-          role="img"
-          aria-label={`Аватар користувача ${name}`}
-        >
-          {initial}
-        </div>
-      )}
-
-      <div className={styles.details}>
-        <p className={styles.name}>{name}</p>
-        <p className={styles.articlesAmount}>Статей: {articlesAmount}</p>
+    <div className={styles.wrapper}>
+      <Image
+        src={avatar || DEFAULT_AVATAR}
+        alt={name}
+        width={145}
+        height={145}
+        className={styles.avatar}
+        priority
+      />
+      <div className={styles.info}>
+        <h1 className={styles.name}>{name}</h1>
+        <p className={styles.count}>Статей: {articlesAmount}</p>
       </div>
     </div>
   );

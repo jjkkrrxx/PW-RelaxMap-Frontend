@@ -1,109 +1,69 @@
-.profileInfo {
+/* Картка профілю. Значення з Figma (375 / 768 / 1440). */
+
+.wrapper {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 24px;
-  width: min(100%, 1440px);
-  height: 193px;
-  min-width: 0;
-  padding: 48px 32px 0;
-  padding-left: 64px;
-}
-
-@media (min-width: 768px) and (max-width: 1439px) {
-  .ownerProfileInfo,
-  .publicProfileInfo {
-    width: 100%;
-    max-width: 1280px;
-    height: 177px;
-    padding: 32px 32px 0;
-  }
-
-  .ownerProfileInfo .name,
-  .publicProfileInfo .name {
-    font-size: 20px;
-  }
-
-  .ownerProfileInfo .articlesAmount,
-  .publicProfileInfo .articlesAmount {
-    font-family: var(--font-family);
-    font-size: 16px;
-    color: var(--color-scheme-2-text);
-  }
-}
-
-@media (max-width: 767px) {
-  .ownerProfileInfo,
-  .publicProfileInfo {
-    flex-direction: column;
-    align-items: center;
-    width: calc(100% + 40px);
-    max-width: 100vw;
-    height: 251px;
-    margin-left: -20px;
-    padding: 32px 32px 0;
-  }
-
-  .ownerProfileInfo .details,
-  .publicProfileInfo .details {
-    justify-items: center;
-    width: min(100%, 311px);
-    height: 50px;
-  }
-
-  .ownerProfileInfo .name,
-  .publicProfileInfo .name {
-    width: 100%;
-    font-size: 20px;
-    text-align: center;
-    color: var(--color-text-main);
-  }
-
-  .ownerProfileInfo .articlesAmount,
-  .publicProfileInfo .articlesAmount {
-    font-family: var(--font-family);
-    font-size: 16px;
-    text-align: center;
-    color: var(--color-text-main);
-  }
+  gap: 16px;
 }
 
 .avatar {
-  display: grid;
-  flex: 0 0 145px;
-  width: 145px;
-  height: 145px;
-  place-items: center;
   border-radius: 50%;
   object-fit: cover;
+  flex-shrink: 0;
+  width: 145px;
+  height: 145px;
 }
 
-.avatarPlaceholder {
-  background: var(--color-surface);
-  color: var(--color-green);
-  font-size: 24px;
-  font-weight: 700;
-}
-
-.details {
-  display: grid;
-  gap: 0;
-  min-width: 0;
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
 }
 
 .name {
-  overflow-wrap: anywhere;
-  font-family: var(--font-family);
-  font-weight: 700;
-  font-size: 32px;
-  line-height: 130%;
-  letter-spacing: 0;
+  margin: 0;
   color: var(--color-scheme-2-text);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
 }
 
-.articlesAmount {
-  font-family: var(--font-montserrat);
-  color: var(--color-text-muted);
-  font-size: 20px;
+.count {
+  margin: 0;
+  color: var(--color-scheme-2-text);
+  font-size: 16px;
   font-weight: 400;
-  line-height: 150%;
+  line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .info {
+    align-items: flex-start;
+    text-align: left;
+  }
+}
+
+@media (min-width: 1440px) {
+  .wrapper {
+    gap: 24px;
+    width: 590px;
+  }
+
+  .name {
+    font-size: 32px;
+  }
+
+  .count {
+    font-size: 20px;
+  }
 }

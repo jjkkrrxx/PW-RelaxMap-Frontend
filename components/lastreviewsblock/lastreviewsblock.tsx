@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useQuery } from "@tanstack/react-query";
-import { getLastReviews } from "@/components/utils/feedbacks";
-import ReviewsBlock from "@/components/reviewsblock/reviewsblock";
-import Loader from "@/components/loader/loader";
-import styles from "./lastreviewsblock.module.css";
+import { useQuery } from '@tanstack/react-query';
+import { getLastReviews } from '@/components/utils/feedbacks';
+import ReviewsBlock from '@/components/reviewsblock/reviewsblock';
+import Loader from '@/components/loader/loader';
+import styles from './lastreviewsblock.module.css';
 
 // Секція «Останні відгуки» на головній сторінці (учасник №12).
 export default function LastReviewsBlock() {
   const { data: reviews = [], isLoading } = useQuery({
-    queryKey: ["last-reviews"],
+    queryKey: ['last-reviews'],
     queryFn: getLastReviews,
   });
 

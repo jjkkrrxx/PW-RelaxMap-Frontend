@@ -81,6 +81,32 @@ body {
   font-family: var(--font-montserrat);
 }
 
+.pac-container {
+  border-radius: 12px;
+  background-color: var(--color-scheme-2-foreground);
+  border: 1px solid var(--opacity-neutral-darkest-15);
+  box-shadow: none;
+  font-family: inherit;
+  color: var(--color-neutral-dark);
+}
+
+.pac-item {
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.pac-item:hover {
+  background-color: var(--color-scheme-2-background);
+}
+
+.pac-item-query {
+  font-weight: 600;
+}
+
+.pac-icon {
+  display: none;
+}
+
 /* ── Phone, tablet, desktop ── */
 @media screen and (min-width: 375px) {
   .container {
