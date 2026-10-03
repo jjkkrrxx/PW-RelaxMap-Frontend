@@ -42,12 +42,16 @@ const locationFormSchema = Yup.object({
 
       return ALLOWED_IMAGE_TYPES.includes(value.type);
     })
-    .test('fileSize', 'Максимальний розмір файлу 1MB', value => {
-      if (typeof value === 'string') return true;
-      if (!(value instanceof File)) return false;
+    .test(
+      'fileSize',
+      'Зображення завелике. Будь ласка, оберіть інше.',
+      value => {
+        if (typeof value === 'string') return true;
+        if (!(value instanceof File)) return false;
 
-      return value.size <= MAX_FILE_SIZE;
-    }),
+        return value.size <= MAX_FILE_SIZE;
+      }
+    ),
   name: Yup.string()
     .required('Введіть назву')
     .min(3, 'Мінімум 3 символи')
