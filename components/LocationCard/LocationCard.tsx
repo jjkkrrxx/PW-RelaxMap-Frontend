@@ -1,5 +1,3 @@
-//components\LocationCard\LocationCard.tsx
-
 import { Location } from "@/types/location";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,10 +16,14 @@ const LocationCard = ({ location, isEditable = false }: LocationCardProps) => {
         alt={location.name}
         width={420}
         height={420}
-      ></Image>
+      />
+
       <p>{location.locationType}</p>
+
       <StarRating value={location.rate} />
-      <h2>{location.name}</h2>
+
+      <h3>{location.name}</h3>
+
       <Link href={`/locations/${location._id}`}>Переглянути локацію</Link>
 
       {isEditable && (

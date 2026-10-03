@@ -1,5 +1,3 @@
-//types\location.ts
-
 export interface Location {
   _id: string;
   image: string;
@@ -14,6 +12,6 @@ export interface Location {
   };
   ownerId: string;
   feedbacksId: string[];
-  createdAt: string;
-  updatedAt: string;
+  createdAt?: string;
+  updatedAt?: string;
 }

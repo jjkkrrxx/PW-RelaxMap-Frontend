@@ -1,5 +1,3 @@
-//components\utils\api-client.ts
-
 import axios, { AxiosError } from "axios";
 
 export type ApiError = AxiosError<{ message: string }>;
