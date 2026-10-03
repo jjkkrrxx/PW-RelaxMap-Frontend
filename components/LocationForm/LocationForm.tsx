@@ -13,6 +13,7 @@ import Select from './Select/Select';
 import Textarea from './Textarea/Textarea';
 import Button from './Button/Button';
 import { useRouter } from 'next/navigation';
+import LocationPicker from './LocationPicker/LocationPicker';
 
 export interface LocationFormValues {
   image: File | null | string;
@@ -20,6 +21,10 @@ export interface LocationFormValues {
   locationType: string;
   region: string;
   description: string;
+  coordinates: {
+    lat: number | null;
+    lon: number | null;
+  };
 }
 
 interface LocationFormProps {
@@ -53,6 +58,17 @@ const locationFormSchema = Yup.object({
     .required('Введіть опис')
     .min(20, 'Мінімум 20 символів')
     .max(6000, 'Максимум 6000 символів'),
+  coordinates: Yup.object({
+    lat: Yup.number().nullable().optional(),
+    lon: Yup.number().nullable().optional(),
+  })
+    .nullable()
+    .optional()
+    .test('coords-pair', 'Оберіть розташування', value => {
+      if (!value) return true;
+      const { lat, lon } = value;
+      return (lat == null && lon == null) || (lat != null && lon != null);
+    }),
 });
 
 function LocationForm({ values, edit }: LocationFormProps) {
@@ -62,6 +78,10 @@ function LocationForm({ values, edit }: LocationFormProps) {
     locationType: '',
     region: '',
     description: '',
+    coordinates: {
+      lat: null,
+      lon: null,
+    },
     ...values,
   };
 
@@ -122,6 +142,10 @@ function LocationForm({ values, edit }: LocationFormProps) {
             name="description"
             placeholder="Детальний опис локації"
             label="Детальний опис"
+          />
+          <LocationPicker
+            id={`location-${formId}`}
+            className={css.locationPicker}
           />
           <div className={css.buttons}>
             <Button
