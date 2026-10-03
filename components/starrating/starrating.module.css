@@ -9,12 +9,6 @@
   line-height: 0;
 }
 
-.large .star,
-.large .empty {
-  width: 32px;
-  height: 32px;
-}
-
 .star {
   display: block;
   fill: currentColor;
