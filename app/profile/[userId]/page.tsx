@@ -21,14 +21,15 @@ export default async function ProfilePage({ params }: Props) {
     notFound();
   }
 
-  const user = await userRes.json();
+  const userJson = await userRes.json();
+  const user = userJson.data;
 
   const locationsRes = await fetch(
     `${backendUrl}/api/users/${userId}/locations?page=1&limit=6`,
     { cache: 'no-store' },
   );
-  const locationsData = await locationsRes.json();
-  const locations = locationsData.locations ?? [];
+  const locationsJson = await locationsRes.json();
+  const locations = locationsJson.data ?? [];
 
   return (
     <main>
@@ -41,7 +42,7 @@ export default async function ProfilePage({ params }: Props) {
       <section>
         <h2>Локації користувача</h2>
 
-        {/* TODO: замінити на <LocationsGrid /> коли буде готовий компонент (#8) */}
+        {/* TODO: замінити на <LocationsGrid /> коли буде готовий (#8) */}
         {locations.length === 0 ? (
           <p>Користувач ще не ділився локаціями</p>
         ) : (
