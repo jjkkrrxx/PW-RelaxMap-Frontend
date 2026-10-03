@@ -1,9 +1,9 @@
 import Container from '@/components/Container/Container';
-import LocationForm from '@/components/LocationForm/LocationForm';
 
 import css from './EditLocationPage.module.css';
 import { getLocation } from '@/components/utils/locationForm';
 import { notFound } from 'next/navigation';
+import EditLocationClient from './EditLocationPage';
 
 interface EditLocationPageProps {
   params: Promise<{ id: string }>;
@@ -26,7 +26,7 @@ export default async function EditLocationPage({
     <main className={css.page}>
       <Container>
         <h2 className={css.title}>Редагування місця</h2>
-        <LocationForm edit values={data} />
+        <EditLocationClient id={id} data={data} />
       </Container>
     </main>
   );

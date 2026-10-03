@@ -12,7 +12,6 @@ import InputField from './InputField/InputField';
 import Select from './Select/Select';
 import Textarea from './Textarea/Textarea';
 import Button from './Button/Button';
-import { useRouter } from 'next/navigation';
 import LocationPicker from './LocationPicker/LocationPicker';
 
 export interface LocationFormValues {
@@ -30,6 +29,8 @@ export interface LocationFormValues {
 interface LocationFormProps {
   values?: LocationFormValues;
   edit?: boolean;
+  onSubmit: (values: LocationFormValues) => void;
+  isPending: boolean;
 }
 
 const locationFormSchema = Yup.object({
@@ -71,7 +72,12 @@ const locationFormSchema = Yup.object({
     }),
 });
 
-function LocationForm({ values, edit }: LocationFormProps) {
+function LocationForm({
+  values,
+  edit,
+  onSubmit,
+  isPending,
+}: LocationFormProps) {
   const initialValues: LocationFormValues = {
     image: null,
     name: '',
@@ -86,7 +92,6 @@ function LocationForm({ values, edit }: LocationFormProps) {
   };
 
   const formId = useId();
-  const router = useRouter();
 
   const { data } = useQuery({
     queryKey: ['categories'],
@@ -94,7 +99,7 @@ function LocationForm({ values, edit }: LocationFormProps) {
   });
 
   const handleSubmit = (values: LocationFormValues) => {
-    console.log(values);
+    onSubmit(values);
   };
 
   const locationTypes = data?.data.locationTypes ?? [];
@@ -148,20 +153,24 @@ function LocationForm({ values, edit }: LocationFormProps) {
             className={css.locationPicker}
           />
           <div className={css.buttons}>
-            <Button
-              className={css.button}
-              type="button"
-              secondary
-              onClick={() => router.back()}
-            >
+            <Button className={css.button} type="reset" secondary>
               Відмінити
             </Button>
             <Button
               className={css.button}
               type="submit"
-              disabled={!(isValid && dirty)}
+              disabled={!(isValid && dirty) || isPending}
             >
-              {edit ? 'Зберегти' : 'Опублікувати'}
+              {isPending ? (
+                <>
+                  <span>{edit ? 'Збереження' : 'Публікація'}</span>
+                  <span className={css.loader} />
+                </>
+              ) : edit ? (
+                'Зберегти'
+              ) : (
+                'Опублікувати'
+              )}
             </Button>
           </div>
         </Form>
