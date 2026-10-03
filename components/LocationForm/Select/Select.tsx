@@ -131,21 +131,24 @@ function Select({ options, placeholder, name, label, id }: SelectProps) {
   }, [highlightedIndex, isOpen]);
 
   useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
+    if (!isOpen) return;
+
+    const handlePointerDown = (event: PointerEvent) => {
       if (
         selectRef.current &&
         !selectRef.current.contains(event.target as Node)
       ) {
+        helpers.setTouched(true, false);
         setIsOpen(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('pointerdown', handlePointerDown);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('pointerdown', handlePointerDown);
     };
-  }, []);
+  }, [isOpen, helpers]);
 
   const hasError = Boolean(meta.touched && meta.error);
   return (

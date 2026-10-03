@@ -2,7 +2,7 @@
 
 import { Form, Formik } from 'formik';
 import css from './LocationForm.module.css';
-import { useId } from 'react';
+import { useId, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import * as Yup from 'yup';
 import { ALLOWED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/constants/image';
@@ -90,7 +90,7 @@ function LocationForm({
     },
     ...values,
   };
-
+  const [resetSignal, setResetSignal] = useState(0);
   const formId = useId();
 
   const { data } = useQuery({
@@ -112,7 +112,7 @@ function LocationForm({
       validationSchema={locationFormSchema}
       enableReinitialize
     >
-      {({ isValid, dirty }) => (
+      {({ isValid, dirty, resetForm }) => (
         <Form className={css.form}>
           <ImageUploadField
             name="image"
@@ -151,9 +151,18 @@ function LocationForm({
           <LocationPicker
             id={`location-${formId}`}
             className={css.locationPicker}
+            resetSignal={resetSignal}
           />
           <div className={css.buttons}>
-            <Button className={css.button} type="reset" secondary>
+            <Button
+              className={css.button}
+              type="button"
+              onClick={() => {
+                resetForm();
+                setResetSignal(prev => prev + 1);
+              }}
+              secondary
+            >
               Відмінити
             </Button>
             <Button

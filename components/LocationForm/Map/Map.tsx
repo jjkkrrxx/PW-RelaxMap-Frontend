@@ -20,6 +20,7 @@ interface MapProps {
   searchable?: boolean;
   onCoordinatesChange?: (coords: { lat: number; lon: number }) => void;
   id?: string;
+  resetSignal?: number;
 }
 
 const defaultCenter = {
@@ -32,11 +33,18 @@ function MapContent({
   searchable,
   onCoordinatesChange,
   id,
+  resetSignal,
 }: MapProps) {
   const map = useMap();
 
   useEffect(() => {
-    if (!map || coordinates.lat === null || coordinates.lon === null) return;
+    if (!map) return;
+
+    if (coordinates.lat === null || coordinates.lon === null) {
+      map.panTo(defaultCenter);
+      map.setZoom(6);
+      return;
+    }
 
     map.panTo({
       lat: coordinates.lat,
@@ -57,7 +65,11 @@ function MapContent({
   return (
     <>
       {searchable && onCoordinatesChange && (
-        <SearchBox onSelect={onCoordinatesChange} id={id} />
+        <SearchBox
+          onSelect={onCoordinatesChange}
+          id={id}
+          resetSignal={resetSignal}
+        />
       )}
 
       <GoogleMap
