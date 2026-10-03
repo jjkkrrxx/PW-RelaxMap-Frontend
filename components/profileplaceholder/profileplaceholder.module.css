@@ -1,17 +1,18 @@
+/* Порожній стан профілю. Значення з Figma (375 / 768 / 1440). */
+
 .wrapper {
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 40px 32px;
+  padding: 20px;
   background-color: var(--color-scheme-2-foreground);
   border-radius: 24px;
-  max-width: 533px;
 }
 
 .text {
   margin: 0;
   color: var(--color-scheme-1-text);
-  font-size: 26px;
+  font-size: 18px;
   font-weight: 700;
   line-height: 1.4;
   letter-spacing: -0.01em;
@@ -21,22 +22,22 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 208px;
+  align-self: stretch;
   min-height: 48px;
   padding: 6px 12px;
   background-color: var(--color-coral-dark);
   color: var(--color-white);
   border: 1px solid var(--color-coral-dark);
   border-radius: 6px;
-  font-size: 14px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
   text-decoration: none;
   cursor: pointer;
   transition:
     background-color 0.2s ease,
     color 0.2s ease,
     border-color 0.2s ease;
-  align-self: flex-start;
 }
 
 .button:hover {
@@ -47,6 +48,32 @@
 
 @media (min-width: 768px) {
   .wrapper {
-    gap: 24px;
+    padding: 32px;
+    max-width: 533px;
+  }
+
+  .text {
+    max-width: 363px;
+  }
+
+  .button {
+    align-self: flex-start;
+    min-width: 204px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .wrapper {
+    padding: 40px 32px;
+  }
+
+  .text {
+    font-size: 26px;
+  }
+
+  .button {
+    align-self: flex-start;
+    min-width: 208px;
+    font-size: 14px;
   }
 }

@@ -1,3 +1,4 @@
+/* Картка профілю. Значення з Figma (375 / 768 / 1440). */
 
 .wrapper {
   display: flex;
@@ -10,8 +11,8 @@
   border-radius: 50%;
   object-fit: cover;
   flex-shrink: 0;
-  width: 96px;
-  height: 96px;
+  width: 145px;
+  height: 145px;
 }
 
 .info {
@@ -34,7 +35,7 @@
 .count {
   margin: 0;
   color: var(--color-scheme-2-text);
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 400;
   line-height: 1.5;
 }
@@ -46,23 +47,9 @@
     gap: 24px;
   }
 
-  .avatar {
-    width: 120px;
-    height: 120px;
-  }
-
   .info {
     align-items: flex-start;
-    gap: 6px;
     text-align: left;
-  }
-
-  .name {
-    font-size: 24px;
-  }
-
-  .count {
-    font-size: 16px;
   }
 }
 
@@ -70,11 +57,6 @@
   .wrapper {
     gap: 24px;
     width: 590px;
-  }
-
-  .avatar {
-    width: 145px;
-    height: 145px;
   }
 
   .name {

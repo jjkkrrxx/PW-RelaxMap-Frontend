@@ -1,6 +1,9 @@
 import Image from 'next/image';
 import styles from './profileinfo.module.css';
 
+const DEFAULT_AVATAR =
+  'https://ac.goit.global/fullstack/react/default-avatar.jpg';
+
 type ProfileInfoProps = {
   name: string;
   avatar: string;
@@ -15,7 +18,7 @@ export default function ProfileInfo({
   return (
     <div className={styles.wrapper}>
       <Image
-        src={avatar}
+        src={avatar || DEFAULT_AVATAR}
         alt={name}
         width={145}
         height={145}

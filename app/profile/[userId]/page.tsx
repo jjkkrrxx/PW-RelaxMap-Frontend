@@ -27,11 +27,16 @@ export default async function ProfilePage({ params }: Props) {
   const user = userJson.data;
 
   const locationsRes = await fetch(
-    `${backendUrl}/api/users/${userId}/locations?page=1&limit=6`,
-    { cache: 'no-store' },
-  );
-  const locationsJson = await locationsRes.json();
-  const locations = locationsJson.data ?? [];
+  `${backendUrl}/api/users/${userId}/locations?page=1&limit=9`,
+  { cache: 'no-store' },
+);
+
+if (!locationsRes.ok) {
+  notFound();
+}
+
+const locationsJson = await locationsRes.json();
+const locations = locationsJson.data ?? [];
 
   return (
     <main className={styles.page}>
