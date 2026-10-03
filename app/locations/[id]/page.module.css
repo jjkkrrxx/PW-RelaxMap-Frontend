@@ -1,5 +1,6 @@
 .page {
-  padding: 32px 0;
+  /* знизу без відступу: далі йде секція відгуків зі своїм верхнім відступом */
+  padding: 32px 0 0;
 }
 
 .container {
@@ -48,7 +49,7 @@
 
 @media (min-width: 1440px) {
   .page {
-    padding: 48px 0;
+    padding: 48px 0 0;
   }
 
   .container {

@@ -1,0 +1,51 @@
+.form {
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.locationPicker {
+  margin-bottom: 60px;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.loader {
+  width: 30px;
+  aspect-ratio: 5;
+  background: radial-gradient(
+      circle closest-side,
+      var(--color-white) 90%,
+      #0000
+    )
+    0 / calc(100% / 3) 100% space;
+  clip-path: inset(0 100% 0 0);
+  animation: l1 1s steps(4) infinite;
+}
+
+@keyframes l1 {
+  to {
+    clip-path: inset(0 -34% 0 0);
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .buttons {
+    max-width: 422px;
+    flex-direction: row-reverse;
+    gap: 16px;
+  }
+}
