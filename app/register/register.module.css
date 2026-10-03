@@ -6,7 +6,6 @@
     width: calc(100% - 128px);
     max-width: 1312px;
     margin: 0 auto;
-
     padding: 64px 0;
 
     display: flex;
@@ -23,7 +22,6 @@
     gap: 32px;
 }
 
-/* tablet */
 @media (min-width: 768px) and (max-width: 1439px) {
     .content {
         width: calc(100% - 64px);
@@ -35,16 +33,13 @@
     }
 }
 
-/* mobile */
 @media (max-width: 767px) {
     .content {
-        width: 100%;
         padding: 32px 20px;
     }
 
     .authWrapper {
-        width: 100%;
-        max-width: 335px;
+        width: 335px;
         gap: 32px;
     }
 }

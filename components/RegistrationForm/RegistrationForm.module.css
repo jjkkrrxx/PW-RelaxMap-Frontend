@@ -17,7 +17,7 @@
     letter-spacing: -0.01em;
     text-align: center;
 
-    color: var(--color-scheme-1-text);
+    color: #000000;
 }
 
 .form {
@@ -41,7 +41,7 @@
     font-size: 18px;
     line-height: 1.5;
 
-    color: var(--color-scheme-1-text);
+    color: #000000;
 }
 
 .input {
@@ -50,19 +50,19 @@
 
     padding: 8px;
 
-    border: 1px solid var(--opacity-neutral-darkest-15);
+    border: 1px solid rgba(0, 0, 0, 0.15);
     border-radius: 6px;
 
     font-weight: 400;
     font-size: 18px;
     line-height: 1.5;
 
-    color: var(--color-scheme-1-text);
-    background: var(--color-scheme-2-foreground);
+    color: #000000;
+    background: #ffe5d9;
 }
 
 .input::placeholder {
-    color: var(--opacity-neutral-darkest-60);
+    color: rgba(0, 0, 0, 0.6);
 }
 
 .error {
@@ -71,7 +71,7 @@
     font-size: 14px;
     line-height: 1.3;
 
-    color: #d44333;
+    color: #b00101;
 }
 
 .button {
@@ -80,21 +80,23 @@
 
     padding: 6px 12px;
 
-    border: 1px solid var(--color-coral-dark);
+    border: 1px solid #cc6534;
     border-radius: 6px;
 
     font-weight: 500;
     font-size: 20px;
     line-height: 1.5;
 
-    color: var(--color-white);
-    background: var(--color-coral-dark);
+    color: #ffffff;
+    background: #cc6534;
 
     cursor: pointer;
 }
 
 .button:hover:not(:disabled) {
-    opacity: 0.9;
+    background: #ffe5d9;
+    color: #1b391b;
+    border-color: #cc6534;
 }
 
 .button:disabled {
@@ -102,7 +104,6 @@
     cursor: not-allowed;
 }
 
-/* tablet */
 @media (min-width: 768px) and (max-width: 1439px) {
     .section {
         width: 644px;
@@ -134,7 +135,6 @@
     }
 }
 
-/* mobile */
 @media (max-width: 767px) {
     .section {
         width: 335px;
