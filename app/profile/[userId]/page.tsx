@@ -1,5 +1,7 @@
 import { notFound } from 'next/navigation';
 import ProfileInfo from '@/components/profileinfo/profileinfo';
+import ProfilePlaceholder from '@/components/profileplaceholder/profileplaceholder';
+import styles from './page.module.css';
 
 type Props = {
   params: Promise<{ userId: string }>;
@@ -32,23 +34,25 @@ export default async function ProfilePage({ params }: Props) {
   const locations = locationsJson.data ?? [];
 
   return (
-    <main>
+    <main className={styles.page}>
       <ProfileInfo
         name={user.name}
         avatar={user.avatar}
         articlesAmount={user.articlesAmount}
       />
 
-      <section>
-        <h2>Локації користувача</h2>
+      <section className={styles.locations}>
+        <h2 className={styles.heading}>Локації</h2>
 
         {/* TODO: замінити на <LocationsGrid /> коли буде готовий (#8) */}
         {locations.length === 0 ? (
-          <p>Користувач ще не ділився локаціями</p>
+          <ProfilePlaceholder userId={userId} />
         ) : (
-          <ul>
+          <ul className={styles.grid}>
             {locations.map((loc: { _id: string; name: string }) => (
-              <li key={loc._id}>{loc.name}</li>
+              <li key={loc._id} className={styles.card}>
+                {loc.name}
+              </li>
             ))}
           </ul>
         )}

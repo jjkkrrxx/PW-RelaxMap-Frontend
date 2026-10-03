@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import styles from './profileinfo.module.css';
 
 type ProfileInfoProps = {
   name: string;
@@ -12,19 +13,18 @@ export default function ProfileInfo({
   articlesAmount,
 }: ProfileInfoProps) {
   return (
-    <div className="profile-info">
+    <div className={styles.wrapper}>
       <Image
         src={avatar}
         alt={name}
-        width={120}
-        height={120}
-        className="profile-info__avatar"
+        width={145}
+        height={145}
+        className={styles.avatar}
+        priority
       />
-      <div className="profile-info__text">
-        <h1 className="profile-info__name">{name}</h1>
-        <p className="profile-info__count">
-          Опубліковано локацій: {articlesAmount}
-        </p>
+      <div className={styles.info}>
+        <h1 className={styles.name}>{name}</h1>
+        <p className={styles.count}>Статей: {articlesAmount}</p>
       </div>
     </div>
   );
