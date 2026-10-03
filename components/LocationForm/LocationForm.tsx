@@ -2,17 +2,16 @@
 
 import { Form, Formik } from 'formik';
 import css from './LocationForm.module.css';
-import { useId, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useEffect, useId, useState } from 'react';
 import * as Yup from 'yup';
 import { ALLOWED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/constants/image';
-import { fetchCategories } from '../utils/locationForm';
 import ImageUploadField from './ImageUploadField/ImageUploadField';
 import InputField from './InputField/InputField';
 import Select from './Select/Select';
 import Textarea from './Textarea/Textarea';
 import Button from './Button/Button';
 import LocationPicker from './LocationPicker/LocationPicker';
+import { useCategoriesStore } from '@/lib/store/categoriesStore';
 
 export interface LocationFormValues {
   image: File | null | string;
@@ -92,18 +91,28 @@ function LocationForm({
   };
   const [resetSignal, setResetSignal] = useState(0);
   const formId = useId();
+  const categories = useCategoriesStore(state => state.categories);
+  const hasHydrated = useCategoriesStore(state => state.hasHydrated);
+  const fetchIfEmpty = useCategoriesStore(state => state.fetchIfEmpty);
 
-  const { data } = useQuery({
-    queryKey: ['categories'],
-    queryFn: fetchCategories,
-  });
+  useEffect(() => {
+    if (!useCategoriesStore.persist.hasHydrated()) {
+      void useCategoriesStore.persist.rehydrate();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (hasHydrated) {
+      void fetchIfEmpty();
+    }
+  }, [fetchIfEmpty, hasHydrated]);
 
   const handleSubmit = (values: LocationFormValues) => {
     onSubmit(values);
   };
 
-  const locationTypes = data?.data.locationTypes ?? [];
-  const regions = data?.data.regions ?? [];
+  const locationTypes = categories?.locationTypes ?? [];
+  const regions = categories?.regions ?? [];
 
   return (
     <Formik

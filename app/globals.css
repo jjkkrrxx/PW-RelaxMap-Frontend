@@ -1,7 +1,8 @@
-@import 'modern-normalize/modern-normalize.css';
+@import "modern-normalize/modern-normalize.css";
 
 :root {
-  --font-montserrat: 'Montserrat', sans-serif;
+  --font-montserrat: "Montserrat", sans-serif;
+  --font-family: var(--font-montserrat);
 
   /* Colors from the Figma design (file 139uPoMOT1RJ51sirdNQPX) */
   --color-brand: #cc6534; /* accent: primary buttons, links, active states */

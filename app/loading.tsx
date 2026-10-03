@@ -1,9 +1,5 @@
-import styles from './loading.module.css';
+import Loader from "@/components/loader/loader";
 
 export default function Loading() {
-  return (
-    <div className={styles.loaderContainer}>
-      <div className={styles.spinner}></div>
-    </div>
-  );
+  return <Loader fullscreen />;
 }
