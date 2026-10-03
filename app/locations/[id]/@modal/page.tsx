@@ -1,4 +1,12 @@
-// На самій сторінці локації слот порожній — модалка закрита.
-export default function ModalClosed() {
-  return null;
+import React from 'react';
+import AddReviewModal from '@/components/addreviewmodal/addreviewmodal';
+
+interface Props {
+  params: Promise<{ id: string }>;
+}
+
+export default async function ReviewPage({ params }: Props) {  
+  await params;
+
+  return AddReviewModal;
 }
