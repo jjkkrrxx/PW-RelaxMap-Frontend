@@ -1,7 +1,7 @@
 'use client';
 
 import css from './SearchBox.module.css';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
 import Button from '../Button/Button';
 
@@ -15,6 +15,19 @@ export default function SearchBox({ onSelect, id }: SearchBoxProps) {
 
   const map = useMap();
   const places = useMapsLibrary('places');
+
+  const handleLocation = useCallback(
+    (location: google.maps.LatLng) => {
+      const lat = location.lat();
+      const lon = location.lng();
+
+      onSelect({ lat, lon });
+
+      map?.panTo({ lat, lng: lon });
+      map?.setZoom(15);
+    },
+    [map, onSelect]
+  );
 
   useEffect(() => {
     if (!places || !map || !inputRef.current) return;
@@ -30,24 +43,45 @@ export default function SearchBox({ onSelect, id }: SearchBoxProps) {
 
       if (!place.geometry?.location) return;
 
-      const lat = place.geometry.location.lat();
-      const lon = place.geometry.location.lng();
-
-      onSelect({
-        lat,
-        lon,
-      });
-
-      map.panTo({
-        lat,
-        lng: lon,
-      });
-
-      map.setZoom(15);
+      handleLocation(place.geometry.location);
     });
 
     return () => listener.remove();
-  }, [places, map, onSelect]);
+  }, [places, map, handleLocation]);
+
+  const handleSearch = () => {
+    if (!places || !map || !inputRef.current?.value) return;
+
+    const service = new places.PlacesService(map);
+
+    service.findPlaceFromQuery(
+      {
+        query: inputRef.current.value,
+        fields: ['geometry'],
+      },
+      (results, status) => {
+        if (
+          status !== google.maps.places.PlacesServiceStatus.OK ||
+          !results?.length
+        ) {
+          return;
+        }
+
+        const location = results[0].geometry?.location;
+
+        if (!location) return;
+
+        handleLocation(location);
+      }
+    );
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSearch();
+    }
+  };
 
   return (
     <div className={css.wrapper}>
@@ -57,9 +91,15 @@ export default function SearchBox({ onSelect, id }: SearchBoxProps) {
         placeholder="Пошук місця..."
         className={css.input}
         id={id}
+        onKeyDown={handleKeyDown}
       />
 
-      <Button type="button" secondary className={css.button}>
+      <Button
+        type="button"
+        secondary
+        className={css.button}
+        onClick={handleSearch}
+      >
         Пошук
       </Button>
     </div>
