@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 // "Мій профіль" — приватний; /profile/[userId] (чужий профіль) — публічний
 const PRIVATE_EXACT = ['/profile'];
 const PRIVATE_PATTERNS = [
-  /^\/locations\/add\/?$/,
+  // /^\/locations\/add\/?$/,
   /^\/locations\/[^/]+\/edit\/?$/, // /locations/[id]/edit
 ];
 const AUTH_ROUTES = ['/login', '/register'];

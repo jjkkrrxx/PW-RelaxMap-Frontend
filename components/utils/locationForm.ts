@@ -1,7 +1,6 @@
 import { apiClient } from './api-client';
 import { LocationFormValues } from '../LocationForm/LocationForm';
 import { serverApi } from './serverApi';
-import axios from 'axios';
 
 export const fetchCategories = async () => {
   const { data } = await apiClient.get('/categories');
@@ -42,8 +41,8 @@ const buildLocationFormData = (values: LocationFormValues) => {
 };
 
 export const createLocation = async (values: LocationFormValues) => {
-  const { data } = await axios.post(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/locations`,
+  const { data } = await apiClient.post(
+    '/locations',
     buildLocationFormData(values)
   );
 
@@ -54,10 +53,10 @@ export const updateLocation = async (
   id: string,
   values: LocationFormValues
 ) => {
-  const {data} = await axios.patch(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/locations/${id}`,
+  const { data } = await apiClient.patch(
+    `/locations/${id}`,
     buildLocationFormData(values)
   );
 
-  return data
+  return data;
 };
