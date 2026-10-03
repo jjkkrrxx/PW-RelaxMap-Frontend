@@ -1,0 +1,131 @@
+/* За екраном «Підтвердження виходу» у Figma (375 / 768 / 1440) */
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+/* у Figma заголовок і підзаголовок чорні (Color Scheme 1/Text) */
+.title {
+  margin: 0;
+  color: #000;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.subtitle {
+  margin: 0;
+  color: #000;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+/* 375px: кнопки одна під одною на всю ширину */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* кнопки: 203×48, радіус 6, текст 16/24 (20/30 на 1440) */
+.cancelButton,
+.confirmButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 11px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Secondary — як «Вхід» у шапці */
+.cancelButton {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #4c2613;
+}
+
+.cancelButton:hover:not(:disabled) {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.confirmButton {
+  border: 1px solid var(--color-brand);
+  background-color: var(--color-brand);
+  color: #fff;
+}
+
+.confirmButton:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--color-brand);
+}
+
+.cancelButton:disabled,
+.confirmButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.loader {
+  width: 20px;
+  height: 20px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* tablet: кнопки в ряд по 203px */
+@media (min-width: 768px) {
+  .title {
+    font-size: 32px;
+  }
+
+  .actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .cancelButton,
+  .confirmButton {
+    width: 203px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .title {
+    font-size: 48px;
+  }
+
+  .subtitle {
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  .cancelButton,
+  .confirmButton {
+    padding: 8px 24px;
+    font-size: 20px;
+    line-height: 30px;
+  }
+}

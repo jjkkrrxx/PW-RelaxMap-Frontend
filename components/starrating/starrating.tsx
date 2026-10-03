@@ -1,5 +1,7 @@
 'use client';
 
+import { useRef } from 'react';
+import { Icon } from '@/components/Icon/Icon';
 import styles from './starrating.module.css';
 
 interface Props {
@@ -7,29 +9,17 @@ interface Props {
   max?: number;
   editable?: boolean;
   onChange?: (value: number) => void;
+  size?: 24 | 32; // у формі відгуку зірки 32×32
 }
 
 type Fill = 'full' | 'half' | 'empty';
 
-// Іконки star_filled і star_half з макета Figma (24×24).
-const STAR_FILLED =
-  'M12.0061 16.4134L7.77685 19.6357C7.60685 19.7644 7.43485 19.8204 7.26085 19.8037C7.08701 19.787 6.92543 19.731 6.7761 19.6357C6.62693 19.5405 6.52018 19.4111 6.45585 19.2474C6.39151 19.0839 6.38635 18.9005 6.44035 18.6972L8.05435 13.4417L3.9061 10.4574C3.7361 10.3416 3.62635 10.1955 3.57685 10.0192C3.52718 9.84303 3.53135 9.67628 3.58935 9.51895C3.64718 9.36578 3.74143 9.22803 3.8721 9.1057C4.00276 8.98336 4.17568 8.9222 4.39085 8.9222H9.53435L11.1793 3.4417C11.2333 3.23453 11.3402 3.07911 11.4998 2.97545C11.6595 2.87178 11.8263 2.81995 12.0001 2.81995C12.1739 2.81995 12.3407 2.87178 12.5003 2.97545C12.66 3.07911 12.7688 3.23453 12.8268 3.4417L14.4658 8.9222H19.6153C19.8265 8.9222 19.9974 8.98336 20.1281 9.1057C20.2588 9.22803 20.353 9.36578 20.4108 9.51895C20.4688 9.67628 20.473 9.84303 20.4233 10.0192C20.3738 10.1955 20.2641 10.3416 20.0941 10.4574L15.9458 13.4417L17.5598 18.6912C17.6138 18.8985 17.6087 19.0829 17.5443 19.2444C17.48 19.4061 17.3733 19.5346 17.2241 19.6299C17.0748 19.7291 16.9141 19.787 16.7421 19.8037C16.5703 19.8204 16.3993 19.7624 16.2293 19.6299L12.0061 16.4134Z';
-
-const STAR_HALF =
-  'M12.0001 5.99948V15.4592L15.8413 17.7805L14.8093 13.432L18.1876 10.4917L13.7333 10.1037L12.0001 5.99948ZM12.0001 17.4425L7.33807 20.2542C7.18091 20.3496 7.01732 20.3921 6.84732 20.3817C6.67749 20.3714 6.52624 20.3186 6.39357 20.2232C6.26091 20.1281 6.16241 20.0048 6.09807 19.8535C6.03391 19.7023 6.02041 19.5314 6.05757 19.3407L7.28857 14.0287L3.17682 10.4417C3.02749 10.3132 2.93632 10.1682 2.90332 10.0065C2.87032 9.84499 2.87449 9.68757 2.91582 9.53423C2.95316 9.3809 3.03916 9.25149 3.17382 9.14599C3.30832 9.04032 3.47091 8.97915 3.66157 8.96248L9.09832 8.48748L11.2043 3.46949C11.279 3.29565 11.392 3.16623 11.5433 3.08123C11.6945 2.99623 11.8467 2.95374 12.0001 2.95374C12.1534 2.95374 12.3057 2.99623 12.4568 3.08123C12.6082 3.16623 12.7212 3.29565 12.7958 3.46949L14.9018 8.48748L20.3446 8.96248C20.5312 8.97915 20.6918 9.04032 20.8263 9.14599C20.961 9.25149 21.047 9.3809 21.0843 9.53423C21.1257 9.68757 21.1298 9.84499 21.0968 10.0065C21.0638 10.1682 20.9727 10.3132 20.8233 10.4417L16.7116 14.0287L17.9426 19.3407C17.9797 19.5314 17.9662 19.7023 17.9021 19.8535C17.8377 20.0048 17.7392 20.1281 17.6066 20.2232C17.4739 20.3186 17.3227 20.3714 17.1528 20.3817C16.9828 20.3921 16.8192 20.3496 16.6621 20.2542L12.0001 17.4425Z';
-
-function Star({ fill }: { fill: Fill }) {
-  // Порожньої зірки в макеті немає — малюємо контур тієї ж форми, що й повна.
-  return (
-    <svg
-      className={fill === 'empty' ? styles.empty : styles.star}
-      viewBox="0 0 24 24"
-      aria-hidden="true"
-    >
-      <path d={fill === 'half' ? STAR_HALF : STAR_FILLED} />
-    </svg>
-  );
-}
+// Іконки зі спільного спрайта (макет Figma): повна, половина, невибрана.
+const ICONS: Record<Fill, string> = {
+  full: 'icon-star_filled',
+  half: 'icon-star_half',
+  empty: 'icon-star_rate',
+};
 
 // Рейтинг зірками з підтримкою половинок.
 // editable=true — інтерактивний вибір цілої оцінки (для форми відгуку).
@@ -38,7 +28,9 @@ export default function StarRating({
   max = 5,
   editable = false,
   onChange,
+  size = 24,
 }: Props) {
+  const buttons = useRef<(HTMLButtonElement | null)[]>([]);
   const rounded = Math.round(value * 2) / 2; // округлення до 0.5
 
   const fillFor = (i: number): Fill => {
@@ -47,27 +39,71 @@ export default function StarRating({
     return 'empty';
   };
 
+  const star = (i: number) => (
+    <Icon name={ICONS[fillFor(i)]} size={size} className={styles.star} />
+  );
+
+  if (!editable) {
+    return (
+      <div
+        className={styles.stars}
+        role="img"
+        aria-label={`Рейтинг ${value} з ${max}`}
+      >
+        {Array.from({ length: max }, (_, i) => (
+          <span key={i} className={styles.item}>
+            {star(i)}
+          </span>
+        ))}
+      </div>
+    );
+  }
+
+  const select = (next: number) => {
+    onChange?.(next);
+    buttons.current[next - 1]?.focus();
+  };
+
+  // Стрілки — як у радіогрупі: ←/↓ попередня оцінка, →/↑ наступна
+  const handleKeyDown = (event: React.KeyboardEvent, i: number) => {
+    const current = i + 1;
+    let next = current;
+
+    if (event.key === 'ArrowRight' || event.key === 'ArrowUp') {
+      next = current === max ? 1 : current + 1;
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowDown') {
+      next = current === 1 ? max : current - 1;
+    } else {
+      return;
+    }
+
+    event.preventDefault();
+    select(next);
+  };
+
+  // у Tab-порядку лише вибрана зірка (або перша, якщо оцінку ще не обрано)
+  const tabStop = rounded >= 1 ? Math.floor(rounded) : 1;
+
   return (
-    <div
-      className={styles.stars}
-      role={editable ? 'radiogroup' : 'img'}
-      aria-label={`Рейтинг ${value} з ${max}`}
-    >
-      {Array.from({ length: max }, (_, i) =>
-        editable ? (
-          <button
-            key={i}
-            type="button"
-            className={styles.button}
-            aria-label={`${i + 1} з ${max}`}
-            onClick={() => onChange?.(i + 1)}
-          >
-            <Star fill={fillFor(i)} />
-          </button>
-        ) : (
-          <Star key={i} fill={fillFor(i)} />
-        ),
-      )}
+    <div className={styles.stars} role="radiogroup" aria-label="Оцінка">
+      {Array.from({ length: max }, (_, i) => (
+        <button
+          key={i}
+          ref={(el) => {
+            buttons.current[i] = el;
+          }}
+          type="button"
+          className={styles.button}
+          role="radio"
+          aria-checked={rounded === i + 1}
+          aria-label={`${i + 1} з ${max}`}
+          tabIndex={tabStop === i + 1 ? 0 : -1}
+          onClick={() => onChange?.(i + 1)}
+          onKeyDown={(event) => handleKeyDown(event, i)}
+        >
+          {star(i)}
+        </button>
+      ))}
     </div>
   );
 }

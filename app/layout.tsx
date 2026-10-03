@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Montserrat } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import Providers from '@/components/providers/providers';
+import Header from '@/components/Header/Header';
 import './globals.css';
 
 const montserrat = Montserrat({
@@ -27,6 +28,7 @@ export default function RootLayout({
     <html lang="uk" className={montserrat.variable}>
       <body>
         <Providers>
+          <Header />
           {children}
           <Toaster 
             position="top-right" 

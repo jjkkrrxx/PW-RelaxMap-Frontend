@@ -1,0 +1,36 @@
+.wrapper {
+  width: 100%;
+  max-width: 335px;
+  color: var(--color-green);
+  font-family: var(--font-montserrat);
+}
+
+.text {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.text + .text {
+  margin-top: 16px;
+}
+
+@media (min-width: 768px) {
+  .wrapper {
+    max-width: 704px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .wrapper {
+    max-width: 865px;
+    margin: 0 auto;
+  }
+
+  .text {
+    font-size: 18px;
+  }
+}
