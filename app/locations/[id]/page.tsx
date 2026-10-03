@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { cache } from 'react';
 import { notFound } from 'next/navigation';
 import LocationInfoBlock from '@/components/locationinfoblock/locationinfoblock';
 import LocationGallery from '@/components/locationgallery/locationgallery';
@@ -15,7 +16,7 @@ interface LocationResponse {
   data: LocationDetails;
 }
 
-async function getLocation(id: string): Promise<LocationDetails> {
+const getLocation = cache(async (id: string): Promise<LocationDetails> => {
   const backendUrl = process.env.BACKEND_URL;
 
   if (!backendUrl) {
@@ -27,7 +28,7 @@ async function getLocation(id: string): Promise<LocationDetails> {
     { cache: 'no-store' }
   );
 
-  if (response.status === 404) {
+  if (response.status === 400 || response.status === 404) {
     notFound();
   }
 
@@ -42,7 +43,7 @@ async function getLocation(id: string): Promise<LocationDetails> {
   }
 
   return location;
-}
+});
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
