@@ -1,18 +1,17 @@
-'use client';
+"use client";
 
-import { Form, Formik } from 'formik';
-import css from './LocationForm.module.css';
-import { useId } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import * as Yup from 'yup';
-import { ALLOWED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/constants/image';
-import { fetchCategories } from '../utils/locationForm';
-import ImageUploadField from './ImageUploadField/ImageUploadField';
-import InputField from './InputField/InputField';
-import Select from './Select/Select';
-import Textarea from './Textarea/Textarea';
-import Button from './Button/Button';
-import { useRouter } from 'next/navigation';
+import { Form, Formik } from "formik";
+import css from "./LocationForm.module.css";
+import { useEffect, useId } from "react";
+import * as Yup from "yup";
+import { ALLOWED_IMAGE_TYPES, MAX_FILE_SIZE } from "@/constants/image";
+import ImageUploadField from "./ImageUploadField/ImageUploadField";
+import InputField from "./InputField/InputField";
+import Select from "./Select/Select";
+import Textarea from "./Textarea/Textarea";
+import Button from "./Button/Button";
+import { useRouter } from "next/navigation";
+import { useCategoriesStore } from "@/lib/store/categoriesStore";
 
 export interface LocationFormValues {
   image: File | null | string;
@@ -30,55 +29,63 @@ interface LocationFormProps {
 const locationFormSchema = Yup.object({
   image: Yup.mixed<File | string>()
     .nullable()
-    .required('Завантажте зображення')
-    .test('fileType', 'Дозволені тільки PNG або JPG зображення', value => {
-      if (typeof value === 'string') return true;
+    .required("Завантажте зображення")
+    .test("fileType", "Дозволені тільки PNG або JPG зображення", (value) => {
+      if (typeof value === "string") return true;
       if (!(value instanceof File)) return false;
 
       return ALLOWED_IMAGE_TYPES.includes(value.type);
     })
-    .test('fileSize', 'Максимальний розмір файлу 1MB', value => {
-      if (typeof value === 'string') return true;
+    .test("fileSize", "Максимальний розмір файлу 1MB", (value) => {
+      if (typeof value === "string") return true;
       if (!(value instanceof File)) return false;
 
       return value.size <= MAX_FILE_SIZE;
     }),
   name: Yup.string()
-    .required('Введіть назву')
-    .min(3, 'Мінімум 3 символи')
-    .max(96, 'Максимум 96 символів'),
-  locationType: Yup.string().required('Оберіть тип місця'),
-  region: Yup.string().required('Оберіть регіон'),
+    .required("Введіть назву")
+    .min(3, "Мінімум 3 символи")
+    .max(96, "Максимум 96 символів"),
+  locationType: Yup.string().required("Оберіть тип місця"),
+  region: Yup.string().required("Оберіть регіон"),
   description: Yup.string()
-    .required('Введіть опис')
-    .min(20, 'Мінімум 20 символів')
-    .max(6000, 'Максимум 6000 символів'),
+    .required("Введіть опис")
+    .min(20, "Мінімум 20 символів")
+    .max(6000, "Максимум 6000 символів"),
 });
 
 function LocationForm({ values, edit }: LocationFormProps) {
   const initialValues: LocationFormValues = {
     image: null,
-    name: '',
-    locationType: '',
-    region: '',
-    description: '',
+    name: "",
+    locationType: "",
+    region: "",
+    description: "",
     ...values,
   };
 
   const formId = useId();
   const router = useRouter();
+  const categories = useCategoriesStore((state) => state.categories);
+  const hasHydrated = useCategoriesStore((state) => state.hasHydrated);
+  const fetchIfEmpty = useCategoriesStore((state) => state.fetchIfEmpty);
 
-  const { data } = useQuery({
-    queryKey: ['categories'],
-    queryFn: fetchCategories,
-  });
+  useEffect(() => {
+    void useCategoriesStore.persist.rehydrate();
+  }, []);
+
+  useEffect(() => {
+    if (hasHydrated) {
+      void fetchIfEmpty();
+    }
+  }, [fetchIfEmpty, hasHydrated]);
 
   const handleSubmit = (values: LocationFormValues) => {
     console.log(values);
   };
 
-  const locationTypes = data?.data.locationTypes ?? [];
-  const regions = data?.data.regions ?? [];
+  const locationTypes = categories?.locationTypes ?? [];
+  const regions = categories?.regions ?? [];
 
   return (
     <Formik
@@ -137,7 +144,7 @@ function LocationForm({ values, edit }: LocationFormProps) {
               type="submit"
               disabled={!(isValid && dirty)}
             >
-              {edit ? 'Зберегти' : 'Опублікувати'}
+              {edit ? "Зберегти" : "Опублікувати"}
             </Button>
           </div>
         </Form>

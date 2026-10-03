@@ -1,0 +1,220 @@
+.placeholder {
+  display: grid;
+  justify-items: start;
+  gap: 16px;
+  width: min(100%, 533px);
+  max-width: 768px;
+  height: 232px;
+  padding: 40px 32px;
+  border-radius: 24px;
+  background: var(--color-surface);
+}
+
+.ownerPlaceholder {
+  width: min(calc(100% - 64px), 533px);
+  margin: 48px 0 72px 64px;
+  height: 268px;
+  background: var(--color-scheme-2-foreground);
+}
+
+@media (min-width: 768px) and (max-width: 1439px) {
+  .ownerPlaceholder {
+    gap: 32px;
+    width: min(100%, 533px);
+    height: 210px;
+    margin: 0;
+  }
+
+  .ownerPlaceholder .message {
+    width: 100%;
+    height: auto;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 767px) {
+  .ownerPlaceholder {
+    gap: 24px;
+    width: min(100%, 533px);
+    max-width: 1280px;
+    height: 195px;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 24px;
+    background: var(--color-scheme-2-foreground);
+  }
+
+  .ownerPlaceholder .message {
+    width: 100%;
+    height: auto;
+    font-size: 18px;
+    line-height: 140%;
+  }
+
+  .ownerPlaceholder .shareLink,
+  .ownerPlaceholder .shareLink:hover,
+  .ownerPlaceholder .shareLink:active {
+    font-size: 16px;
+  }
+}
+
+.publicPlaceholder {
+  gap: 32px;
+  width: min(calc(100% - 64px), 533px);
+  margin-left: 64px;
+}
+
+@media (min-width: 768px) and (max-width: 1439px) {
+  .publicPlaceholder {
+    width: min(100%, 533px);
+    height: 210px;
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .publicPlaceholder {
+    width: min(100%, 533px);
+    min-height: 170px;
+    height: auto;
+    padding: 20px;
+    margin-inline: auto;
+  }
+}
+
+.message {
+  width: min(100%, 469px);
+  height: 108px;
+  color: var(--color-scheme-1-text);
+  font-family: var(--font-family);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 140%;
+  letter-spacing: 0;
+}
+
+.publicMessage {
+  max-width: 360px;
+  color: var(--color-scheme-1-text);
+  font-family: var(--font-family);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 140%;
+  letter-spacing: 0;
+}
+
+@media (max-width: 1439px) {
+  .publicMessage {
+    font-size: 18px;
+  }
+}
+
+.link {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  border-radius: 4px;
+  background: var(--color-brand);
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 150%;
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+.shareLink {
+  border: 1px solid var(--color-coral-dark);
+  border-radius: 6px;
+  padding: 6px 12px;
+  width: 249px;
+  height: 48px;
+  background: var(--color-coral-dark);
+  white-space: nowrap;
+}
+
+.link.shareLink:hover {
+  background: var(--color-coral-lighter);
+  color: var(--color-scheme-2-text);
+}
+
+.link.shareLink:active {
+  background: var(--color-coral-dark);
+  color: var(--color-white);
+}
+
+.backLink {
+  background: var(--color-coral-dark);
+  border: 1px solid var(--color-coral-dark);
+  border-radius: 6px;
+  padding: 6px 12px;
+  width: 208px;
+  height: 48px;
+  font-family: var(--font-family);
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 150%;
+  color: var(--color-white);
+  white-space: nowrap;
+}
+
+.link:hover {
+  background: var(--color-brand-hover);
+  color: var(--color-brand);
+}
+
+.backLink:hover {
+  background: var(--color-coral-lighter);
+  color: var(--color-scheme-2-text);
+}
+
+.backLink:active {
+  background: var(--color-coral-dark);
+  color: var(--color-white);
+}
+
+@media (max-width: 767px) {
+  .shareLink,
+  .backLink {
+    width: min(100%, 295px);
+  }
+
+  .backLink,
+  .backLink:hover,
+  .backLink:active {
+    font-size: 16px;
+  }
+}
+
+.backLinkDisabled,
+.shareLinkDisabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.link:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 3px;
+}
+
+@media (min-width: 768px) and (max-width: 1439px) {
+  .shareLink {
+    width: 204px;
+  }
+
+  .backLink {
+    width: 171px;
+  }
+
+  .shareLink,
+  .shareLink:hover,
+  .backLink,
+  .backLink:hover,
+  .backLink:active,
+  .shareLink:active {
+    font-size: 16px;
+  }
+}

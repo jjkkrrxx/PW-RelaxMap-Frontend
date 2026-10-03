@@ -1,6 +1,20 @@
-import { apiClient } from './api-client';
+import { apiClient } from "./api-client";
 
-export const fetchCategories = async () => {
-  const { data } = await apiClient.get('/categories');
+export interface CategoryOption {
+  slug: string;
+  name: string;
+}
+
+export interface LocationCategories {
+  locationTypes: CategoryOption[];
+  regions: CategoryOption[];
+}
+
+interface CategoriesResponse {
+  data: LocationCategories;
+}
+
+export const fetchCategories = async (): Promise<CategoriesResponse> => {
+  const { data } = await apiClient.get<CategoriesResponse>("/categories");
   return data;
 };
