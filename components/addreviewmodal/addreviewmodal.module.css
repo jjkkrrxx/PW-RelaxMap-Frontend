@@ -4,7 +4,10 @@
   flex-direction: column;
   align-items: center;
   gap: 24px;
+<<<<<<< HEAD
   font-family: var(--font-montserrat);
+=======
+>>>>>>> d689ce4bf53ec5e1131e460deb5527dc837dc923
 }
 
 .title {

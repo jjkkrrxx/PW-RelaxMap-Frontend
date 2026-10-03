@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { LoginForm } from '../../components/LoginForm/LoginForm';
 import styles from './page.module.css';
 
@@ -18,7 +18,9 @@ export default function AuthPage() {
 
         <main className={styles.main}>
           <h1 className={styles.formTitle}>Вхід</h1>
-          <LoginForm />
+          <Suspense fallback={<div>Завантаження...</div>}>
+            <LoginForm />
+          </Suspense>
         </main>
 
         <footer className={styles.footer}>

@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import toast from 'react-hot-toast';
-import { useAuthStore } from '../providers/authStore';
+import { useAuthStore } from '@/lib/store/authStore';
 import { Button } from '../Button/Button';
 import styles from './LoginForm.module.css';
 
@@ -47,8 +47,10 @@ export const LoginForm = () => {
         useAuthStore.getState().setUser(data.data);
         toast.success('Вхід успішний!');
         
-        const from = searchParams.get('from') || '/profile';
-        router.push(from);
+        const from = searchParams.get('from');
+        const safeFrom = from && from.startsWith('/') && !from.startsWith('//') ? from : '/profile';
+        
+        router.push(safeFrom);
       } catch (error: unknown) {
         const message = error instanceof Error ? error.message : 'Не вдалося увійти. Перевірте дані';
         toast.error(message);
