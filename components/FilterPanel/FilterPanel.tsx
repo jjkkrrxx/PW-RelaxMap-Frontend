@@ -12,9 +12,9 @@ const SEARCH_DELAY = 400;
 // значення — як у бекенді (locationQuerySchema: sort)
 const SORT_OPTIONS = [
   { label: 'Без сортування', value: '' },
-  { label: 'Популярні', value: 'popular' },
+  { label: 'За популярністю', value: 'popular' },
   { label: 'За рейтингом', value: 'rating' },
-  { label: 'Новіші', value: 'new' },
+  { label: 'Новіші спочатку', value: 'new' },
 ];
 
 const FilterPanel = () => {

@@ -53,7 +53,8 @@
 /* tablet: пошук на всю ширину, під ним тип, регіон, проміжок, сортування */
 @media (min-width: 768px) and (max-width: 1439px) {
   .filterPanel {
-    grid-template-columns: 207px 207px minmax(0, 1fr) 158px;
+    /* сортування — 158px, але росте під довший обраний пункт */
+    grid-template-columns: 207px 207px minmax(0, 1fr) minmax(158px, max-content);
     grid-template-areas:
       "search search search search"
       "type region . sort";
@@ -66,12 +67,21 @@
     height: 40px;
     padding: 8px;
   }
+
+  /* список пунктів не вужчий за найдовшу назву, росте вліво */
+  .sort :global([role="listbox"]) {
+    right: 0;
+    left: auto;
+    width: max-content;
+    min-width: 100%;
+  }
 }
 
 /* desktop: усе в один ряд, перед сортуванням проміжок */
 @media (min-width: 1440px) {
   .filterPanel {
-    grid-template-columns: 310px 199px 198px 349px 160px;
+    /* сортування — 160px, але росте під довший обраний пункт */
+    grid-template-columns: 310px 199px 198px minmax(0, 1fr) minmax(160px, max-content);
     grid-template-areas: "search region type . sort";
     align-items: center;
     column-gap: 24px;
@@ -91,5 +101,12 @@
     font-size: 18px;
     font-weight: 400;
     line-height: 150%;
+  }
+
+  .sort :global([role="listbox"]) {
+    right: 0;
+    left: auto;
+    width: max-content;
+    min-width: 100%;
   }
 }
