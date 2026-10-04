@@ -1,8 +1,8 @@
-import { notFound } from 'next/navigation';
-import ProfileInfo from '@/components/profileinfo/profileinfo';
-import ProfilePlaceholder from '@/components/profileplaceholder/profileplaceholder';
-import LocationGrid from '@/components/LocationGrid/LocationGrid';
-import styles from './page.module.css';
+import { notFound } from "next/navigation";
+import ProfileInfo from "@/components/profileinfo/profileinfo";
+import ProfilePlaceholder from "@/components/profileplaceholder/profileplaceholder";
+import ProfileLocations from "@/components/profilelocations/profilelocations";
+import styles from "./page.module.css";
 
 type Props = {
   params: Promise<{ userId: string }>;
@@ -13,11 +13,11 @@ export default async function ProfilePage({ params }: Props) {
 
   const backendUrl = process.env.BACKEND_URL;
   if (!backendUrl) {
-    throw new Error('BACKEND_URL не налаштовано в .env.local');
+    throw new Error("BACKEND_URL не налаштовано в .env.local");
   }
 
   const userRes = await fetch(`${backendUrl}/api/users/${userId}`, {
-    cache: 'no-store',
+    cache: "no-store",
   });
 
   if (!userRes.ok) {
@@ -45,7 +45,7 @@ export default async function ProfilePage({ params }: Props) {
         {user.articlesAmount === 0 ? (
           <ProfilePlaceholder userId={userId} />
         ) : (
-          <LocationGrid userId={userId} isEditable={false} />
+          <ProfileLocations userId={userId} />
         )}
       </section>
     </main>
