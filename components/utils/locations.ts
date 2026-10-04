@@ -12,6 +12,7 @@ interface UserLocationsResponse {
 export interface LocationFilters {
   search?: string;
   region?: string;
+  // один або кілька slug через кому
   type?: string;
   sort?: string;
 }
@@ -30,15 +31,21 @@ export const getLocations = async (
   filters: LocationFilters = {},
   signal?: AbortSignal,
 ) => {
+  const params = new URLSearchParams();
+
+  if (filters.search) params.set("search", filters.search);
+  if (filters.region) params.set("region", filters.region);
+  // бекенд чекає повторюваний параметр: type=a&type=b
+  filters.type
+    ?.split(",")
+    .filter(Boolean)
+    .forEach((item) => params.append("type", item));
+  if (filters.sort) params.set("sort", filters.sort);
+  params.set("page", String(page));
+  params.set("limit", String(limit));
+
   const { data } = await apiClient.get<LocationsResponse>("/locations", {
-    params: {
-      search: filters.search || undefined,
-      region: filters.region || undefined,
-      type: filters.type || undefined,
-      sort: filters.sort || undefined,
-      page,
-      limit,
-    },
+    params,
     signal,
   });
 

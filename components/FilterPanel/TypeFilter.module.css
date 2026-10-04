@@ -1,0 +1,50 @@
+/* список чекбоксів: не вужчий за поле, росте під найдовшу назву */
+.list {
+  display: flex;
+  flex-direction: column;
+  width: max-content;
+  min-width: 100%;
+  max-width: calc(100vw - 40px);
+}
+
+/* назва групи — лише для скрінрідерів */
+.legend {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: var(--color-text-main);
+  font-size: 16px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.item:hover,
+.item:focus-within {
+  background-color: var(--color-bg-light);
+}
+
+.checkbox {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--color-brand);
+  cursor: pointer;
+}
+
+@media (min-width: 1440px) {
+  .item {
+    font-size: 18px;
+  }
+}
