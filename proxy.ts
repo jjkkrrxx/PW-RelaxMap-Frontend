@@ -32,6 +32,37 @@ async function tryRefresh(request: NextRequest): Promise<string[] | null> {
   }
 }
 
+// Підставляє оновлені cookies у заголовок самого запиту: інакше серверна сторінка
+// в цьому ж запиті бачить старі cookies (без accessToken) і бекенд відповідає їй 401.
+function withRefreshedCookies(request: NextRequest, setCookies: string[]) {
+  // беремо сирий заголовок, щоб значення лишилися в тому ж кодуванні, що й від браузера
+  const cookies = new Map<string, string>();
+
+  (request.headers.get("cookie") ?? "")
+    .split(";")
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .forEach((part) => {
+      const index = part.indexOf("=");
+      if (index > 0) cookies.set(part.slice(0, index), part.slice(index + 1));
+    });
+
+  // "accessToken=...; Path=/; HttpOnly; ..." → беремо лише name=value
+  setCookies.forEach((setCookie) => {
+    const pair = setCookie.split(";")[0];
+    const index = pair.indexOf("=");
+    if (index > 0)
+      cookies.set(pair.slice(0, index).trim(), pair.slice(index + 1));
+  });
+
+  const headers = new Headers(request.headers);
+  headers.set(
+    "cookie",
+    [...cookies].map(([name, value]) => `${name}=${value}`).join("; "),
+  );
+  return headers;
+}
+
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const privateRoute = isPrivateRoute(pathname);
@@ -71,6 +102,11 @@ export async function proxy(request: NextRequest) {
   } else if (authRoute && isLoggedIn) {
     // залогінений на /login чи /register → на головну
     response = NextResponse.redirect(new URL("/", request.url));
+  } else if (refreshedCookies) {
+    // сесію щойно оновили — сторінка має побачити нові cookies вже в цьому запиті
+    response = NextResponse.next({
+      request: { headers: withRefreshedCookies(request, refreshedCookies) },
+    });
   } else {
     response = NextResponse.next();
   }
