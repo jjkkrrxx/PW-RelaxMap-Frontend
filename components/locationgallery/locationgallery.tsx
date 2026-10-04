@@ -15,7 +15,8 @@ export default function LocationGallery({ image, name }: Props) {
         src={image}
         alt={`Фото локації ${name}`}
         fill
-        unoptimized
+        sizes="(min-width: 1440px) 755px, (min-width: 768px) 704px, 335px"
+        preload
         className={styles.image}
       />
     </div>
