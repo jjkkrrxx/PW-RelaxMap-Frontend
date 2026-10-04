@@ -41,12 +41,24 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // попереднє завантаження посилань (Link prefetch): не оновлюємо сесію —
+  // інакше кілька prefetch приватних сторінок із шапки запускають паралельні refresh,
+  // бекенд видаляє старий refreshToken, і другий запит розлогінює юзера
+  const isPrefetch =
+    request.headers.has("next-router-prefetch") ||
+    request.headers.get("purpose") === "prefetch";
+
   let isLoggedIn = request.cookies.has("accessToken");
   let refreshedCookies: string[] | null = null;
 
   if (!isLoggedIn && request.cookies.has("refreshToken")) {
-    refreshedCookies = await tryRefresh(request);
-    isLoggedIn = refreshedCookies !== null;
+    if (isPrefetch) {
+      // є refreshToken — вважаємо залогіненим; оновить реальна навігація
+      isLoggedIn = true;
+    } else {
+      refreshedCookies = await tryRefresh(request);
+      isLoggedIn = refreshedCookies !== null;
+    }
   }
 
   let response: NextResponse;
