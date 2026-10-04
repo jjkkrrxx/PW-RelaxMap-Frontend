@@ -2,48 +2,61 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import { getImageProps } from 'next/image';
 import styles from './heroblock.module.css';
 
 export default function HeroBlock() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [hasError, setHasError] = useState(false); 
   const router = useRouter();
-
-  const hasError = false; 
+  const common = { alt: '', fill: true, priority: true };
+  
+  const { props: { srcSet: desktop } } = getImageProps({
+    ...common,
+    src: '/images/herosection/herobgdesktop.jpg',
+  });
+  
+  const { props: { srcSet: tablet } } = getImageProps({
+    ...common,
+    src: '/images/herosection/herobgtablet.jpg',
+  });
+  
+  const { props: { src: mobileSrc, ...rest } } = getImageProps({
+    ...common,
+    src: '/images/herosection/herobgmobile.jpg',
+  });
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
+    
     if (!searchQuery.trim()) {
-      router.push('/locations');
+      setHasError(true);
       return;
     }
+
+    setHasError(false);
     const encodedQuery = encodeURIComponent(searchQuery.trim());
     router.push(`/locations?search=${encodedQuery}`);
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    if (hasError) setHasError(false);
+  };
+
   return (
     <section className={styles.heroSection}>
-      <Image
-        src="/images/herosection/herobgmobile.jpg"
-        alt="Природа України"
-        fill
-        priority
-        className={`${styles.backgroundImage} ${styles.bgMobile}`}
-      />
-      <Image
-        src="/images/herosection/herobgtablet.jpg"
-        alt="Природа України"
-        fill
-        priority
-        className={`${styles.backgroundImage} ${styles.bgTablet}`}
-      />
-      <Image
-        src="/images/herosection/herobgdesktop.jpg"
-        alt="Природа України"
-        fill
-        priority
-        className={`${styles.backgroundImage} ${styles.bgDesktop}`}
-      />
+
+<picture>
+  <source media="(min-width: 1440px)" srcSet={desktop} />
+  <source media="(min-width: 768px)" srcSet={tablet} />
+  <img 
+    src={mobileSrc} 
+    {...rest} 
+    alt=""
+    className={styles.backgroundImage} 
+  />
+</picture>
       
       <div className={styles.overlay}></div>
 
@@ -62,10 +75,11 @@ export default function HeroBlock() {
               className={`${styles.searchInput} ${hasError ? styles.searchInputError : ''}`}
               placeholder="Введіть назву, тип або регіон..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={handleInputChange}
+              aria-label="Пошук місць" 
             />
 
-            {hasError && <span className={styles.errorText}>Error text</span>}
+            {hasError && <span className={styles.errorText}>Введіть назву, тип або регіон для пошуку</span>}
           </div>
           <button type="submit" className={styles.searchButton}>
             Знайти місце
@@ -75,6 +89,7 @@ export default function HeroBlock() {
     </section>
   );
 }
+
 
 
 
