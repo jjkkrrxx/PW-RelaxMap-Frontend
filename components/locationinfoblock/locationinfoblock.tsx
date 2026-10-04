@@ -1,39 +1,21 @@
-'use client';
-
-import { useEffect } from 'react';
-import Link from 'next/link';
-import StarRating from '@/components/starrating/starrating';
-import { useCategoriesStore } from '@/lib/store/categoriesStore';
-import type { LocationDetails } from '@/types/location-details';
-import styles from './locationinfoblock.module.css';
+import Link from "next/link";
+import StarRating from "@/components/starrating/starrating";
+import type { LocationDetails } from "@/types/location-details";
+import styles from "./locationinfoblock.module.css";
 
 interface Props {
   location: LocationDetails;
+  // назви з /api/categories, знайдені на сервері в page.tsx
+  regionName: string;
+  locationTypeName: string;
 }
 
-export default function LocationInfoBlock({ location }: Props) {
-  const { name, region, locationType, rate, ownerId } = location;
-  const categories = useCategoriesStore(state => state.categories);
-  const hasHydrated = useCategoriesStore(state => state.hasHydrated);
-  const fetchIfEmpty = useCategoriesStore(state => state.fetchIfEmpty);
-
-  useEffect(() => {
-    if (!useCategoriesStore.persist.hasHydrated()) {
-      void useCategoriesStore.persist.rehydrate();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (hasHydrated) {
-      void fetchIfEmpty();
-    }
-  }, [fetchIfEmpty, hasHydrated]);
-
-  const regionName =
-    categories?.regions.find(item => item.slug === region)?.name ?? region;
-  const locationTypeName =
-    categories?.locationTypes.find(item => item.slug === locationType)?.name ??
-    locationType;
+export default function LocationInfoBlock({
+  location,
+  regionName,
+  locationTypeName,
+}: Props) {
+  const { name, rate, ownerId } = location;
 
   return (
     <div className={styles.info}>
@@ -62,7 +44,7 @@ export default function LocationInfoBlock({ location }: Props) {
                 {ownerId.name}
               </Link>
             ) : (
-              'Автор недоступний'
+              "Автор недоступний"
             )}
           </dd>
         </div>
