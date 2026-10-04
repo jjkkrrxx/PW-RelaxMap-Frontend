@@ -1,12 +1,12 @@
-import { apiClient } from "./api-client";
-import { Location } from "@/types/location";
+import { apiClient } from './api-client';
+import { Location } from '@/types/location';
 
 interface UserLocationsResponse {
   data: Location[];
   page: number;
   limit: number;
   totalPages: number;
-  totalLocations: number;
+  total: number;
 }
 
 export const getUserLocations = async (
