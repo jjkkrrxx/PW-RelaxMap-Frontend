@@ -9,9 +9,15 @@ import styles from "./LocationCard.module.css";
 interface LocationCardProps {
   location: Location;
   isEditable?: boolean;
+  // перші картки видно одразу — фото вантажимо з пріоритетом (LCP)
+  isPriority?: boolean;
 }
 
-const LocationCard = ({ location, isEditable = false }: LocationCardProps) => {
+const LocationCard = ({
+  location,
+  isEditable = false,
+  isPriority = false,
+}: LocationCardProps) => {
   const locationTypes = useCategoriesStore(
     (state) => state.categories?.locationTypes,
   );
@@ -26,6 +32,9 @@ const LocationCard = ({ location, isEditable = false }: LocationCardProps) => {
         alt={location.name}
         width={420}
         height={420}
+        // ширина картки на кожному брейкпоінті — браузер вантажить фото потрібного розміру
+        sizes="(min-width: 1440px) 421px, (min-width: 421px) 340px, 335px"
+        preload={isPriority}
         className={styles.image}
       />
 

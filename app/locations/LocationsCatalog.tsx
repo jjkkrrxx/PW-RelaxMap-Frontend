@@ -142,6 +142,7 @@ export default function LocationsCatalog() {
       ) : (
         <>
           {currentError && <p role="alert">{currentError}</p>}
+          <h2 className={styles.visuallyHidden}>Список локацій</h2>
           <LocationGrid
             locations={locations}
             hasMore={page < totalPages}
