@@ -2,17 +2,16 @@
 
 import { Form, Formik } from 'formik';
 import css from './LocationForm.module.css';
-import { useId } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useEffect, useId, useState } from 'react';
 import * as Yup from 'yup';
 import { ALLOWED_IMAGE_TYPES, MAX_FILE_SIZE } from '@/constants/image';
-import { fetchCategories } from '../utils/locationForm';
 import ImageUploadField from './ImageUploadField/ImageUploadField';
 import InputField from './InputField/InputField';
 import Select from './Select/Select';
 import Textarea from './Textarea/Textarea';
 import Button from './Button/Button';
-import { useRouter } from 'next/navigation';
+import LocationPicker from './LocationPicker/LocationPicker';
+import { useCategoriesStore } from '@/lib/store/categoriesStore';
 
 export interface LocationFormValues {
   image: File | null | string;
@@ -20,11 +19,17 @@ export interface LocationFormValues {
   locationType: string;
   region: string;
   description: string;
+  coordinates: {
+    lat: number | null;
+    lon: number | null;
+  };
 }
 
 interface LocationFormProps {
   values?: LocationFormValues;
   edit?: boolean;
+  onSubmit: (values: LocationFormValues) => void;
+  isPending: boolean;
 }
 
 const locationFormSchema = Yup.object({
@@ -37,12 +42,16 @@ const locationFormSchema = Yup.object({
 
       return ALLOWED_IMAGE_TYPES.includes(value.type);
     })
-    .test('fileSize', 'Максимальний розмір файлу 1MB', value => {
-      if (typeof value === 'string') return true;
-      if (!(value instanceof File)) return false;
+    .test(
+      'fileSize',
+      'Зображення завелике. Будь ласка, оберіть інше.',
+      value => {
+        if (typeof value === 'string') return true;
+        if (!(value instanceof File)) return false;
 
-      return value.size <= MAX_FILE_SIZE;
-    }),
+        return value.size <= MAX_FILE_SIZE;
+      }
+    ),
   name: Yup.string()
     .required('Введіть назву')
     .min(3, 'Мінімум 3 символи')
@@ -53,32 +62,61 @@ const locationFormSchema = Yup.object({
     .required('Введіть опис')
     .min(20, 'Мінімум 20 символів')
     .max(6000, 'Максимум 6000 символів'),
+  coordinates: Yup.object({
+    lat: Yup.number().nullable().optional(),
+    lon: Yup.number().nullable().optional(),
+  })
+    .nullable()
+    .optional()
+    .test('coords-pair', 'Оберіть розташування', value => {
+      if (!value) return true;
+      const { lat, lon } = value;
+      return (lat == null && lon == null) || (lat != null && lon != null);
+    }),
 });
 
-function LocationForm({ values, edit }: LocationFormProps) {
+function LocationForm({
+  values,
+  edit,
+  onSubmit,
+  isPending,
+}: LocationFormProps) {
   const initialValues: LocationFormValues = {
     image: null,
     name: '',
     locationType: '',
     region: '',
     description: '',
+    coordinates: {
+      lat: null,
+      lon: null,
+    },
     ...values,
   };
-
+  const [resetSignal, setResetSignal] = useState(0);
   const formId = useId();
-  const router = useRouter();
+  const categories = useCategoriesStore(state => state.categories);
+  const hasHydrated = useCategoriesStore(state => state.hasHydrated);
+  const fetchIfEmpty = useCategoriesStore(state => state.fetchIfEmpty);
 
-  const { data } = useQuery({
-    queryKey: ['categories'],
-    queryFn: fetchCategories,
-  });
+  useEffect(() => {
+    if (!useCategoriesStore.persist.hasHydrated()) {
+      void useCategoriesStore.persist.rehydrate();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (hasHydrated) {
+      void fetchIfEmpty();
+    }
+  }, [fetchIfEmpty, hasHydrated]);
 
   const handleSubmit = (values: LocationFormValues) => {
-    console.log(values);
+    onSubmit(values);
   };
 
-  const locationTypes = data?.data.locationTypes ?? [];
-  const regions = data?.data.regions ?? [];
+  const locationTypes = categories?.locationTypes ?? [];
+  const regions = categories?.regions ?? [];
 
   return (
     <Formik
@@ -87,7 +125,7 @@ function LocationForm({ values, edit }: LocationFormProps) {
       validationSchema={locationFormSchema}
       enableReinitialize
     >
-      {({ isValid, dirty }) => (
+      {({ isValid, dirty, resetForm }) => (
         <Form className={css.form}>
           <ImageUploadField
             name="image"
@@ -123,21 +161,38 @@ function LocationForm({ values, edit }: LocationFormProps) {
             placeholder="Детальний опис локації"
             label="Детальний опис"
           />
+          <LocationPicker
+            id={`location-${formId}`}
+            className={css.locationPicker}
+            resetSignal={resetSignal}
+          />
           <div className={css.buttons}>
             <Button
               className={css.button}
               type="button"
+              onClick={() => {
+                resetForm();
+                setResetSignal(prev => prev + 1);
+              }}
               secondary
-              onClick={() => router.back()}
             >
               Відмінити
             </Button>
             <Button
               className={css.button}
               type="submit"
-              disabled={!(isValid && dirty)}
+              disabled={!(isValid && dirty) || isPending}
             >
-              {edit ? 'Зберегти' : 'Опублікувати'}
+              {isPending ? (
+                <>
+                  <span>{edit ? 'Збереження' : 'Публікація'}</span>
+                  <span className={css.loader} />
+                </>
+              ) : edit ? (
+                'Зберегти'
+              ) : (
+                'Опублікувати'
+              )}
             </Button>
           </div>
         </Form>

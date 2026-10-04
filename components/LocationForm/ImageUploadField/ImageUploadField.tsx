@@ -5,7 +5,8 @@ import css from './ImageUploadField.module.css';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import Button from '../Button/Button';
-import clsx from 'clsx';
+import { compressImage } from '@/components/utils/compressImage';
+import { MAX_FILE_SIZE } from '@/constants/image';
 
 interface ImageUploadFieldProps {
   id: string;
@@ -17,21 +18,45 @@ function ImageUploadField({ id, name, label }: ImageUploadFieldProps) {
   const [field, meta, helpers] = useField<File | string | null>(name);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<null | string>(null);
+  const [isCompressing, setIsCompressing] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.currentTarget.files?.[0] || null;
+  const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.currentTarget.files?.[0];
 
     if (!file) return;
 
-    helpers.setValue(file);
-    helpers.setTouched(true, false);
+    try {
+      setIsCompressing(true);
 
-    if (preview) {
-      URL.revokeObjectURL(preview);
+      let processedFile = file;
+
+      if (file.size > MAX_FILE_SIZE) {
+        processedFile = await compressImage(file);
+      }
+
+      helpers.setValue(processedFile);
+
+      if (preview) {
+        URL.revokeObjectURL(preview);
+      }
+
+      setPreview(URL.createObjectURL(processedFile));
+    } catch {
+      helpers.setError('Не вдалося обробити зображення');
+    } finally {
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
+
+      setIsCompressing(false);
     }
+  };
 
-    const url = URL.createObjectURL(file);
-    setPreview(url);
+  const openFilePicker = () => {
+    if (isCompressing) return;
+
+    helpers.setTouched(true, false);
+    fileInputRef.current?.click();
   };
 
   useEffect(() => {
@@ -45,7 +70,9 @@ function ImageUploadField({ id, name, label }: ImageUploadFieldProps) {
   const imageSrc =
     typeof field.value === 'string'
       ? field.value
-      : (preview ?? '/placeholder.jpg');
+      : field.value && preview
+        ? preview
+        : '/placeholder.jpg';
   const hasError = Boolean(meta.touched && meta.error);
 
   return (
@@ -64,11 +91,9 @@ function ImageUploadField({ id, name, label }: ImageUploadFieldProps) {
         accept="image/png,image/jpeg"
         hidden
         onChange={handleChange}
+        disabled={isCompressing}
       />
-      <label
-        htmlFor={id}
-        className={clsx(css.uploadArea, hasError && css.errorBorder)}
-      >
+      <div onClick={openFilePicker} className={css.uploadArea}>
         <Image
           className={css.image}
           src={imageSrc}
@@ -76,15 +101,24 @@ function ImageUploadField({ id, name, label }: ImageUploadFieldProps) {
           height={700}
           alt="Попередній перегляд зображення"
         />
-      </label>
+      </div>
       <Button
         type="button"
-        onClick={() => fileInputRef.current?.click()}
+        onClick={openFilePicker}
         secondary
         short
         error={hasError}
+        disabled={isCompressing}
+        className={css.button}
       >
-        Завантажити фото
+        {isCompressing ? (
+          <>
+            <span>Оптимізація</span>
+            <span className={css.loader} />
+          </>
+        ) : (
+          'Завантажити фото'
+        )}
       </Button>
       <ErrorMessage name={name} component="span" className={css.error} />
     </div>

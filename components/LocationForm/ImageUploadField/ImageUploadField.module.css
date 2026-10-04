@@ -37,8 +37,30 @@
   color: var(--color-red);
 }
 
-.errorBorder {
-  border-color: var(--color-red);
+.loader {
+  width: 30px;
+  aspect-ratio: 5;
+  background: radial-gradient(
+      circle closest-side,
+      var(--color-scheme-2-text) 90%,
+      #0000
+    )
+    0 / calc(100% / 3) 100% space;
+  clip-path: inset(0 100% 0 0);
+  animation: l1 1s steps(4) infinite;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+}
+
+@keyframes l1 {
+  to {
+    clip-path: inset(0 -34% 0 0);
+  }
 }
 
 @media screen and (min-width: 1440px) {
