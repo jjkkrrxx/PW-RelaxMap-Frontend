@@ -1,0 +1,79 @@
+/* mobile: пошук / регіон + тип / сортування */
+.filterPanel {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    'search search'
+    'region type'
+    'sort sort';
+  gap: 16px;
+  width: 100%;
+  margin: 40px 0;
+}
+
+.search {
+  grid-area: search;
+  width: 100%;
+  height: 40px;
+  padding: 0 8px;
+  border: 1px solid var(--opacity-neutral-darkest-15);
+  border-radius: 6px;
+  background-color: var(--color-surface);
+  color: var(--color-text-main);
+  font: inherit;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.search::placeholder {
+  color: var(--color-text-muted);
+}
+
+.search:hover,
+.search:focus-visible {
+  border-color: var(--color-brand);
+}
+
+.region {
+  grid-area: region;
+  min-width: 0;
+}
+
+.type {
+  grid-area: type;
+  min-width: 0;
+}
+
+.sort {
+  grid-area: sort;
+  min-width: 0;
+}
+
+/* tablet: пошук на всю ширину, під ним регіон, тип, проміжок, сортування */
+@media (min-width: 768px) {
+  .filterPanel {
+    grid-template-columns:
+      minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.5fr)
+      minmax(0, 1fr);
+    grid-template-areas:
+      'search search search search'
+      'region type . sort';
+  }
+}
+
+/* desktop: усе в один ряд, перед сортуванням проміжок */
+@media (min-width: 1440px) {
+  .filterPanel {
+    grid-template-columns:
+      minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr) 64px
+      minmax(0, 1fr);
+    grid-template-areas: 'search region type . sort';
+    align-items: center;
+  }
+
+  .search {
+    height: 43px;
+    font-size: 18px;
+  }
+}
