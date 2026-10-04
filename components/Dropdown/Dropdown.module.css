@@ -80,6 +80,8 @@
 }
 
 .selected {
+  padding: 4px 8px;
+  background: var(--color-coral-light);
   font-weight: 500;
 }
 

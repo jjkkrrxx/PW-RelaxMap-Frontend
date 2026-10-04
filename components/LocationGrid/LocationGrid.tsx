@@ -1,8 +1,11 @@
-'use client';
+"use client";
 
-import { useEffect, useRef } from 'react';
-import { Location } from '@/types/location';
-import LocationCard from '../LocationCard/LocationCard';
+import { useEffect, useRef } from "react";
+import { useCategoriesStore } from "@/lib/store/categoriesStore";
+import Loader from "@/components/loader/loader";
+import { Location } from "@/types/location";
+import LocationCard from "../LocationCard/LocationCard";
+import styles from "./LocationGrid.module.css";
 
 interface LocationGridProps {
   locations: Location[];
@@ -19,33 +22,41 @@ const LocationGrid = ({
   onLoadMore,
   isEditable = false,
 }: LocationGridProps) => {
-const newLocationRef = useRef<HTMLLIElement | null>(null);
-const lastLocationIdRef = useRef<string | null>(null);
+  const newLocationRef = useRef<HTMLLIElement | null>(null);
+  const previousLengthRef = useRef(locations.length);
+  const hasHydrated = useCategoriesStore((state) => state.hasHydrated);
+  const fetchIfEmpty = useCategoriesStore((state) => state.fetchIfEmpty);
 
-useEffect(() => {
-  if (locations.length > 0) {
-    const lastLocation = locations[locations.length - 1];
-    if (lastLocation._id !== lastLocationIdRef.current) {
-      lastLocationIdRef.current = lastLocation._id;
+  useEffect(() => {
+    void useCategoriesStore.persist.rehydrate();
+  }, []);
+
+  useEffect(() => {
+    if (hasHydrated) void fetchIfEmpty();
+  }, [hasHydrated, fetchIfEmpty]);
+
+  useEffect(() => {
+    if (locations.length > previousLengthRef.current) {
       newLocationRef.current?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start',
+        behavior: "smooth",
+        block: "start",
       });
     }
-  }
-}, [locations]);
+    previousLengthRef.current = locations.length;
+  }, [locations.length]);
 
   return (
     <div>
-      <ul>
-        {locations.map((location) => (
+      <ul className={styles.grid}>
+        {locations.map((location, index) => (
           <li
             key={location._id}
             ref={(element) => {
-              if (location._id === lastLocationIdRef.current) {
+              if (index === previousLengthRef.current) {
                 newLocationRef.current = element;
               }
             }}
+            className={styles.item}
           >
             <LocationCard location={location} isEditable={isEditable} />
           </li>
@@ -53,8 +64,21 @@ useEffect(() => {
       </ul>
 
       {hasMore && (
-        <button type="button" onClick={onLoadMore} disabled={isLoading}>
-          {isLoading ? 'Завантаження...' : 'Показати ще'}
+        <button
+          type="button"
+          className={styles.loadMore}
+          onClick={onLoadMore}
+          disabled={isLoading}
+          aria-label={isLoading ? "Завантаження локацій" : undefined}
+        >
+          <span className={isLoading ? styles.hiddenLabel : undefined}>
+            Показати ще
+          </span>
+          {isLoading && (
+            <span className={styles.loadingIndicator}>
+              <Loader size={20} light />
+            </span>
+          )}
         </button>
       )}
     </div>

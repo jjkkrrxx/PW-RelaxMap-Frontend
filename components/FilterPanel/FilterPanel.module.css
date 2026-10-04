@@ -3,9 +3,9 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-areas:
-    'search search'
-    'region type'
-    'sort sort';
+    "search search"
+    "region type"
+    "sort sort";
   gap: 16px;
   width: 100%;
   margin: 40px 0;
@@ -51,29 +51,45 @@
 }
 
 /* tablet: пошук на всю ширину, під ним регіон, тип, проміжок, сортування */
-@media (min-width: 768px) {
+@media (min-width: 768px) and (max-width: 1439px) {
   .filterPanel {
-    grid-template-columns:
-      minmax(0, 1fr) minmax(0, 1fr) minmax(0, 0.5fr)
-      minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 83px minmax(0, 1fr);
     grid-template-areas:
-      'search search search search'
-      'region type . sort';
+      "search search search search"
+      "region type . sort";
+    column-gap: 16px;
+    row-gap: 16px;
+  }
+
+  .search {
+    width: 100%;
+    height: 40px;
+    padding: 8px;
   }
 }
 
 /* desktop: усе в один ряд, перед сортуванням проміжок */
 @media (min-width: 1440px) {
   .filterPanel {
-    grid-template-columns:
-      minmax(0, 1.2fr) minmax(0, 1fr) minmax(0, 1fr) 64px
-      minmax(0, 1fr);
-    grid-template-areas: 'search region type . sort';
+    grid-template-columns: 310px 199px 198px 349px 160px;
+    grid-template-areas: "search region type . sort";
     align-items: center;
+    column-gap: 24px;
   }
 
   .search {
+    width: 100%;
     height: 43px;
+    padding: 8px;
     font-size: 18px;
+  }
+
+  .sort :global([role="combobox"]) {
+    gap: 4px;
+    color: var(--color-neutral-dark);
+    font-family: var(--font-family);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 150%;
   }
 }

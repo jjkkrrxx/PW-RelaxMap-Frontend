@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import ProfileInfo from "@/components/profileinfo/profileinfo";
-import ProfilePlaceholder from "@/components/profileplaceholder/profileplaceholder";
-import ProfileLocations from "@/components/profilelocations/profilelocations";
+import ProfileLocationGrid from "@/components/LocationGrid/ProfileLocationGrid";
 import styles from "./page.module.css";
 
 type Props = {
@@ -30,7 +29,6 @@ export default async function ProfilePage({ params }: Props) {
   if (!user) {
     notFound();
   }
-
   return (
     <main className={styles.page}>
       <ProfileInfo
@@ -42,11 +40,7 @@ export default async function ProfilePage({ params }: Props) {
       <section className={styles.locations}>
         <h2 className={styles.heading}>Локації</h2>
 
-        {user.articlesAmount === 0 ? (
-          <ProfilePlaceholder userId={userId} />
-        ) : (
-          <ProfileLocations userId={userId} />
-        )}
+        <ProfileLocationGrid key={userId} userId={userId} />
       </section>
     </main>
   );
