@@ -63,14 +63,14 @@
   }
 }
 
-@media screen and (min-width: 1440px) {
-  .label {
-    font-size: 18px;
+@media (hover: hover) and (pointer: fine) {
+  .uploadArea:hover {
+    opacity: 0.9;
   }
 }
 
-@media (hover: hover) {
-  .uploadArea:hover {
-    opacity: 0.9;
+@media screen and (min-width: 1440px) {
+  .label {
+    font-size: 18px;
   }
 }

@@ -15,3 +15,11 @@ export interface Location {
   createdAt?: string;
   updatedAt?: string;
 }
+
+export interface LocationWithOwner extends Omit<Location, 'ownerId'> {
+  ownerId: {
+    _id: string;
+    name: string;
+    avatar: string;
+  };
+}

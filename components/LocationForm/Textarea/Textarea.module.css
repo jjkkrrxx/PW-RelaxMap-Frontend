@@ -32,7 +32,6 @@
   color: var(--opacity-neutral-darkest-60);
 }
 
-.textarea:not(.errorTextarea):hover,
 .textarea:not(.errorTextarea):focus-visible {
   border-color: var(--color-scheme-1-accent);
 }
@@ -49,6 +48,12 @@
 .errorTextarea {
   border-color: var(--color-red);
   color: var(--color-red);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .textarea:not(.errorTextarea):hover {
+    border-color: var(--color-scheme-1-accent);
+  }
 }
 
 @media screen and (min-width: 1440px) {
