@@ -1,18 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useAuthStore } from "@/lib/store/authStore";
-import { useLogout } from "@/lib/hooks/useLogout";
-import { Icon } from "@/components/Icon/Icon";
-import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
-import { AUTH_PAGES } from "@/lib/constants/routes";
-import css from "./Header.module.css";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useAuthStore } from '@/lib/store/authStore';
+import { useLogout } from '@/lib/hooks/useLogout';
+import { Icon } from '@/components/Icon/Icon';
+import ConfirmationModal from '@/components/ConfirmationModal/ConfirmationModal';
+import { AUTH_PAGES } from '@/lib/constants/routes';
+import css from './Header.module.css';
 
 const DEFAULT_AVATAR =
-  "https://ac.goit.global/fullstack/react/default-avatar.jpg";
+  'https://ac.goit.global/fullstack/react/default-avatar.jpg';
 
 const GUEST_LINKS = [
   { href: "/", label: "Головна" },
@@ -45,25 +45,26 @@ export default function Header() {
     if (!isMenuOpen) return;
 
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setIsMenuOpen(false);
+      if (event.key === 'Escape') setIsMenuOpen(false);
     };
 
     const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    document.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = 'hidden';
+    document.addEventListener('keydown', handleKeyDown);
 
     return () => {
       document.body.style.overflow = prevOverflow;
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [isMenuOpen]);
+
+  // адреса свого профілю: одразу /profile/<id>, якщо дані юзера вже є
+  const profileHref = user?._id ? `/profile/${user._id}` : '/profile';
 
   // «Мій Профіль» одразу на /profile/<id>, без проміжного перенаправлення
   const links = isAuthenticated
     ? AUTH_LINKS.map((link) =>
-        link.href === "/profile" && user?._id
-          ? { ...link, href: `/profile/${user._id}` }
-          : link,
+        link.href === '/profile' ? { ...link, href: profileHref } : link,
       )
     : GUEST_LINKS;
 
@@ -77,14 +78,14 @@ export default function Header() {
       <Link
         key={href}
         href={href}
-        className={`${css.link} ${pathname === href ? css.active : ""}`}
+        className={`${css.link} ${pathname === href ? css.active : ''}`}
         onClick={closeMenu}
       >
         {label}
       </Link>
     ));
 
-  const renderGuestButtons = (extraClass = "") => (
+  const renderGuestButtons = (extraClass = '') => (
     <>
       <Link
         href="/login"
@@ -103,7 +104,7 @@ export default function Header() {
     </>
   );
 
-  const renderShareButton = (extraClass = "") => (
+  const renderShareButton = (extraClass = '') => (
     <Link
       href="/locations/add"
       className={`${css.accentButton} ${extraClass}`}
@@ -113,18 +114,25 @@ export default function Header() {
     </Link>
   );
 
-  // аватар, ім'я, роздільник, іконка виходу
+  // аватар і ім'я ведуть у свій профіль; кнопка виходу — окремо (не всередині посилання)
   const renderProfile = () =>
     user && (
       <div className={css.profile}>
-        <Image
-          src={user.avatar || DEFAULT_AVATAR}
-          alt=""
-          width={32}
-          height={32}
-          className={css.avatar}
-        />
-        <span className={css.userName}>{user.name}</span>
+        <Link
+          href={profileHref}
+          className={css.profileLink}
+          onClick={closeMenu}
+          aria-label={`Мій профіль: ${user.name}`}
+        >
+          <Image
+            src={user.avatar || DEFAULT_AVATAR}
+            alt=""
+            width={32}
+            height={32}
+            className={css.avatar}
+          />
+          <span className={css.userName}>{user.name}</span>
+        </Link>
         <span className={css.divider} aria-hidden="true" />
         <button
           type="button"
@@ -176,9 +184,9 @@ export default function Header() {
           {/* одна кнопка: бургер ↔ хрестик */}
           <button
             type="button"
-            className={`${css.burger} ${isMenuOpen ? css.burgerOpen : ""}`}
+            className={`${css.burger} ${isMenuOpen ? css.burgerOpen : ''}`}
             onClick={() => setIsMenuOpen((open) => !open)}
-            aria-label={isMenuOpen ? "Закрити меню" : "Відкрити меню"}
+            aria-label={isMenuOpen ? 'Закрити меню' : 'Відкрити меню'}
             aria-expanded={isMenuOpen}
           >
             <span className={css.burgerLine} />
@@ -190,7 +198,7 @@ export default function Header() {
 
       {/* меню під шапкою; завжди в DOM — показ і приховування анімує клас open */}
       <div
-        className={`${css.menu} ${isMenuOpen ? css.open : ""}`}
+        className={`${css.menu} ${isMenuOpen ? css.open : ''}`}
         aria-hidden={!isMenuOpen}
         inert={!isMenuOpen}
       >

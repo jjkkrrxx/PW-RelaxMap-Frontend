@@ -129,6 +129,26 @@
   gap: 8px;
 }
 
+/* аватар + ім'я — посилання на свій профіль */
+.profileLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.profileLink:hover {
+  color: var(--color-brand);
+}
+
+.profileLink:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
 .avatar {
   border-radius: 50%;
   object-fit: cover;
