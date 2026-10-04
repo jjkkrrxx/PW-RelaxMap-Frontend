@@ -63,7 +63,7 @@ export default function Header() {
   // «Мій Профіль» одразу на /profile/<id>, без проміжного перенаправлення
   const links = isAuthenticated
     ? AUTH_LINKS.map((link) =>
-        link.href === "/profile" && user
+        link.href === "/profile" && user?._id
           ? { ...link, href: `/profile/${user._id}` }
           : link,
       )
