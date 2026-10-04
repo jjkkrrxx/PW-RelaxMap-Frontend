@@ -52,6 +52,16 @@ export const getLocations = async (
   return data;
 };
 
+// Популярні локації для головної: бекенд за type=popular віддає 6 локацій
+// із найвищим рейтингом.
+export const getPopularLocations = async (): Promise<Location[]> => {
+  const { data } = await apiClient.get<LocationsResponse>("/locations", {
+    params: { type: "popular" },
+  });
+
+  return Array.isArray(data?.data) ? data.data : [];
+};
+
 export const getUserLocations = async (
   userId: string,
   page: number,
