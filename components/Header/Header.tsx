@@ -60,7 +60,14 @@ export default function Header() {
     };
   }, [isMenuOpen]);
 
-  const links = isAuthenticated ? AUTH_LINKS : GUEST_LINKS;
+  // «Мій Профіль» одразу на /profile/<id>, без проміжного перенаправлення
+  const links = isAuthenticated
+    ? AUTH_LINKS.map((link) =>
+        link.href === "/profile" && user
+          ? { ...link, href: `/profile/${user._id}` }
+          : link,
+      )
+    : GUEST_LINKS;
 
   const openLogout = () => {
     closeMenu();
