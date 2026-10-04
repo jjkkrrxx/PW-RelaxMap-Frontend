@@ -7,7 +7,6 @@ interface AdvantageCardProps {
   text: string;
 }
 
-// <li> — картки лежать у <ul> блоку переваг
 function AdvantageCard({ iconName, title, text }: AdvantageCardProps) {
   return (
     <li className={css.card}>

@@ -1,4 +1,3 @@
-/* картки не інтерактивні — без ефекту при наведенні (як у макеті) */
 .card {
   border-radius: 16px;
   padding: 16px;
@@ -6,7 +5,6 @@
   background-color: var(--color-scheme-2-foreground);
 }
 
-/* block — інакше inline-іконка додає зайві ~4px висоти під рядок тексту */
 .icon {
   display: block;
   margin-bottom: 16px;
@@ -19,13 +17,13 @@
   font-size: 18px;
   line-height: 1.4;
   letter-spacing: -0.01em;
-  color: var(--color-green);
+  color: var(--color-scheme-2-text);
 }
 
 .text {
   font-size: 16px;
   line-height: 1.5;
-  color: var(--color-green);
+  color: var(--color-scheme-2-text);
 }
 
 @media screen and (min-width: 1440px) {
