@@ -1,17 +1,14 @@
+/* картки не інтерактивні — без ефекту при наведенні (як у макеті) */
 .card {
   border-radius: 16px;
   padding: 16px;
   width: 100%;
-
   background-color: var(--color-scheme-2-foreground);
-  transition: transform 0.3s;
 }
 
-.card:hover {
-  transform: scale(1.05);
-}
-
+/* block — інакше inline-іконка додає зайві ~4px висоти під рядок тексту */
 .icon {
+  display: block;
   margin-bottom: 16px;
   fill: var(--color-black);
 }
@@ -22,13 +19,13 @@
   font-size: 18px;
   line-height: 1.4;
   letter-spacing: -0.01em;
-  color: var(--color-scheme-2-text);
+  color: var(--color-green);
 }
 
 .text {
   font-size: 16px;
   line-height: 1.5;
-  color: var(--color-scheme-2-text);
+  color: var(--color-green);
 }
 
 @media screen and (min-width: 1440px) {
