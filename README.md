@@ -17,7 +17,7 @@
 
 ## Запуск локально
 
-1. Запустіть бекенд ([PW-RelaxMap-Backend](https://github.com/jjkkrrxx/PW-RelaxMap-Backend)) — за його README.
+1. Запустіть бекенд ([PW-RelaxMap-Backend](https://github.com/jjkkrrxx/PW-RelaxMap-Backend)) — за його README. У `.env` бекенду задайте `PORT=4000`: за замовчуванням і бекенд, і фронтенд стартують на 3000.
 2. Встановіть залежності:
 
 ```bash
@@ -27,7 +27,7 @@
 3. Створіть `.env.local` із шаблону й заповніть значення:
 
 ```bash
-   cp .env.example .env.local
+   cp .env.template .env.local
 ```
 
 | Змінна                            | Призначення                                                                            |
