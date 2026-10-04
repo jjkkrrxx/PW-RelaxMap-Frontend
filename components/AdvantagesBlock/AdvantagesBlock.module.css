@@ -5,14 +5,13 @@
 
 .title {
   margin-bottom: 40px;
-  color: var(--color-green);
+  color: var(--color-scheme-2-text);
   font-size: 28px;
   font-weight: 700;
   line-height: 1.2;
   letter-spacing: -0.01em;
 }
 
-/* список без маркерів і відступів браузера */
 .list {
   display: grid;
   gap: 24px;
@@ -31,7 +30,6 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  /* третя картка — на всю ширину, щоб не лишалася сама в половині ряду */
   .list > :last-child {
     grid-column: 1 / -1;
   }
