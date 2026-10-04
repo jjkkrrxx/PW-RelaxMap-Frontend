@@ -51,7 +51,7 @@ function MapContent({
       lng: coordinates.lon,
     });
 
-    map.setZoom(15);
+    map.setZoom(14);
   }, [map, coordinates.lat, coordinates.lon]);
 
   const markerPosition =
