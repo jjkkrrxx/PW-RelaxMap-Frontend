@@ -108,13 +108,15 @@
   color: var(--color-error);
 }
 
+/* поверх фото: світлий текст з тінню — читається на будь-якій ділянці */
 .errorText {
   margin-top: 8px;
-  color: var(--color-error);
+  color: var(--color-white);
   font-family: var(--font-montserrat);
-  font-size: 12px;
-  font-weight: 400;
+  font-size: 14px;
+  font-weight: 500;
   line-height: 1.5;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6);
 }
 
 .searchButton {
@@ -133,6 +135,7 @@
   font-size: 16px;
   font-weight: 500;
   line-height: 1.5;
+  white-space: nowrap;
   cursor: pointer;
   transition:
     background-color 0.2s ease-in-out,
@@ -193,8 +196,10 @@
     width: 331px;
   }
 
+  /* мінімум — ширина з макета, але кнопка росте під текст */
   .searchButton {
-    width: 137px;
+    width: auto;
+    min-width: 137px;
   }
 }
 
@@ -223,7 +228,8 @@
   }
 
   .searchButton {
-    width: 165px;
+    width: auto;
+    min-width: 165px;
     height: 43px;
     font-size: 20px;
   }
