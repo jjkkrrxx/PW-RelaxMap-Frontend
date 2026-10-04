@@ -14,9 +14,22 @@ export const fetchCurrentUser = async (): Promise<User | null> => {
   return data.data;
 };
 
-// Оновлення сесії: POST /api/auth/refresh (наш route handler)
-export const refreshSession = async (): Promise<void> => {
-  await apiClient.post("/auth/refresh");
+// Оновлення сесії: POST /api/auth/refresh (наш route handler).
+// Лише один запит одночасно: бекенд при оновленні видаляє старий refreshToken,
+// тож другий паралельний запит отримав би 401 і бекенд очистив би cookies.
+// Паралельні виклики чекають на той самий запит.
+let refreshPromise: Promise<void> | null = null;
+
+export const refreshSession = (): Promise<void> => {
+  if (!refreshPromise) {
+    refreshPromise = apiClient
+      .post("/auth/refresh")
+      .then(() => undefined)
+      .finally(() => {
+        refreshPromise = null;
+      });
+  }
+  return refreshPromise;
 };
 
 // Вихід: POST /api/auth/logout (route handler №1)
