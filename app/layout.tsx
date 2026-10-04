@@ -3,6 +3,7 @@ import { Montserrat } from 'next/font/google';
 import { Toaster } from 'react-hot-toast';
 import Providers from '@/components/providers/providers';
 import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
 import './globals.css';
 
 const montserrat = Montserrat({
@@ -30,6 +31,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           {children}
+          <Footer />
           <Toaster 
             position="top-right" 
             toastOptions={{
