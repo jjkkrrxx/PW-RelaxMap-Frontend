@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
-import toast from 'react-hot-toast';
 import Modal from '@/components/Modal/Modal';
 import AddReviewForm from '@/components/addreviewform/addreviewform';
 import { useAuthStore } from '@/lib/store/authStore';
@@ -16,6 +15,7 @@ interface Props {
 
 // Модальне вікно «Залишити відгук» на паралельному маршруті (учасник №12).
 // Закриття (бекдроп, хрестик, Escape, «Відмінити», успіх) повертає на сторінку локації.
+// Гостя перенаправляємо на модалку-запрошення до авторизації (AuthPromptModal).
 export default function AddReviewModal({ locationId, intercepted = false }: Props) {
   const router = useRouter();
   const user = useAuthStore((s) => s.user);
@@ -40,14 +40,13 @@ export default function AddReviewModal({ locationId, intercepted = false }: Prop
 
   const isGuest = isHydrated && !isAuthenticated;
 
-  // Гість: поки немає AuthPromptModal (задача №7) — повідомлення і повернення на сторінку
+  // Гість: замість форми — AuthPromptModal на сусідньому паралельному маршруті.
+  // replace, щоб «Назад» із неї повертав на сторінку локації, а не на форму
   useEffect(() => {
-    if (!isGuest) return;
-    toast.error('Щоб залишити відгук, увійдіть в акаунт', {
-      id: 'review-auth-required',
-    });
-    close();
-  }, [isGuest, close]);
+    if (!isGuest || isClosing.current) return;
+    isClosing.current = true;
+    router.replace(`/locations/${locationId}/auth-prompt`, { scroll: false });
+  }, [isGuest, router, locationId]);
 
   // до перевірки сесії не знаємо, гість чи ні — нічого не показуємо
   if (!isHydrated || !isAuthenticated || !user) {
