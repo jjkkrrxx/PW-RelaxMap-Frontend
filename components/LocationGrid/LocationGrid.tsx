@@ -1,96 +1,46 @@
-"use client";
+'use client';
 
-import { useEffect, useRef, useState } from "react";
-import { Location } from "@/types/location";
-import { getUserLocations } from "@/components/utils/locations";
-import LocationCard from "../LocationCard/LocationCard";
+import { useEffect, useRef } from 'react';
+import { Location } from '@/types/location';
+import LocationCard from '../LocationCard/LocationCard';
 
 interface LocationGridProps {
-  userId: string;
+  locations: Location[];
+  hasMore: boolean;
+  isLoading: boolean;
+  onLoadMore: () => void;
   isEditable?: boolean;
 }
 
-const LocationGrid = ({ userId, isEditable = false }: LocationGridProps) => {
-  const [locations, setLocations] = useState<Location[]>([]);
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [newLocationId, setNewLocationId] = useState<string | null>(null);
-
+const LocationGrid = ({
+  locations,
+  hasMore,
+  isLoading,
+  onLoadMore,
+  isEditable = false,
+}: LocationGridProps) => {
+  const previousLengthRef = useRef(locations.length);
   const newLocationRef = useRef<HTMLLIElement | null>(null);
 
   useEffect(() => {
-    const fetchLocations = async () => {
-      setIsLoading(true);
-
-      try {
-        const response = await getUserLocations(userId, 1, 9);
-
-        setLocations(response.data);
-        setPage(response.page);
-        setTotalPages(response.totalPages);
-      } catch (error) {
-        console.error("Failed to fetch locations:", error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchLocations();
-  }, [userId]);
-
-  useEffect(() => {
-    if (!newLocationId) {
-      return;
+    if (locations.length > previousLengthRef.current) {
+      newLocationRef.current?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      });
     }
 
-    newLocationRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  }, [locations, newLocationId]);
-
-  const handleLoadMore = async () => {
-    if (isLoading || page >= totalPages) {
-      return;
-    }
-
-    const nextPage = page + 1;
-
-    setIsLoading(true);
-
-    try {
-      const response = await getUserLocations(userId, nextPage, 9);
-
-      setNewLocationId(response.data[0]?._id ?? null);
-
-      setLocations((prevLocations) => [...prevLocations, ...response.data]);
-
-      setPage(response.page);
-      setTotalPages(response.totalPages);
-    } catch (error) {
-      console.error("Failed to load more locations:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  if (isLoading && locations.length === 0) {
-    return <p>Завантаження...</p>;
-  }
-
-  if (!isLoading && locations.length === 0) {
-    return <p>Локації не знайдено</p>;
-  }
+    previousLengthRef.current = locations.length;
+  }, [locations]);
 
   return (
     <div>
       <ul>
-        {locations.map((location) => (
+        {locations.map((location, index) => (
           <li
             key={location._id}
             ref={(element) => {
-              if (location._id === newLocationId) {
+              if (index === previousLengthRef.current) {
                 newLocationRef.current = element;
               }
             }}
@@ -100,9 +50,9 @@ const LocationGrid = ({ userId, isEditable = false }: LocationGridProps) => {
         ))}
       </ul>
 
-      {page < totalPages && (
-        <button type="button" onClick={handleLoadMore} disabled={isLoading}>
-          {isLoading ? "Завантаження..." : "Показати ще"}
+      {hasMore && (
+        <button type="button" onClick={onLoadMore} disabled={isLoading}>
+          {isLoading ? 'Завантаження...' : 'Показати ще'}
         </button>
       )}
     </div>
