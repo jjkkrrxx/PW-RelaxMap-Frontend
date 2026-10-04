@@ -25,6 +25,9 @@ const AUTH_LINKS = [
   { href: "/profile", label: "Мій Профіль" },
 ];
 
+// сторінки, де основна шапка прихована (там своя смуга з лого за Figma)
+const AUTH_PAGES = ["/login", "/register"];
+
 export default function Header() {
   const user = useAuthStore((s) => s.user);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
@@ -128,6 +131,11 @@ export default function Header() {
         </button>
       </div>
     );
+
+  // перевірка після всіх хуків: інакше React впаде при переході між сторінками
+  if (AUTH_PAGES.includes(pathname)) {
+    return null;
+  }
 
   return (
     <header className={css.header}>

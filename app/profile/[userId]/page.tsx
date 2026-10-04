@@ -26,6 +26,9 @@ export default async function ProfilePage({ params }: Props) {
   const userJson = await userRes.json();
   const user = userJson.data;
 
+  if (!user) {
+    notFound();
+  }
   return (
     <main className={styles.page}>
       <ProfileInfo
