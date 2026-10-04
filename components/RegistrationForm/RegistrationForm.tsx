@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 import { useAuthStore, type User } from "@/lib/store/authStore";
+import InputField from "@/components/InputField/InputField";
 import styles from "./RegistrationForm.module.css";
 
 type RegisterValues = {
@@ -51,12 +52,22 @@ export default function RegistrationForm() {
         values,
       );
 
-      setUser(response.data);
+      const user = response.data;
+
+      if (!user?._id) {
+        console.error("Некоректна відповідь реєстрації:", response.data);
+        toast.error("Не вдалося отримати дані користувача");
+        return;
+      }
+
+      setUser(user);
 
       toast.success("Реєстрація успішна");
 
-      router.push(`/profile/${response.data._id}`);
+      router.push(`/profile/${user._id}`);
     } catch (error: unknown) {
+      console.error("Помилка реєстрації:", error);
+
       if (axios.isAxiosError(error)) {
         const message =
           error.response?.data?.message || "Не вдалося зареєструватися";
@@ -87,68 +98,47 @@ export default function RegistrationForm() {
           isSubmitting,
         }) => (
           <Form className={styles.form}>
-            <div className={styles.field}>
-              <label className={styles.label} htmlFor="name">
-                Ім’я*
-              </label>
+            <InputField
+              label="Ім’я*"
+              id="name"
+              name="name"
+              type="text"
+              placeholder="Ваше ім’я"
+              value={values.name}
+              error={errors.name}
+              touched={touched.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              autoComplete="name"
+            />
 
-              <input
-                className={styles.input}
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Ваше ім’я"
-                value={values.name}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
+            <InputField
+              label="Пошта*"
+              id="email"
+              name="email"
+              type="email"
+              placeholder="hello@relaxmap.ua"
+              value={values.email}
+              error={errors.email}
+              touched={touched.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              autoComplete="email"
+            />
 
-              {touched.name && errors.name && (
-                <p className={styles.error}>{errors.name}</p>
-              )}
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.label} htmlFor="email">
-                Пошта*
-              </label>
-
-              <input
-                className={styles.input}
-                id="email"
-                name="email"
-                type="email"
-                placeholder="hello@relaxmap.ua"
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-
-              {touched.email && errors.email && (
-                <p className={styles.error}>{errors.email}</p>
-              )}
-            </div>
-
-            <div className={styles.field}>
-              <label className={styles.label} htmlFor="password">
-                Пароль*
-              </label>
-
-              <input
-                className={styles.input}
-                id="password"
-                name="password"
-                type="password"
-                placeholder="********"
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-              />
-
-              {touched.password && errors.password && (
-                <p className={styles.error}>{errors.password}</p>
-              )}
-            </div>
+            <InputField
+              label="Пароль*"
+              id="password"
+              name="password"
+              type="password"
+              placeholder="********"
+              value={values.password}
+              error={errors.password}
+              touched={touched.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              autoComplete="new-password"
+            />
 
             <button
               className={styles.button}
