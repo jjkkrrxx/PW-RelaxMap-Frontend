@@ -4,13 +4,9 @@ import styles from "./register.module.css";
 
 export default function RegisterPage() {
   return (
-    <main className={styles.page}>
-      <div className={styles.content}>
-        <div className={styles.authWrapper}>
-          <AuthNav />
-          <RegistrationForm />
-        </div>
-      </div>
-    </main>
+    <div className={styles.content}>
+      <AuthNav />
+      <RegistrationForm />
+    </div>
   );
 }
