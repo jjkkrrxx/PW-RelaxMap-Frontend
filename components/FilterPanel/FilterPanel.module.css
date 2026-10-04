@@ -1,10 +1,10 @@
-/* mobile: пошук / регіон + тип / сортування */
+/* mobile: пошук / тип + регіон / сортування */
 .filterPanel {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   grid-template-areas:
     "search search"
-    "region type"
+    "type region"
     "sort sort";
   gap: 16px;
   width: 100%;
@@ -50,13 +50,13 @@
   min-width: 0;
 }
 
-/* tablet: пошук на всю ширину, під ним регіон, тип, проміжок, сортування */
+/* tablet: пошук на всю ширину, під ним тип, регіон, проміжок, сортування */
 @media (min-width: 768px) and (max-width: 1439px) {
   .filterPanel {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) 83px minmax(0, 1fr);
+    grid-template-columns: 207px 207px minmax(0, 1fr) 158px;
     grid-template-areas:
       "search search search search"
-      "region type . sort";
+      "type region . sort";
     column-gap: 16px;
     row-gap: 16px;
   }
