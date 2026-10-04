@@ -34,13 +34,31 @@
   background-color: var(--color-bg-light);
 }
 
+/* свій квадратик: рамка того самого кольору, що й рамка списку */
 .checkbox {
   flex-shrink: 0;
   width: 18px;
   height: 18px;
   margin: 0;
-  accent-color: var(--color-brand);
+  appearance: none;
+  border: 1px solid var(--color-brand);
+  border-radius: 4px;
+  background-color: var(--color-white);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 12px 12px;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.checkbox:checked {
+  background-color: var(--color-brand);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M2 6.5l2.5 2.5L10 3.5'/%3E%3C/svg%3E");
+}
+
+.checkbox:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
 }
 
 @media (min-width: 1440px) {
