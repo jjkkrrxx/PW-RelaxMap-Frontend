@@ -120,7 +120,7 @@
 
 .viewLink:active {
   border-color: var(--opacity-transparent);
-  background: var(--color-green-active);
+  background: var(--color-coral-darker);
   color: var(--color-white);
 }
 
