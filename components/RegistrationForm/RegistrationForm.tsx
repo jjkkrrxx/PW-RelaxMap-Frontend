@@ -46,16 +46,18 @@ export default function RegistrationForm() {
 
   const handleSubmit = async (values: RegisterValues) => {
     try {
-      const response = await axios.post<User>(
+      // бекенд обгортає відповідь у { data }: користувач лежить у response.data.data
+      const response = await axios.post<{ data: User }>(
         "/api/auth/register",
         values,
       );
+      const user = response.data.data;
 
-      setUser(response.data);
+      setUser(user);
 
       toast.success("Реєстрація успішна");
 
-      router.push(`/profile/${response.data._id}`);
+      router.push(`/profile/${user._id}`);
     } catch (error: unknown) {
       if (axios.isAxiosError(error)) {
         const message =
