@@ -19,28 +19,30 @@ const LocationGrid = ({
   onLoadMore,
   isEditable = false,
 }: LocationGridProps) => {
-  const previousLengthRef = useRef(locations.length);
-  const newLocationRef = useRef<HTMLLIElement | null>(null);
+const newLocationRef = useRef<HTMLLIElement | null>(null);
+const lastLocationIdRef = useRef<string | null>(null);
 
-  useEffect(() => {
-    if (locations.length > previousLengthRef.current) {
+useEffect(() => {
+  if (locations.length > 0) {
+    const lastLocation = locations[locations.length - 1];
+    if (lastLocation._id !== lastLocationIdRef.current) {
+      lastLocationIdRef.current = lastLocation._id;
       newLocationRef.current?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
       });
     }
-
-    previousLengthRef.current = locations.length;
-  }, [locations]);
+  }
+}, [locations]);
 
   return (
     <div>
       <ul>
-        {locations.map((location, index) => (
+        {locations.map((location) => (
           <li
             key={location._id}
             ref={(element) => {
-              if (index === previousLengthRef.current) {
+              if (location._id === lastLocationIdRef.current) {
                 newLocationRef.current = element;
               }
             }}
