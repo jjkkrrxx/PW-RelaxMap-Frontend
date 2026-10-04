@@ -6,22 +6,24 @@ interface DataResponse<T> {
   data: T;
 }
 
+// Поточний юзер на сервері. null — гість, сесія недійсна або бекенд недоступний:
+// сторінка тоді сама вирішує, куди перенаправити, замість того щоб упасти з помилкою.
 export const getCurrentUser = async (): Promise<User | null> => {
-  const cookieStore = await cookies();
+  try {
+    const cookieStore = await cookies();
 
-  const cookieHeader = cookieStore
-    .getAll()
-    .map(({ name, value }) => `${name}=${value}`)
-    .join('; ');
-
-  const { data } = await serverApi.get<DataResponse<User | null>>(
-    '/users/current',
-    {
-      headers: {
-        Cookie: cookieHeader,
+    const { data } = await serverApi.get<DataResponse<User | null>>(
+      '/users/current',
+      {
+        headers: {
+          // готовий рядок для заголовка Cookie, зі значеннями в правильному кодуванні
+          Cookie: cookieStore.toString(),
+        },
       },
-    }
-  );
+    );
 
-  return data.data;
+    return data.data;
+  } catch {
+    return null;
+  }
 };

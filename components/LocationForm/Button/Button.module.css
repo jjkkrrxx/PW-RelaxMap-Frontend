@@ -66,15 +66,15 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
+  .button:not(:disabled):hover {
+    background-color: var(--color-coral-lighter);
+    color: var(--color-scheme-2-text);
+  }
+
   .secondary:not(:disabled):hover {
     background-color: var(--color-coral-dark);
     color: var(--color-white);
     border-color: var(--opacity-transparent);
-  }
-
-  .button:not(:disabled):hover {
-    background-color: var(--color-coral-lighter);
-    color: var(--color-scheme-2-text);
   }
 }
 

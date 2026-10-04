@@ -25,9 +25,12 @@ export default async function EditLocationPage({
 
   const user = await getCurrentUser();
 
-  if (!user || user._id !== data.ownerId._id) {
+  // ownerId може бути null, якщо автора локації видалено — тоді редагувати нікому.
+  // redirect — поза try/catch: він працює через виняток, і catch його б перехопив
+  if (!user || user._id !== data.ownerId?._id) {
     redirect(`/locations/${id}`);
   }
+
   return (
     <main className={css.page}>
       <Container>
