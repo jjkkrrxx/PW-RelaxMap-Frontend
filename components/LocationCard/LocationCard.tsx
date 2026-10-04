@@ -1,7 +1,10 @@
 import { Location } from "@/types/location";
 import Image from "next/image";
 import Link from "next/link";
+import { Icon } from "@/components/Icon/Icon";
+import { useCategoriesStore } from "@/lib/store/categoriesStore";
 import StarRating from "../starrating/starrating";
+import styles from "./LocationCard.module.css";
 
 interface LocationCardProps {
   location: Location;
@@ -9,27 +12,52 @@ interface LocationCardProps {
 }
 
 const LocationCard = ({ location, isEditable = false }: LocationCardProps) => {
+  const locationTypes = useCategoriesStore(
+    (state) => state.categories?.locationTypes,
+  );
+  const locationTypeName = locationTypes?.find(
+    (item) => item.slug === location.locationType,
+  )?.name;
+
   return (
-    <div>
+    <article className={styles.card}>
       <Image
         src={location.image}
         alt={location.name}
         width={420}
         height={420}
+        className={styles.image}
       />
 
-      <p>{location.locationType}</p>
+      <div className={styles.information}>
+        <p className={styles.type}>
+          {locationTypeName ?? location.locationType}
+        </p>
 
-      <StarRating value={location.rate} />
+        <div className={styles.rating}>
+          <StarRating value={location.rate} />
+        </div>
 
-      <h3>{location.name}</h3>
+        <h3 className={styles.name}>{location.name}</h3>
 
-      <Link href={`/locations/${location._id}`}>Переглянути локацію</Link>
+        <div className={styles.actions}>
+          <Link href={`/locations/${location._id}`} className={styles.viewLink}>
+            Переглянути локацію
+          </Link>
 
-      {isEditable && (
-        <Link href={`/locations/${location._id}/edit`}>Редагувати</Link>
-      )}
-    </div>
+          {isEditable && (
+            <Link
+              href={`/locations/${location._id}/edit`}
+              className={styles.editLink}
+              aria-label={`Редагувати: ${location.name}`}
+              title="Редагувати локацію"
+            >
+              <Icon name="icon-edit" size={20} />
+            </Link>
+          )}
+        </div>
+      </div>
+    </article>
   );
 };
 

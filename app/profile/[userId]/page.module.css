@@ -56,7 +56,7 @@
 
 @media (min-width: 1440px) {
   .page {
-    padding: 48px 64px 72px;
+    padding: 48px 64px 64px;
     max-width: 1440px;
     margin: 0 auto;
   }
