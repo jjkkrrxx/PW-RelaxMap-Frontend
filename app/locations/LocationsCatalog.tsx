@@ -33,7 +33,8 @@ export default function LocationsCatalog() {
   const searchParams = useSearchParams();
   const search = searchParams.get("search") ?? "";
   const region = searchParams.get("region") ?? "";
-  const type = searchParams.get("type") ?? "";
+  // типів може бути кілька (?type=a&type=b) — тримаємо рядком для залежностей
+  const type = searchParams.getAll("type").join(",");
   const sort = searchParams.get("sort") ?? "";
   const pageSize = useSyncExternalStore(
     subscribeToDesktopBreakpoint,
