@@ -16,7 +16,7 @@ interface ProfileLocationGridProps {
 
 const MOBILE_PAGE_SIZE = 4;
 const TABLET_PAGE_SIZE = 4;
-const DESKTOP_PAGE_SIZE = 3;
+const DESKTOP_PAGE_SIZE = 6;
 
 export default function ProfileLocationGrid({
   userId,

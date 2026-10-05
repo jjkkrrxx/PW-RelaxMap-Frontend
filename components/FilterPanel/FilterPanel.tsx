@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Dropdown from '@/components/Dropdown/Dropdown';
+import TypeFilter from './TypeFilter';
 import { useCategoriesStore } from '@/lib/store/categoriesStore';
 import styles from './FilterPanel.module.css';
 
@@ -10,11 +11,11 @@ import styles from './FilterPanel.module.css';
 const SEARCH_DELAY = 400;
 
 // значення — як у бекенді (locationQuerySchema: sort)
+// пункти — за ТЗ; повторний вибір активного пункту скидає сортування
 const SORT_OPTIONS = [
-  { label: 'Без сортування', value: '' },
-  { label: 'Популярні', value: 'popular' },
+  { label: 'За популярністю', value: 'popular' },
   { label: 'За рейтингом', value: 'rating' },
-  { label: 'Новіші', value: 'new' },
+  { label: 'Новіші спочатку', value: 'new' },
 ];
 
 const FilterPanel = () => {
@@ -37,7 +38,8 @@ const FilterPanel = () => {
 
   const isLoading = !categories;
   const region = searchParams.get('region') ?? '';
-  const type = searchParams.get('type') ?? '';
+  // типів може бути кілька: ?type=more&type=gory
+  const types = searchParams.getAll('type');
   const sort = searchParams.get('sort') ?? '';
   const urlSearch = searchParams.get('search') ?? '';
 
@@ -73,6 +75,16 @@ const FilterPanel = () => {
     [pathname, router, searchParams],
   );
 
+  const updateTypes = (values: string[]) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    params.delete('type');
+    values.forEach((value) => params.append('type', value));
+    params.set('page', '1');
+
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
+  };
+
   // пошук: оновлюємо URL лише після паузи і без нових записів в історії
   useEffect(() => {
     const query = search.trim();
@@ -94,13 +106,10 @@ const FilterPanel = () => {
     })),
   ];
 
-  const typeOptions = [
-    { label: 'Усі типи', value: '' },
-    ...(categories?.locationTypes ?? []).map((item) => ({
-      label: item.name,
-      value: item.slug,
-    })),
-  ];
+  const typeOptions = (categories?.locationTypes ?? []).map((item) => ({
+    label: item.name,
+    value: item.slug,
+  }));
 
   return (
     <section className={styles.filterPanel} aria-label="Фільтри локацій">
@@ -125,11 +134,10 @@ const FilterPanel = () => {
       </div>
 
       <div className={styles.type}>
-        <Dropdown
-          ariaLabel="Тип локації"
+        <TypeFilter
           options={typeOptions}
-          value={type}
-          onChange={(value) => updateParams('type', value)}
+          values={types}
+          onChange={updateTypes}
           placeholder={isLoading ? 'Завантаження...' : 'Тип локації'}
         />
       </div>
@@ -139,7 +147,9 @@ const FilterPanel = () => {
           ariaLabel="Сортування"
           options={SORT_OPTIONS}
           value={sort}
-          onChange={(value) => updateParams('sort', value)}
+          onChange={(value) =>
+            updateParams('sort', value === sort ? '' : value)
+          }
           placeholder="Сортування"
         />
       </div>

@@ -108,6 +108,8 @@ const Dropdown = ({
       <button
         type="button"
         role="combobox"
+        // для combobox назва — лише з aria-label: поле й обране значення
+        aria-label={`${ariaLabel}: ${selected?.label ?? 'не обрано'}`}
         className={`${styles.trigger} ${selected ? styles.hasValue : ''} ${
           isOpen ? styles.open : ''
         }`}

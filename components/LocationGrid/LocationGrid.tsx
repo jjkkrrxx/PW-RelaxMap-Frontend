@@ -58,7 +58,12 @@ const LocationGrid = ({
             }}
             className={styles.item}
           >
-            <LocationCard location={location} isEditable={isEditable} />
+            <LocationCard
+              location={location}
+              isEditable={isEditable}
+              // перший ряд видно одразу — фото з пріоритетом
+              isPriority={index < 3}
+            />
           </li>
         ))}
       </ul>

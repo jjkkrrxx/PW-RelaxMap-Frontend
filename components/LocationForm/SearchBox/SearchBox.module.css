@@ -29,9 +29,14 @@
   color: var(--opacity-neutral-darkest-60);
 }
 
-.input:hover,
 .input:focus-visible {
   border-color: var(--color-scheme-1-accent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .input:hover {
+    border-color: var(--color-scheme-1-accent);
+  }
 }
 
 @media screen and (min-width: 768px) {

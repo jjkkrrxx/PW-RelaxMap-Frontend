@@ -31,6 +31,11 @@
 .description {
   margin-top: 32px;
 }
+.map {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+}
 
 @media (min-width: 768px) {
   .container {
@@ -48,6 +53,10 @@
 }
 
 @media (min-width: 1440px) {
+  .map {
+    margin-top: 80px;
+  }
+
   .page {
     padding: 48px 0 0;
   }

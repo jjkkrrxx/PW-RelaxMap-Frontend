@@ -1,0 +1,154 @@
+/* Значення — з макета Figma (Головна, секція «Популярні локації», 375 / 768 / 1440). */
+.section {
+  padding: 64px 20px;
+  background: var(--color-bg-light);
+  font-family: var(--font-montserrat);
+}
+
+.container {
+  max-width: 1312px;
+  margin: 0 auto;
+}
+
+/* заголовок зліва, кнопка «Всі локації» справа */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.title {
+  margin: 0;
+  color: var(--color-black);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.allLink {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 114px;
+  height: 48px;
+  border: 1px solid var(--color-brand);
+  border-radius: 6px;
+  background: var(--color-brand);
+  color: var(--color-white);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+
+.allLink:hover,
+.allLink:focus-visible {
+  background: var(--color-brand-hover);
+  color: var(--color-green);
+}
+
+.allLink:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+.slider {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.swiper {
+  width: 100%;
+}
+
+.slide {
+  height: auto;
+}
+
+/* на час завантаження тримаємо висоту ряду карток і стрілок — секції нижче не стрибають */
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 608px; /* картка 520 + відступ 40 + стрілки 48 */
+}
+
+/* Квадратні стрілки внизу справа. */
+.controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  border: 1px solid var(--opacity-neutral-darkest-15);
+  border-radius: 8px;
+  background: var(--color-surface);
+  color: var(--color-text-main);
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease;
+}
+
+.arrow svg {
+  fill: currentColor;
+}
+
+.arrow:hover,
+.arrow:focus-visible {
+  border-color: var(--color-brand);
+}
+
+.arrow:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 64px 32px;
+  }
+
+  .title {
+    font-size: 44px;
+  }
+
+  .loading {
+    min-height: 613px; /* картка 525 + 40 + 48 */
+  }
+}
+
+@media (min-width: 1440px) {
+  .section {
+    padding: 72px 64px;
+  }
+
+  .title {
+    font-size: 52px;
+  }
+
+  .allLink {
+    width: 136px;
+    font-size: 20px;
+  }
+
+  .loading {
+    min-height: 712px; /* картка 624 + 40 + 48 */
+  }
+}

@@ -47,19 +47,17 @@ export default function RegistrationForm() {
 
   const handleSubmit = async (values: RegisterValues) => {
     try {
-      const response = await axios.post<User>(
+      // бекенд обгортає відповідь у { data }: користувач лежить у response.data.data
+      const response = await axios.post<{ data: User }>(
         "/api/auth/register",
         values,
       );
-
-      const user = response.data;
-
+      const user = response.data.data;
       if (!user?._id) {
         console.error("Некоректна відповідь реєстрації:", response.data);
         toast.error("Не вдалося отримати дані користувача");
         return;
       }
-
       setUser(user);
 
       toast.success("Реєстрація успішна");

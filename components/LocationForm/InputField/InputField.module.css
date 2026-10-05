@@ -32,7 +32,6 @@
   color: var(--opacity-neutral-darkest-60);
 }
 
-.input:hover,
 .input:focus-visible {
   border-color: var(--color-scheme-1-accent);
 }
@@ -41,7 +40,7 @@
   border-color: var(--color-red);
   color: var(--color-red);
 }
-.errorInput:hover,
+
 .errorInput:focus-visible {
   border-color: var(--color-red);
 }
@@ -53,6 +52,16 @@
   font-size: 12px;
   line-height: 1.5;
   color: var(--color-red);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .input:hover {
+    border-color: var(--color-scheme-1-accent);
+  }
+
+  .errorInput:hover {
+    border-color: var(--color-red);
+  }
 }
 
 @media screen and (min-width: 1440px) {

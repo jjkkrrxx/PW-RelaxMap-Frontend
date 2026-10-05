@@ -6,7 +6,7 @@ export default function CreateLocationPage() {
   return (
     <main className={css.page}>
       <Container>
-        <h2 className={css.title}>Додавання нового місця</h2>
+        <h1 className={css.title}>Додавання нового місця</h1>
         <CreateLocationClient />
       </Container>
     </main>

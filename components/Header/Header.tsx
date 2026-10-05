@@ -8,6 +8,7 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { useLogout } from "@/lib/hooks/useLogout";
 import { Icon } from "@/components/Icon/Icon";
 import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
+import { AUTH_PAGES } from "@/lib/constants/routes";
 import css from "./Header.module.css";
 
 const DEFAULT_AVATAR =
@@ -24,9 +25,6 @@ const AUTH_LINKS = [
   { href: "/locations", label: "Місця відпочинку" },
   { href: "/profile", label: "Мій Профіль" },
 ];
-
-// сторінки, де основна шапка прихована (там своя смуга з лого за Figma)
-const AUTH_PAGES = ["/login", "/register"];
 
 export default function Header() {
   const user = useAuthStore((s) => s.user);
