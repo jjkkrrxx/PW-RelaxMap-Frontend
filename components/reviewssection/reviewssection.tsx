@@ -1,30 +1,33 @@
 import Link from 'next/link';
 import ReviewsBlock from '@/components/reviewsblock/reviewsblock';
-import type { Review } from '@/components/utils/feedbacks';
 import styles from './reviewssection.module.css';
 
-interface Props {
-  reviews: Review[];
-  // Адреса паралельного маршруту з модалкою відгуку, напр. /locations/[id]/review
-  addReviewHref: string;
-}
+type Review = {
+  _id: string;
+  userName: string;
+  rate: number;
+  description: string;
+  createdAt: string;
+};
 
-// Секція «Відгуки» на сторінці локації (учасник №12).
+type Props = {
+  reviews: Review[];
+  addReviewHref: string;
+};
+
+// Секція «Відгуки» на сторінці локації.
 // Заголовок і кнопка є завжди; свайпер — лише коли є хоча б один відгук.
 export default function ReviewsSection({ reviews, addReviewHref }: Props) {
-  // найновіші — першими: щойно доданий відгук одразу видно в каруселі
-  const newestFirst = [...reviews].reverse();
-
   return (
     <section className={styles.section}>
       <div className={styles.container}>
-        <div className={styles.head}>
+        <div className={styles.header}>
           <h2 className={styles.title}>Відгуки</h2>
-          <Link href={addReviewHref} scroll={false} className={styles.button}>
+          <Link href={addReviewHref} className={styles.addButton}>
             Залишити відгук
           </Link>
         </div>
-        {newestFirst.length > 0 && <ReviewsBlock reviews={newestFirst} />}
+        {reviews.length > 0 && <ReviewsBlock reviews={reviews} />}
       </div>
     </section>
   );
