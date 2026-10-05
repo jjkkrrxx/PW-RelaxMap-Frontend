@@ -7,7 +7,7 @@ type Review = {
   userName: string;
   rate: number;
   description: string;
-  createdAt: string;
+  createdAt?: string;
 };
 
 type Props = {
