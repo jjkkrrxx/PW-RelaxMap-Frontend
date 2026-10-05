@@ -53,3 +53,36 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ message }, { status });
   }
 }
+
+// Зміна імені поточного юзера: PATCH /api/users/current { name }
+export async function PATCH(request: NextRequest) {
+  const backendUrl = process.env.BACKEND_URL;
+
+  if (!backendUrl) {
+    return NextResponse.json(
+      { message: "Критична помилка: BACKEND_URL не налаштовано в .env.local" },
+      { status: 500 },
+    );
+  }
+
+  try {
+    const body = await request.json();
+    const response = await axios.patch(`${backendUrl}/api/users/current`, body, {
+      headers: {
+        Cookie: request.headers.get("cookie") ?? "",
+        "Content-Type": "application/json",
+      },
+    });
+
+    return NextResponse.json(response.data);
+  } catch (error: unknown) {
+    const status = axios.isAxiosError(error)
+      ? (error.response?.status ?? 500)
+      : 500;
+    const message = axios.isAxiosError(error)
+      ? (error.response?.data?.message ?? "Не вдалося оновити ім'я")
+      : "Не вдалося оновити ім'я";
+
+    return NextResponse.json({ message }, { status });
+  }
+}

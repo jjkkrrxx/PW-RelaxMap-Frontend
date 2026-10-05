@@ -356,3 +356,27 @@
     display: none;
   }
 }
+
+/* аватар + ім'я — кнопка, що відкриває модалку редагування профілю */
+.profileButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.profileButton:hover {
+  color: var(--color-brand);
+}
+
+.profileButton:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 4px;
+  border-radius: 4px;
+}

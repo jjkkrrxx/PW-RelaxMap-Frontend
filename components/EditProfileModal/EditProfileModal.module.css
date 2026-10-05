@@ -1,0 +1,166 @@
+/* У стилі наших модалок (ConfirmationModal): заголовок 26 / 32 / 48, кнопки 203×48 */
+.title {
+  margin: 0 0 32px;
+  color: var(--color-black);
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-align: center;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.avatarField {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  color: var(--color-black);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--opacity-neutral-darkest-15);
+  border-radius: 6px;
+  background-color: var(--color-surface);
+  color: var(--color-black);
+  font: inherit;
+  font-size: 16px;
+  line-height: 1.5;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.input:focus-visible {
+  border-color: var(--color-brand);
+}
+
+.error {
+  margin: 0;
+  color: var(--color-red);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* 375: кнопки одна під одною на всю ширину */
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 8px;
+}
+
+.secondaryButton,
+.accentButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 11px 24px;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.secondaryButton {
+  border: 1px solid var(--opacity-neutral-darkest-15);
+  background-color: var(--opacity-neutral-darkest-5);
+  color: var(--color-scheme-2-text);
+}
+
+.secondaryButton:hover:not(:disabled) {
+  background-color: var(--opacity-neutral-darkest-10);
+}
+
+.accentButton {
+  border: 1px solid var(--color-brand);
+  background-color: var(--color-brand);
+  color: var(--color-white);
+}
+
+.accentButton:hover:not(:disabled) {
+  background-color: transparent;
+  color: var(--color-brand);
+}
+
+.secondaryButton:disabled,
+.accentButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.secondaryButton:focus-visible,
+.accentButton:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+}
+
+/* «Змінити фото» — за шириною тексту, а не на весь рядок */
+.avatarField .secondaryButton {
+  min-height: 40px;
+  padding: 7px 16px;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 32px;
+  }
+
+  .actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+
+  .actions .secondaryButton,
+  .actions .accentButton {
+    width: 203px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .title {
+    font-size: 48px;
+  }
+
+  .label,
+  .input {
+    font-size: 18px;
+  }
+
+  .secondaryButton,
+  .accentButton {
+    font-size: 20px;
+    line-height: 30px;
+  }
+}

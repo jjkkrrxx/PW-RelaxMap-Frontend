@@ -8,6 +8,7 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { useLogout } from "@/lib/hooks/useLogout";
 import { Icon } from "@/components/Icon/Icon";
 import ConfirmationModal from "@/components/ConfirmationModal/ConfirmationModal";
+import EditProfileModal from "@/components/EditProfileModal/EditProfileModal";
 import { AUTH_PAGES } from "@/lib/constants/routes";
 import css from "./Header.module.css";
 
@@ -35,6 +36,7 @@ export default function Header() {
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLogoutOpen, setIsLogoutOpen] = useState(false);
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
 
   const closeMenu = () => setIsMenuOpen(false);
   const isSignedIn = isHydrated && isAuthenticated && user !== null;
@@ -113,18 +115,31 @@ export default function Header() {
     </Link>
   );
 
-  // аватар, ім'я, роздільник, іконка виходу
+  const openEditProfile = () => {
+    closeMenu();
+    setIsEditProfileOpen(true);
+  };
+
+  // додаткове завдання: аватар та ім'я — кнопка, яка відкриває модалку редагування профілю;
+  // кнопка виходу — окремо (не всередині)
   const renderProfile = () =>
     user && (
       <div className={css.profile}>
-        <Image
-          src={user.avatar || DEFAULT_AVATAR}
-          alt=""
-          width={32}
-          height={32}
-          className={css.avatar}
-        />
-        <span className={css.userName}>{user.name}</span>
+        <button
+          type="button"
+          className={css.profileButton}
+          onClick={openEditProfile}
+          aria-label={`Редагувати профіль: ${user.name}`}
+        >
+          <Image
+            src={user.avatar || DEFAULT_AVATAR}
+            alt=""
+            width={32}
+            height={32}
+            className={css.avatar}
+          />
+          <span className={css.userName}>{user.name}</span>
+        </button>
         <span className={css.divider} aria-hidden="true" />
         <button
           type="button"
@@ -209,6 +224,10 @@ export default function Header() {
           )}
         </div>
       </div>
+
+      {isEditProfileOpen && (
+        <EditProfileModal onClose={() => setIsEditProfileOpen(false)} />
+      )}
 
       {isLogoutOpen && (
         <ConfirmationModal
