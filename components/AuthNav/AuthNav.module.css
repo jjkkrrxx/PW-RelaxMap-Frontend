@@ -21,7 +21,7 @@
     font-size: 18px;
     line-height: 1.5;
 
-    color: #000000;
+    color: var(--color-scheme-1-text);
     text-decoration: none;
 }
 
@@ -35,7 +35,7 @@
 
     height: 1px;
 
-    background-color: rgba(0, 0, 0, 0.15);
+    background-color: var(--opacity-neutral-darkest-15);
 }
 
 @media (max-width: 1439px) {

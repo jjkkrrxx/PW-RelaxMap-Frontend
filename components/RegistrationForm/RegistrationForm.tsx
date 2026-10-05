@@ -4,7 +4,7 @@ import axios from "axios";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import toast from "react-hot-toast";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import { useAuthStore, type User } from "@/lib/store/authStore";
 import InputField from "@/components/InputField/InputField";
@@ -43,6 +43,7 @@ const validationSchema = Yup.object({
 
 export default function RegistrationForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const setUser = useAuthStore((state) => state.setUser);
 
   const handleSubmit = async (values: RegisterValues) => {
@@ -62,7 +63,14 @@ export default function RegistrationForm() {
 
       toast.success("Реєстрація успішна");
 
-      router.push(`/profile/${user._id}`);
+      // повертаємо туди, звідки прийшли (модалка авторизації передає ?from=), лише внутрішні адреси
+      const from = searchParams.get("from");
+      const target =
+        from && from.startsWith("/") && !from.startsWith("//")
+          ? from
+          : `/profile/${user._id}`;
+
+      router.push(target);
     } catch (error: unknown) {
       console.error("Помилка реєстрації:", error);
 
