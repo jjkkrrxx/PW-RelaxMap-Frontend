@@ -1,0 +1,181 @@
+.heroSection {
+  width: 100%;
+  height: 844px;
+  background: var(--color-bg-light);
+  padding: 64px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  height: 716px;
+  max-width: 335px;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+  width: 100%;
+  height: 68px;
+}
+
+.sectionTitle {
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--color-black);
+  margin: 0;
+  max-width: 180px;
+}
+
+.allLocationsLink {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-white);
+  background-color: var(--color-brand);
+  border-radius: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+  width: 114px;
+  height: 48px;
+  padding: 12px;
+}
+
+.sliderWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.swiperContainer {
+  width: 100%;
+}
+
+.controlsWrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  width: 100%;
+  height: 48px;
+  margin-top: 40px;
+  margin-bottom: 64px;
+  align-items: center;
+}
+
+.navButton {
+  width: 48px;
+  height: 48px;
+  padding: 12px;
+  box-sizing: border-box;
+  background-color: var(--color-surface);
+  border: 1px solid var(--opacity-neutral-darkest-5);
+  border-radius: 6px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-main);
+  transition:
+    background-color 0.2s ease-in-out,
+    border-color 0.2s ease-in-out,
+    color 0.2s ease-in-out;
+}
+
+.navButton svg {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.navButton:hover,
+.navButton:focus {
+  background-color: var(--color-neutral-lightest);
+  border-color: var(--opacity-neutral-darkest-10);
+  color: var(--color-text-main);
+  outline: none;
+}
+
+.navButton:active {
+  background-color: var(--color-brand);
+  border-color: var(--color-brand);
+  color: var(--color-white);
+}
+
+.navButton:disabled {
+  background-color: transparent;
+  border-color: var(--color-neutral-lighter);
+  color: var(--color-neutral-light);
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.nextButton svg {
+  transform: rotate(180deg);
+}
+
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-family: var(--font-montserrat);
+  color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+  .section {
+    height: 834px;
+    padding: 64px 32px;
+  }
+
+  .container {
+    max-width: 704px;
+    height: 716px;
+  }
+
+  .header {
+    margin-bottom: 40px;
+  }
+
+  .sectionTitle {
+    font-size: 44px;
+    max-width: none;
+  }
+}
+
+@media (min-width: 1440px) {
+  .heroSection {
+    height: 958px;
+    padding: 72px 64px;
+  }
+
+  .container {
+    height: 814px;
+    max-width: 1312px;
+    margin: 0 auto;
+  }
+
+  .header {
+    max-width: 1312px;
+    height: 62px;
+    align-items: center;
+  }
+
+  .allLocationsLink {
+    width: 136px;
+    font-size: 20px;
+  }
+
+  .sectionTitle {
+    font-size: 52px;
+  }
+}

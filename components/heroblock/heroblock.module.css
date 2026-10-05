@@ -16,7 +16,6 @@
   height: 100%;
 }
 
-/* одне затемнення фону */
 .overlay {
   position: absolute;
   inset: 0;
@@ -56,7 +55,6 @@
   line-height: 1.5;
 }
 
-/* без фіксованої висоти — текст помилки не вилазить за межі форми */
 .searchForm {
   display: flex;
   flex-direction: column;
@@ -108,7 +106,6 @@
   color: var(--color-error);
 }
 
-/* поверх фото: світлий текст з тінню — читається на будь-якій ділянці */
 .errorText {
   margin-top: 8px;
   color: var(--color-white);
@@ -148,7 +145,6 @@
   color: var(--color-brand);
 }
 
-/* видима рамка фокусу з клавіатури */
 .searchButton:focus-visible {
   outline: 2px solid var(--color-brand);
   outline-offset: 2px;
@@ -184,7 +180,6 @@
     font-size: 48px;
   }
 
-  /* поле й кнопка в ряд, вирівняні по верху — помилка під полем не зсуває кнопку */
   .searchForm {
     flex-direction: row;
     align-items: flex-start;
@@ -196,7 +191,6 @@
     width: 331px;
   }
 
-  /* мінімум — ширина з макета, але кнопка росте під текст */
   .searchButton {
     width: auto;
     min-width: 137px;

@@ -2,38 +2,20 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getImageProps } from 'next/image';
+import Image from 'next/image'; 
 import styles from './heroblock.module.css';
 
 export default function HeroBlock() {
   const [searchQuery, setSearchQuery] = useState('');
   const [hasError, setHasError] = useState(false); 
   const router = useRouter();
-  const common = { alt: '', fill: true, priority: true };
-  
-  const { props: { srcSet: desktop } } = getImageProps({
-    ...common,
-    src: '/images/herosection/herobgdesktop.jpg',
-  });
-  
-  const { props: { srcSet: tablet } } = getImageProps({
-    ...common,
-    src: '/images/herosection/herobgtablet.jpg',
-  });
-  
-  const { props: { src: mobileSrc, ...rest } } = getImageProps({
-    ...common,
-    src: '/images/herosection/herobgmobile.jpg',
-  });
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
-    
     if (!searchQuery.trim()) {
       setHasError(true);
       return;
     }
-
     setHasError(false);
     const encodedQuery = encodeURIComponent(searchQuery.trim());
     router.push(`/locations?search=${encodedQuery}`);
@@ -47,16 +29,18 @@ export default function HeroBlock() {
   return (
     <section className={styles.heroSection}>
 
-<picture>
-  <source media="(min-width: 1440px)" srcSet={desktop} />
-  <source media="(min-width: 768px)" srcSet={tablet} />
-  <img 
-    src={mobileSrc} 
-    {...rest} 
-    alt=""
-    className={styles.backgroundImage} 
-  />
-</picture>
+      <picture>
+        <source media="(min-width: 1440px)" srcSet="/images/herosection/herobgdesktop.jpg" />
+        <source media="(min-width: 768px)" srcSet="/images/herosection/herobgtablet.jpg" />
+        <Image 
+          src="/images/herosection/herobgmobile.jpg" 
+          alt="" 
+          fill 
+          sizes="100vw"
+          priority={true} 
+          className={styles.backgroundImage} 
+        />
+      </picture>
       
       <div className={styles.overlay}></div>
 
@@ -78,7 +62,6 @@ export default function HeroBlock() {
               onChange={handleInputChange}
               aria-label="Пошук місць" 
             />
-
             {hasError && <span className={styles.errorText}>Введіть назву, тип або регіон для пошуку</span>}
           </div>
           <button type="submit" className={styles.searchButton}>
@@ -89,6 +72,8 @@ export default function HeroBlock() {
     </section>
   );
 }
+
+
 
 
 
