@@ -1,5 +1,6 @@
+/* ширину обмежує обгортка сторінки (.content, max-width 644px) — тут лише 100% */
 .section {
-    width: 644px;
+    width: 100%;
 
     display: flex;
     flex-direction: column;
@@ -17,11 +18,11 @@
     letter-spacing: -0.01em;
     text-align: center;
 
-    color: var(--color-scheme-1-text);
+    color: var(--color-black);
 }
 
 .form {
-    width: 644px;
+    width: 100%;
 
     display: flex;
     flex-direction: column;
@@ -29,58 +30,13 @@
     gap: 24px;
 }
 
-.field {
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-}
-
-.label {
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 1.5;
-
-    color: var(--color-scheme-1-text);
-}
-
-.input {
-    width: 100%;
-    height: 43px;
-
-    padding: 8px;
-
-    border: 1px solid var(--opacity-neutral-darkest-15);
-    border-radius: 6px;
-
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 1.5;
-
-    color: var(--color-scheme-1-text);
-    background: var(--color-scheme-2-foreground);
-}
-
-.input::placeholder {
-    color: var(--opacity-neutral-darkest-60);
-}
-
-.error {
-    margin: 4px 0 0;
-
-    font-size: 14px;
-    line-height: 1.3;
-
-    color: #d44333;
-}
-
 .button {
-    width: 644px;
+    width: 100%;
     height: 44px;
 
     padding: 6px 12px;
 
-    border: 1px solid var(--color-coral-dark);
+    border: 1px solid var(--color-brand);
     border-radius: 6px;
 
     font-weight: 500;
@@ -88,84 +44,58 @@
     line-height: 1.5;
 
     color: var(--color-white);
-    background: var(--color-coral-dark);
+    background-color: var(--color-brand);
 
     cursor: pointer;
+
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
 }
 
-.button:hover:not(:disabled) {
-    opacity: 0.9;
+.button:hover:not(:disabled),
+.button:focus-visible:not(:disabled) {
+    background-color: var(--color-brand-hover);
+    color: var(--color-green-active);
+    border-color: var(--color-brand);
+}
+
+.button:active:not(:disabled) {
+    background-color: var(--color-green-active);
+    color: var(--color-white);
+    border-color: var(--color-green-active);
 }
 
 .button:disabled {
-    opacity: 0.6;
+    background-color: var(--color-brand);
+    color: var(--color-white);
+    border-color: var(--color-brand);
+
+    opacity: 0.3;
     cursor: not-allowed;
 }
 
-/* tablet */
 @media (min-width: 768px) and (max-width: 1439px) {
-    .section {
-        width: 644px;
-    }
-
     .title {
         font-size: 44px;
     }
 
-    .form {
-        width: 644px;
-        gap: 24px;
-    }
-
-    .label,
-    .input {
-        font-size: 16px;
-    }
-
-    .input {
-        height: 40px;
-    }
-
     .button {
-        width: 644px;
-        height: 44px;
-
         font-size: 16px;
     }
 }
 
-/* mobile */
 @media (max-width: 767px) {
-    .section {
-        width: 335px;
-
-        align-items: center;
-        gap: 32px;
-    }
-
     .title {
         font-size: 28px;
     }
 
     .form {
-        width: 335px;
         gap: 32px;
     }
 
-    .label,
-    .input {
-        font-size: 16px;
-    }
-
-    .input {
-        width: 335px;
-        height: 40px;
-    }
-
     .button {
-        width: 335px;
-        height: 44px;
-
         font-size: 16px;
     }
 }
