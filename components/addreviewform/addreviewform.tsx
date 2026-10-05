@@ -46,7 +46,7 @@ export default function AddReviewForm({
           rate: values.rate,
           description: values.description.trim(),
         });
-        toast.success('Відгук відправлено на модерацію');
+        toast.success('Дякуємо! Відгук додано');
         onSuccess();
       } catch (error) {
         // модалка лишається відкритою, поля — заповненими
