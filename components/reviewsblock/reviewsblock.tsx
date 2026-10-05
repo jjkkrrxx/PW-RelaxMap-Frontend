@@ -56,6 +56,8 @@ export default function ReviewsBlock({ reviews, showLocation = false }: Props) {
         }}
         onSlideChange={updateEdges}
         onBreakpoint={updateEdges}
+        // відгуків стало більше чи менше — стан стрілок перераховуємо
+        onSlidesLengthChange={updateEdges}
         className={styles.swiper}
       >
         {reviews.map((review) => (

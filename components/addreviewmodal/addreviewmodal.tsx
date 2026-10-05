@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef } from 'react';
 import { useRouter } from 'next/navigation';
+import { useQueryClient } from '@tanstack/react-query';
 import Modal from '@/components/Modal/Modal';
 import AddReviewForm from '@/components/addreviewform/addreviewform';
 import { useAuthStore } from '@/lib/store/authStore';
@@ -18,6 +19,7 @@ interface Props {
 // Гостя перенаправляємо на модалку-запрошення до авторизації (AuthPromptModal).
 export default function AddReviewModal({ locationId, intercepted = false }: Props) {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const user = useAuthStore((s) => s.user);
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const isHydrated = useAuthStore((s) => s.isHydrated);
@@ -37,6 +39,16 @@ export default function AddReviewModal({ locationId, intercepted = false }: Prop
       router.replace(`/locations/${locationId}`, { scroll: false });
     }
   }, [router, locationId, intercepted]);
+
+  // Відгук додано: закриваємо модалку й перезапитуємо дані сторінки локації —
+  // список відгуків і загальний рейтинг оновлюються без перезавантаження.
+  const handleSuccess = useCallback(() => {
+    close();
+    router.refresh();
+    // блоки головної («Останні відгуки», «Популярні локації») теж мають побачити зміни
+    void queryClient.invalidateQueries({ queryKey: ['last-reviews'] });
+    void queryClient.invalidateQueries({ queryKey: ['popular-locations'] });
+  }, [close, router, queryClient]);
 
   const isGuest = isHydrated && !isAuthenticated;
 
@@ -60,7 +72,7 @@ export default function AddReviewModal({ locationId, intercepted = false }: Prop
         <AddReviewForm
           locationId={locationId}
           userName={user.name}
-          onSuccess={close}
+          onSuccess={handleSuccess}
           onCancel={close}
         />
       </div>

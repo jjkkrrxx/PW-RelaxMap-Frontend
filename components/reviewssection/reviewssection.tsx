@@ -12,6 +12,9 @@ interface Props {
 // Секція «Відгуки» на сторінці локації (учасник №12).
 // Заголовок і кнопка є завжди; свайпер — лише коли є хоча б один відгук.
 export default function ReviewsSection({ reviews, addReviewHref }: Props) {
+  // найновіші — першими: щойно доданий відгук одразу видно в каруселі
+  const newestFirst = [...reviews].reverse();
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -21,7 +24,7 @@ export default function ReviewsSection({ reviews, addReviewHref }: Props) {
             Залишити відгук
           </Link>
         </div>
-        {reviews.length > 0 && <ReviewsBlock reviews={reviews} />}
+        {newestFirst.length > 0 && <ReviewsBlock reviews={newestFirst} />}
       </div>
     </section>
   );
