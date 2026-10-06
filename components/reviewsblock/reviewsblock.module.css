@@ -10,7 +10,8 @@
   width: 100%;
 }
 
-.slide {
+/* два класи: інакше .swiper-slide { height: 100% } зі Swiper може перемогти */
+.swiper .slide {
   height: auto;
 }
 
@@ -43,6 +44,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
+  margin-top: auto;
 }
 
 .author {
@@ -66,7 +68,7 @@
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  padding: 10px;
+  padding: 0;
 }
 
 .arrow {
