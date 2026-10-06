@@ -234,3 +234,32 @@
     font-size: 20px;
   }
 }
+
+/* «Камера пливе»: фото повільно наближається й зміщується (ефект Кена Бернса).
+   Масштаб завжди > 1, тож при зсуві краї фото не видно (секція з overflow: hidden). */
+@keyframes heroCameraMotion {
+  0% {
+    transform: scale(1.05) translate(0, 0);
+  }
+
+  50% {
+    transform: scale(1.12) translate(-2%, -1%);
+  }
+
+  100% {
+    transform: scale(1.08) translate(1.5%, 1%);
+  }
+}
+
+.backgroundImage {
+  transform-origin: center;
+  animation: heroCameraMotion 30s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* якщо в системі вимкнено анімації — фото нерухоме */
+@media (prefers-reduced-motion: reduce) {
+  .backgroundImage {
+    animation: none;
+  }
+}
