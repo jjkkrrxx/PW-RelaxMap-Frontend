@@ -6,7 +6,7 @@
 }
 
 .container {
-  max-width: 1312px;
+  max-width: 335px;
   margin: 0 auto;
 }
 
@@ -35,5 +35,18 @@
 
   .title {
     font-size: 52px;
+  }
+}
+
+/* вміст у межах контейнера 375 / 768 / 1440 (мінус бічні відступи секції) */
+@media (min-width: 768px) {
+  .container {
+    max-width: 704px;
+  }
+}
+
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1312px;
   }
 }
